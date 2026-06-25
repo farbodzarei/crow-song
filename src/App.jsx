@@ -12,7 +12,6 @@ import Intro from "./components/Intro.jsx";
 import SmoothScroll from "./components/SmoothScroll.jsx";
 import Cursor from "./components/Cursor.jsx";
 import Nav from "./components/Nav.jsx";
-import MobileBar from "./components/MobileBar.jsx";
 import Hero from "./sections/Hero/Hero.jsx";
 import Insight from "./sections/Insight/Insight.jsx";
 import IntroBand from "./sections/IntroBand/IntroBand.jsx";
@@ -57,9 +56,6 @@ export default function App() {
       </main>
 
       <Footer />
-
-      {/* docked primary action for mobile / standalone (native-app feel) */}
-      <MobileBar />
 
       {/* reserved mount point for future cursor / particle FX — intentionally empty */}
       <div id="fx-layer" aria-hidden="true" />

@@ -4,8 +4,7 @@
   "description": "Therapeutic Ashtanga for bodies in transition — one-on-one with christine, Vancouver.",
   "start_url": "/",
   "scope": "/",
-  "display": "standalone",
-  "orientation": "portrait",
+  "display": "browser",
   "background_color": "#2E2633",
   "theme_color": "#2E2633",
   "icons": [
