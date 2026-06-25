@@ -198,14 +198,15 @@
     text-align: left;
   }
   .crow {
-    /* anchored to the RIGHT edge with only the left half showing — the rest
-       bleeds off-screen; headline is on the left so they don't fight */
-    width: min(96vw, 440px);
-    left: 100%; /* centre the crow on the right edge → right half off-screen */
-    margin-left: calc(min(96vw, 440px) / -2);
-    top: 36%;
-    margin-top: calc(min(96vw, 440px) / -2);
-    opacity: 0.6;
+    /* middle-right, fully on screen, sized to fill the free zone above the
+       headline so it never sits under the text (readability first) */
+    width: min(62vw, 300px);
+    left: auto;
+    right: 1%;
+    margin-left: 0;
+    top: 12%;
+    margin-top: 0;
+    opacity: 0.65;
   }
   .headline {
     max-width: 18ch;
