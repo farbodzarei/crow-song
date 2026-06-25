@@ -177,3 +177,30 @@
   letter-spacing: 0.2em;
   color: rgba(155, 139, 184, 0.5);
 }
+
+/* ── mobile: vertical reels become a swipeable carousel (one row, not three
+   full-height stacked cards) — far shorter page, natural for reel-format video */
+@media (max-width: 760px) {
+  .grid {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 70vw;
+    justify-content: start;
+    gap: var(--s-3);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    /* bleed to the screen edges; pad so the first card aligns to the gutter */
+    margin-inline: calc(var(--container-pad) * -1);
+    padding-inline: var(--container-pad);
+    scroll-padding-left: var(--container-pad);
+    scrollbar-width: none; /* clean reel — hide the bar */
+  }
+  .grid::-webkit-scrollbar {
+    display: none;
+  }
+  .card {
+    scroll-snap-align: start;
+  }
+}
