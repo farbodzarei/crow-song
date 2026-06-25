@@ -35,10 +35,10 @@
 }
 
 .onDark {
-  opacity: 0.6;
+  opacity: 0.78;
 }
 .onLight {
-  opacity: 0.72;
+  opacity: 0.85;
 }
 
 @media (prefers-reduced-motion: reduce) {
