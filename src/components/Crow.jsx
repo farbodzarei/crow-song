@@ -12,8 +12,8 @@
    Reduced motion: renders fully-formed and still.
    ========================================================================== */
 
-import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { useEffect, useRef } from "react";
+import { motion, useReducedMotion, useScroll, useTransform, useAnimationControls } from "motion/react";
 import { ease } from "../tokens/motion.js";
 import styles from "./Crow.module.css";
 
@@ -79,14 +79,17 @@ function StaticArt() {
 const draw = {
   hidden: { pathLength: 0, opacity: 0 },
   visible: { pathLength: 1, opacity: 1, transition: { pathLength: { duration: 1.3, ease }, opacity: { duration: 0.7, ease } } },
+  out: { opacity: 0, transition: { duration: 0.7, ease } }, // fade away (keep pathLength) before the loop redraws
 };
 const pop = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { duration: 0.6, ease } },
+  out: { opacity: 0, transition: { duration: 0.6, ease } },
 };
 const container = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.06, delayChildren: 0.5 } },
+  visible: { transition: { staggerChildren: 0.06, delayChildren: 0.4 } },
+  out: { transition: { staggerChildren: 0.02 } },
 };
 // a wing/flight group: transparent orchestrator so its strokes still draw in
 // sequence within the parent's stagger (the group itself carries the scroll
@@ -94,7 +97,18 @@ const container = {
 const group = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.05 } },
+  out: { transition: { staggerChildren: 0.02 } },
 };
+
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+// resolves once the loading curtain is gone (flag covers the mount race)
+function whenIntroDone() {
+  return new Promise((resolve) => {
+    if (typeof window === "undefined" || window.__csIntroDone) return resolve();
+    const on = () => { window.removeEventListener("cs-intro-done", on); resolve(); };
+    window.addEventListener("cs-intro-done", on);
+  });
+}
 
 // render one stroke element (shared by load + flight render)
 function Stroke({ e, k }) {
@@ -107,6 +121,28 @@ function Stroke({ e, k }) {
 export default function Crow({ className = "" }) {
   const reduce = useReducedMotion();
   const ref = useRef(null);
+  const drawControls = useAnimationControls();
+
+  // draw-in starts only once the loading curtain is gone (so it's seen), then
+  // loops: draw → hold 3s → fade out → redraw.
+  useEffect(() => {
+    if (reduce) return;
+    let alive = true;
+    (async () => {
+      await whenIntroDone();
+      while (alive) {
+        await drawControls.start("visible"); // staggered draw-in
+        if (!alive) break;
+        await wait(3000); // the 3s delay
+        if (!alive) break;
+        await drawControls.start("out"); // fade away
+        drawControls.set("hidden"); // reset undrawn (already invisible)
+      }
+    })();
+    return () => {
+      alive = false;
+    };
+  }, [reduce, drawControls]);
 
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   // take flight: the whole mark rises + scales toward the viewer and fades,
@@ -163,7 +199,7 @@ export default function Crow({ className = "" }) {
             repeatDelay: 0.5, // the pause at the bottom of the breath
           }}
         >
-          <motion.svg viewBox={VB} className={styles.svg} variants={container} initial="hidden" animate="visible">
+          <motion.svg viewBox={VB} className={styles.svg} variants={container} initial="hidden" animate={drawControls}>
             {pre.map((e, i) => <Stroke key={`p${i}`} e={e} k={`p${i}`} />)}
             <motion.g variants={group} style={wingLStyle}>
               {leftWing.map((e, i) => <Stroke key={`l${i}`} e={e} k={`l${i}`} />)}

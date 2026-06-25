@@ -16,6 +16,14 @@ import styles from "./Intro.module.css";
 
 const SEEN_KEY = "cs-intro-seen";
 
+// signal the hero crow that the loading curtain is gone, so its draw-in plays
+// where it can be seen (a flag covers the race; the event covers live finish).
+export function signalIntroDone() {
+  if (typeof window === "undefined") return;
+  window.__csIntroDone = true;
+  window.dispatchEvent(new Event("cs-intro-done"));
+}
+
 export default function Intro({ onDone }) {
   // decide synchronously so reduced-motion / repeat visits never flash
   const [active] = useState(() => {
@@ -28,6 +36,7 @@ export default function Intro({ onDone }) {
 
   useEffect(() => {
     if (!active) {
+      signalIntroDone(); // no curtain → let the hero crow start immediately
       onDone?.();
       return;
     }
@@ -45,6 +54,7 @@ export default function Intro({ onDone }) {
     sessionStorage.setItem(SEEN_KEY, "1");
     document.body.style.overflow = "";
     setGone(true);
+    signalIntroDone(); // curtain lifted → hero crow draws in now
     onDone?.();
   };
 

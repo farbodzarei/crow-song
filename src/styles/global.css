@@ -48,6 +48,7 @@ body {
   color: var(--text-on-light);
   background: var(--bg-light);
   font-synthesis: none; /* never fake weights — variable font has them all */
+  overflow-x: clip; /* safety net: never allow horizontal scroll */
 }
 
 /* Belt-and-suspenders: ensure no element resets the feature (it's inherited,

@@ -1,45 +1,78 @@
-/* Mandala — sits at a bottom corner of a section, bleeding off both edges so
-   only an arc of it shows. Behind content. The host section must be
-   position:relative + overflow:hidden (so the bleed clips at section edges). */
+/* Mandala — fully visible at a section corner (never cut off). The art is the
+   client mandala SVG used as a mask; a rotating conic gradient shimmers through
+   it. Host section needs position:relative + isolation:isolate + overflow:hidden. */
 .mandala {
   position: absolute;
-  width: clamp(300px, 40vw, 520px);
+  width: clamp(170px, 21vw, 280px);
   aspect-ratio: 1 / 1;
-  bottom: clamp(-260px, -16vw, -150px);
-  z-index: -1; /* behind the section's content, above its background */
+  bottom: clamp(28px, 4vw, 72px);
+  z-index: -1; /* behind content, above the section bg (host is isolate) */
   pointer-events: none;
 }
-
-/* a touch smaller + less off-screen on phones */
-@media (max-width: 760px) {
-  .mandala {
-    width: clamp(220px, 60vw, 320px);
-    bottom: clamp(-150px, -28vw, -110px);
-  }
-  .right { right: clamp(-150px, -28vw, -110px); }
-  .left { left: clamp(-150px, -28vw, -110px); }
-}
 .right {
-  right: clamp(-260px, -16vw, -150px);
+  right: clamp(16px, 3vw, 56px);
 }
 .left {
-  left: clamp(-260px, -16vw, -150px);
+  left: clamp(16px, 3vw, 56px);
 }
 
-.bloom,
-.spin {
+/* the masked figure */
+.art {
   width: 100%;
   height: 100%;
+  -webkit-mask: url(/mandala.svg) center / contain no-repeat;
+  mask: url(/mandala.svg) center / contain no-repeat;
 }
-.svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-  overflow: visible;
-  transform-box: fill-box;
+
+/* rotating conic light swept through the mask = geometric shimmer. Oversized
+   (inset:-30%) so the rotating box always covers the figure's corners. */
+.shimmer {
+  position: absolute;
+  inset: -30%;
+  background: conic-gradient(
+    from 0deg,
+    var(--m-base) 0deg,
+    var(--m-bright) 26deg,
+    var(--m-base) 66deg,
+    var(--m-base) 178deg,
+    var(--m-bright) 206deg,
+    var(--m-base) 248deg,
+    var(--m-base) 360deg
+  );
   transform-origin: center;
+  animation: mandalaShimmer 8s linear infinite;
 }
-.spin {
-  transform-box: fill-box;
-  transform-origin: center;
+@keyframes mandalaShimmer {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* tone: light figure on dark sections, deep figure on the haze */
+.onDark {
+  --m-base: rgba(201, 190, 221, 0.42);
+  --m-bright: rgba(235, 224, 255, 0.95);
+}
+.onLight {
+  --m-base: rgba(110, 94, 144, 0.46);
+  --m-bright: rgba(123, 106, 154, 0.95);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shimmer {
+    animation: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .mandala {
+    width: clamp(120px, 32vw, 180px);
+    bottom: clamp(16px, 4vw, 40px);
+  }
+  .right {
+    right: clamp(10px, 3vw, 20px);
+  }
+  .left {
+    left: clamp(10px, 3vw, 20px);
+  }
 }
