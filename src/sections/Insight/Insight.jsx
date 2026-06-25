@@ -4,12 +4,26 @@
    Big statement reveals line by line on scroll. Copy = client-approved comp.
    ========================================================================== */
 
+import { useRef } from "react";
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import Reveal from "../../components/Reveal.jsx";
 import styles from "./Insight.module.css";
 
 export default function Insight() {
+  const reduce = useReducedMotion();
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["center end", "end center"] });
+  // the dawn bloom brightens + rises as you scroll into the dark→light threshold
+  const glowOpacity = useTransform(scrollYProgress, [0, 0.9], [0.25, 1]);
+  const glowY = useTransform(scrollYProgress, [0, 1], [50, -12]);
+
   return (
-    <section className={styles.insight}>
+    <section ref={ref} className={styles.insight}>
+      {reduce ? (
+        <div className={styles.bloom} aria-hidden="true" />
+      ) : (
+        <motion.div className={styles.bloom} style={{ opacity: glowOpacity, y: glowY }} aria-hidden="true" />
+      )}
       <Reveal stagger staggerGap={0.14} className={`container ${styles.inner}`}>
         <Reveal item variant="riseSmall" as="span" className={`eyebrow ${styles.kicker}`}>
           The practice

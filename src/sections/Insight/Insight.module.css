@@ -8,16 +8,40 @@
   padding-bottom: clamp(9rem, 18vw, 15rem);
 }
 
-/* the exhale: crow → mist, bleeding into the next (light) section */
+/* the exhale — atmospheric dark→light shift:
+   a soft lavender dawn blooms at the threshold while crow dissolves into haze. */
+/* the dawn bloom (scroll-reactive via Insight.jsx; centred with left/-15% so
+   Motion's y transform is free to move it). z-index keeps it under the text. */
+.bloom {
+  position: absolute;
+  left: -15%;
+  bottom: 60px;
+  width: 130%;
+  height: 420px;
+  background: radial-gradient(
+    46% 100% at 50% 100%,
+    rgba(155, 139, 184, 0.4) 0%,
+    rgba(155, 139, 184, 0.1) 42%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
 .insight::after {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 180px;
-  background: linear-gradient(to bottom, transparent, var(--c-haze));
+  height: 320px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(232, 225, 238, 0) 24%,
+    var(--c-haze) 90%
+  );
   pointer-events: none;
+  z-index: 0;
 }
 
 .inner {
