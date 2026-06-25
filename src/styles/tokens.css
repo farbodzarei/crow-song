@@ -1,0 +1,120 @@
+/* ============================================================================
+   Crow Song Yoga Therapy — DESIGN TOKENS (single source of truth)
+   Tune the entire brand from this one file. Sections reference the SEMANTIC
+   tokens (--bg-*, --text-*, --accent), never the raw color names directly.
+   ========================================================================== */
+
+:root {
+  /* ── Color · lavender ramp (from brand deck p07) ───────────────────────── */
+  --c-mist:     #F4F2F6;
+  --c-haze:     #E8E1EE;
+  --c-soft:     #C4B8D6;
+  --c-lavender: #9B8BB8; /* the single accent */
+  --c-deep:     #7A6A9A;
+  --c-crow:     #2E2633; /* the dark base */
+
+  /* ── Color · neutrals ──────────────────────────────────────────────────── */
+  --c-stone:    #F7F6F5;
+  --c-warm:     #E8E6E3;
+  --c-mid:      #7D7A80;
+  --c-charcoal: #1C1B1E;
+  --c-white:    #FFFFFF;
+
+  /* ── Color · semantic (USE THESE in sections) ──────────────────────────── */
+  --accent:              var(--c-lavender);
+  --accent-deep:         var(--c-deep);
+
+  /* Only TWO backgrounds in the system: crow (dark) + haze (light).
+     Lavender is accent-only; charcoal/stone are retired as surfaces. */
+  --bg-dark:             var(--c-crow);
+  --bg-darker:           var(--c-crow);   /* consolidated → crow */
+  --bg-light:            var(--c-haze);   /* haze #E8E1EE is THE light bg */
+  --bg-light-lav:        var(--c-haze);
+  --bg-lav:              var(--c-haze);   /* former lavender sections → haze */
+  --text-on-lav:         var(--c-crow);
+  --text-on-lav-muted:   #5F5A68;         /* same muted as other light surfaces */
+
+  --text-on-dark:        var(--c-mist);
+  --text-on-dark-muted:  var(--c-soft);
+  --text-on-light:       var(--c-charcoal);
+  /* darker than brand "Mid" so muted body copy clears WCAG AA (4.5:1) on the
+     light + haze surfaces; raw --c-mid stays available for non-text use */
+  --text-on-light-muted: #5F5A68;
+
+  /* ── Typography · weight ladder (variable font, baked custom W) ─────────── */
+  --w-thin:   100;
+  --w-xlight: 200;
+  --w-light:  300;
+  --w-reg:    400;
+  --w-med:    500;
+  --w-semi:   600;
+  --w-bold:   700;
+
+  /* ── Typography · fluid scale (big jump display→body) ──────────────────────
+     Floors are generous so phones get a confident, readable size (not a
+     shrunk-down desktop). Ceilings keep large screens composed. */
+  --fs-display: clamp(3.5rem,  9vw,   7.5rem);   /* hero wordmark — floats */
+  --fs-h1:      clamp(2.5rem,  5.2vw, 4.25rem);
+  --fs-h2:      clamp(2rem,    3.8vw, 2.9rem);
+  --fs-h3:      clamp(1.35rem, 2vw,   1.7rem);
+  --fs-body:    clamp(1.0625rem, 0.55vw + 0.95rem, 1.2rem); /* 17 → 19.2px */
+  --fs-lead:    clamp(1.2rem,  1.6vw, 1.5rem);   /* 19.2 → 24px */
+  --fs-small:   clamp(0.9375rem, 0.4vw + 0.85rem, 1.0625rem); /* 15 → 17px */
+  --fs-eyebrow: 0.8125rem;                        /* 13px (was 12) */
+
+  /* ── Typography · rhythm + spacing of letters ──────────────────────────── */
+  --lh-body:   1.7;   /* generous, calm */
+  --lh-lead:   1.55;
+  --lh-tight:  1.12;  /* display headings */
+  --ls-display: 0.04em;
+  --ls-heading: 0.045em; /* airy, slightly expanded */
+  --ls-body:    0.005em;
+  --ls-eyebrow: 0.24em;  /* wide tracked label */
+
+  /* ── Spacing scale ─────────────────────────────────────────────────────── */
+  --s-1:  0.5rem;
+  --s-2:  1rem;
+  --s-3:  1.5rem;
+  --s-4:  2rem;
+  --s-5:  2.5rem;
+  --s-6:  3rem;
+  --s-8:  4rem;
+  --s-10: 5rem;
+  --s-12: 6rem;
+  --s-16: 8rem;
+  --s-20: 10rem;
+  --s-24: 12rem;  /* vertical breathing room between major sections */
+
+  /* ── Layout ──────────────────────────────────────────────────────────────
+     ONE shared container for the whole site. Fully wide: content runs edge to
+     edge with a consistent gutter on all realistic screens (only centers past
+     ~2240px). Every section + the nav + the hero use this exact gutter, so all
+     left edges and all right edges line up site-wide. */
+  --container:     2240px;
+  --container-pad: clamp(1.5rem, 5vw, 3.75rem); /* the shared gutter (≈24→60px) */
+  --section-y:     clamp(3.5rem, 10vw, 11rem); /* tighter on phones, airy on desktop */
+
+  /* ── Form / shape ──────────────────────────────────────────────────────── */
+  --radius:    14px;
+  --radius-sm: 8px;
+  --rule-w:    40px;  /* the short lavender divider */
+
+  /* ── Motion (mirrored in src/tokens/motion.js for Motion library) ──────── */
+  --ease-breath: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast:   0.6s;
+  --dur-slow:   1.1s;
+  --dur-slower: 1.4s;
+
+  /* ── Z-index scale (semantic, not magic numbers) ──────────────────────── */
+  --z-base:    0;
+  --z-raised:  1;
+  --z-nav:     100;
+  --z-overlay: 200;
+  --z-cursor:  9000;
+
+  /* ── Reserved hooks for later FX (feather cursor, particles) ───────────── */
+  --cursor-size: 0px;
+}
+
+/* Breakpoints are documented here and mirrored in src/tokens/motion.js:
+   --bp-sm: 480px ·  --bp-md: 768px ·  --bp-lg: 1024px ·  --bp-xl: 1200px   */

@@ -1,0 +1,254 @@
+/* ============================================================================
+   GLOBAL — reset, base typography, layout primitives, a11y.
+   Imports tokens + fonts so a single import of this file wires everything.
+   ========================================================================== */
+
+@import "./tokens.css";
+@import "./fonts.css";
+
+/* ── Custom W (Raleway ss09) ────────────────────────────────────────────────
+   The local Raleway files contain stylistic set ss09, which substitutes
+   w → w.ss09 and W → W.ss09 (the custom W). Enable it globally. The high-level
+   font-variant-alternates is the fallback for engines that prefer it; both
+   point at the same ss09 set. Named via @font-feature-values for the family. */
+@font-feature-values "Raleway" {
+  @styleset {
+    custom-w: 9; /* ss09 */
+  }
+}
+
+/* ── Reset ─────────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  color-scheme: dark;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+  /* app-like: no pull-to-refresh / scroll-chaining (keeps local bounce) */
+  overscroll-behavior-y: contain;
+  /* custom W everywhere — inherited by everything below */
+  font-feature-settings: "ss09" 1;
+  font-variant-alternates: styleset(custom-w);
+}
+
+body {
+  font-family: var(--font-sans);
+  font-weight: var(--w-reg);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  letter-spacing: var(--ls-body);
+  color: var(--text-on-light);
+  background: var(--bg-light);
+  font-synthesis: none; /* never fake weights — variable font has them all */
+}
+
+/* Belt-and-suspenders: ensure no element resets the feature (it's inherited,
+   but enforce it on common interactive/text elements that sometimes get reset). */
+button,
+input,
+textarea,
+select,
+a {
+  font-feature-settings: inherit;
+  font-variant-alternates: inherit;
+}
+
+img,
+picture,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* ── Branded text selection ────────────────────────────────────────────────
+   Lavender wash with crow text — legible on both the dark and light fields. */
+::selection {
+  background: rgba(155, 139, 184, 0.9);
+  color: var(--c-crow);
+}
+
+/* ── Quiet branded scrollbar (desktop pointers only; mobile keeps overlay) ── */
+@media (pointer: fine) {
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(155, 139, 184, 0.45) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(155, 139, 184, 0.4);
+    border-radius: 8px;
+    border: 3px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(155, 139, 184, 0.62);
+    background-clip: padding-box;
+  }
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none; /* no long-press callout on controls */
+  user-select: none;
+}
+
+/* anchored sections clear the fixed nav when jumped to (native / no-JS too) */
+[id] {
+  scroll-margin-top: clamp(88px, 12vh, 108px);
+}
+
+/* ── Headings — airy, slightly expanded tracking ───────────────────────── */
+h1, h2, h3, h4 {
+  font-weight: var(--w-med);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-heading);
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* ── Layout primitives ─────────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  /* normal gutter, but grow it to clear the notch in landscape */
+  padding-left: max(var(--container-pad), env(safe-area-inset-left));
+  padding-right: max(var(--container-pad), env(safe-area-inset-right));
+}
+
+/* Section helpers — set the breathing rhythm + the dark/light tone.
+   Sections add .section--dark / .section--light to flip the whole palette
+   context, and descendant text uses currentColor-aware tokens. */
+.section {
+  padding-block: var(--section-y);
+}
+
+.section--dark {
+  background: var(--bg-dark);
+  color: var(--text-on-dark);
+}
+
+.section--darker {
+  background: var(--bg-darker);
+  color: var(--text-on-dark);
+}
+
+.section--light {
+  background: var(--bg-light);
+  color: var(--text-on-light);
+}
+
+.section--light-lav {
+  background: var(--bg-light-lav);
+  color: var(--text-on-light);
+}
+
+/* adopted: full saturated-lavender section (text is dark crow) */
+.section--lav {
+  background: var(--bg-lav);
+  color: var(--text-on-lav);
+}
+
+/* ── Shared small label (eyebrow) ──────────────────────────────────────── */
+.eyebrow {
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--w-med);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+}
+
+/* ── Accessibility ─────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--s-2);
+  top: -100%;
+  z-index: 100;
+  padding: var(--s-1) var(--s-3);
+  background: var(--bg-dark);
+  color: var(--text-on-dark);
+  border-radius: var(--radius-sm);
+  transition: top var(--dur-fast) var(--ease-breath);
+}
+.skip-link:focus {
+  top: var(--s-2);
+}
+
+/* ── Custom cursor: hide the native one only while it's active ──────────── */
+html.has-custom-cursor,
+html.has-custom-cursor a,
+html.has-custom-cursor button,
+html.has-custom-cursor .cursor-target {
+  cursor: none;
+}
+
+/* ── Native-style press feedback (touch devices only) ──────────────────────
+   Every interactive element already carries .cursor-target; on touch we give
+   it an instant spring-y depress on :active, the way an iOS control responds.
+   Gated to coarse pointers so desktop hover/magnetic behaviour is untouched. */
+@media (hover: none) and (pointer: coarse) {
+  .cursor-target {
+    transition: transform 140ms var(--ease-breath);
+  }
+  .cursor-target:active {
+    transform: scale(0.97);
+  }
+}
+
+/* ── Respect reduced motion globally (Motion handles its own too) ──────── */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

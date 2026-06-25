@@ -1,0 +1,254 @@
+/* Fixed nav — transparent over hero, blurred panel once scrolled, mega-menus. */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-nav);
+  /* clear the notch / Dynamic Island under a translucent status bar */
+  padding-top: calc(var(--s-3) + env(safe-area-inset-top));
+  padding-bottom: var(--s-3);
+  color: var(--text-on-dark);
+  transition: background var(--dur-slow) var(--ease-breath),
+    border-color var(--dur-slow) var(--ease-breath),
+    backdrop-filter var(--dur-slow) var(--ease-breath);
+  border-bottom: 1px solid transparent;
+}
+
+.scrolled {
+  background: rgba(46, 38, 51, 0.82); /* Crow #2E2633, not charcoal black */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(155, 139, 184, 0.1);
+}
+
+.inner {
+  position: relative;
+  z-index: 2; /* keep the bar (logo + burger) above the mobile overlay */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+}
+
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+}
+.logo {
+  height: clamp(32px, 3.4vw, 44px);
+  width: auto;
+  display: block;
+}
+
+.primary {
+  margin-left: auto;
+  margin-right: var(--s-4);
+}
+
+.links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.link {
+  display: block;
+  padding: var(--s-2) clamp(var(--s-2), 1.6vw, var(--s-4));
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--w-light);
+  letter-spacing: 0.2em;
+  text-transform: lowercase;
+  color: var(--text-on-dark-muted);
+  transition: color var(--dur-fast) var(--ease-breath);
+}
+.item:hover > .link,
+.item:focus-within > .link {
+  color: var(--c-mist);
+}
+
+/* ── mega menu ─────────────────────────────────────────────────────────── */
+.mega {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  min-width: 520px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--c-crow);
+  border: 1px solid rgba(155, 139, 184, 0.14);
+  border-top: 2px solid var(--accent);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: 0 32px 64px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-fast) var(--ease-breath), transform var(--dur-fast) var(--ease-breath);
+}
+.item:hover .mega,
+.item:focus-within .mega {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.megaCol {
+  padding: var(--s-5);
+  border-right: 1px solid rgba(155, 139, 184, 0.08);
+}
+.megaCol:last-child {
+  border-right: none;
+}
+.megaColLabel {
+  font-size: 9px;
+  letter-spacing: 0.42em;
+  text-transform: lowercase;
+  color: var(--accent);
+  font-weight: var(--w-reg);
+  margin-bottom: var(--s-3);
+  padding-bottom: var(--s-2);
+  border-bottom: 1px solid rgba(155, 139, 184, 0.12);
+}
+.megaLinks {
+  list-style: none;
+}
+.megaItem {
+  border-bottom: 1px solid rgba(155, 139, 184, 0.07);
+}
+.megaItem:last-child {
+  border-bottom: none;
+}
+.megaLink {
+  display: block;
+  padding: var(--s-2) 0;
+  font-size: var(--fs-small);
+  font-weight: var(--w-light);
+  color: rgba(232, 225, 238, 0.7);
+  transition: color var(--dur-fast) var(--ease-breath);
+}
+.megaLink:hover,
+.megaLink:focus-visible {
+  color: var(--c-mist);
+}
+.megaSub {
+  display: block;
+  margin-top: 1px;
+  font-size: 11px;
+  color: rgba(155, 139, 184, 0.6);
+}
+
+/* ── book button ───────────────────────────────────────────────────────── */
+.book {
+  flex: none;
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--w-reg);
+  letter-spacing: 0.24em;
+  text-transform: lowercase;
+  color: var(--c-crow);
+  background: var(--accent);
+  padding: 11px 24px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  transition: background var(--dur-fast) var(--ease-breath);
+}
+.book:hover {
+  background: var(--c-mist);
+}
+
+/* ── hamburger (mobile only) ───────────────────────────────────────────── */
+.burger {
+  display: none;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.burger span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--c-mist);
+  transition: transform var(--dur-fast) var(--ease-breath), opacity var(--dur-fast) var(--ease-breath);
+}
+.burgerOpen span:nth-child(1) {
+  transform: translateY(3.75px) rotate(45deg);
+}
+.burgerOpen span:nth-child(2) {
+  transform: translateY(-3.75px) rotate(-45deg);
+}
+
+/* ── mobile overlay menu ───────────────────────────────────────────────── */
+.mobileMenu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: calc(var(--z-nav) - 1); /* above the page, just below the header bar */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--s-6);
+  /* safe-area aware so links never sit under the notch or home indicator */
+  padding-top: calc(var(--s-12) + env(safe-area-inset-top));
+  padding-right: max(var(--container-pad), env(safe-area-inset-right));
+  padding-bottom: calc(var(--s-8) + env(safe-area-inset-bottom));
+  padding-left: max(var(--container-pad), env(safe-area-inset-left));
+  background: rgba(46, 38, 51, 0.97); /* Crow #2E2633, not charcoal black */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  overscroll-behavior: contain;
+}
+.mobileList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+.mobileLink {
+  display: inline-block;
+  padding: var(--s-2) 0;
+  font-size: clamp(1.6rem, 8vw, 2.25rem);
+  font-weight: var(--w-xlight);
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+  color: var(--c-mist);
+  transition: color var(--dur-fast) var(--ease-breath);
+}
+.mobileLink:hover,
+.mobileLink:focus-visible {
+  color: var(--accent);
+}
+.mobileBook {
+  align-self: flex-start;
+  margin-top: var(--s-2);
+  padding: 16px 36px;
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-small);
+  font-weight: var(--w-reg);
+  letter-spacing: 0.22em;
+  text-transform: lowercase;
+  color: var(--c-crow);
+  background: var(--accent);
+}
+
+/* ── responsive: swap mega-menu + book for the hamburger ───────────────── */
+@media (max-width: 960px) {
+  .primary,
+  .book {
+    display: none;
+  }
+  .burger {
+    display: flex;
+  }
+}

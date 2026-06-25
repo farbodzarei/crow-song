@@ -1,0 +1,89 @@
+/* FOOTER — near-black, 4-column. */
+.footer {
+  background: var(--bg-dark);
+  /* clear the home indicator (the mobile bar hides near here anyway) */
+  padding: clamp(var(--s-8), 7vw, var(--s-12)) 0 calc(var(--s-6) + env(safe-area-inset-bottom));
+  color: rgba(244, 242, 246, 0.4);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: clamp(var(--s-5), 5vw, var(--s-8));
+}
+
+.logo {
+  height: 48px;
+  width: auto;
+  display: block;
+  margin-bottom: var(--s-4);
+}
+.tagline {
+  font-size: var(--fs-small);
+  font-weight: var(--w-light);
+  line-height: 1.75;
+  color: rgba(244, 242, 246, 0.42);
+  max-width: 280px;
+}
+
+.colTitle {
+  font-size: 9px;
+  letter-spacing: 0.4em;
+  text-transform: lowercase;
+  color: var(--accent);
+  font-weight: var(--w-reg);
+  margin-bottom: var(--s-4);
+}
+.links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+}
+.link {
+  display: inline-block;
+  padding-block: 8px; /* roomier tap height on touch */
+  font-size: var(--fs-small);
+  font-weight: var(--w-light);
+  text-transform: lowercase;
+  color: rgba(244, 242, 246, 0.5);
+  transition: color var(--dur-fast) var(--ease-breath);
+}
+.link:hover,
+.link:focus-visible {
+  color: var(--accent);
+}
+
+.bottom {
+  grid-column: 1 / -1;
+  margin-top: var(--s-6);
+  padding-top: var(--s-5);
+  border-top: 1px solid rgba(155, 139, 184, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+.bottom p {
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--w-light);
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  color: rgba(244, 242, 246, 0.22);
+}
+
+@media (max-width: 760px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 460px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

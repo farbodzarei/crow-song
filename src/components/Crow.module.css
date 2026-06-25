@@ -1,0 +1,69 @@
+/* Crow mark — sits in negative space with a soft lavender aura behind it. */
+.wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+/* soft breathing aura behind the crow — a quiet glow that pulses with it */
+.wrap::before {
+  content: "";
+  position: absolute;
+  inset: -8%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(155, 139, 184, 0.14) 0%,
+    rgba(155, 139, 184, 0.05) 38%,
+    transparent 66%
+  );
+  /* 7.4s ≈ the breath's 7s cycle + its 0.5s rest, so the glow breathes with it */
+  animation: crowAura 7.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* matches the crow's inhale → hold → exhale → rest cadence */
+@keyframes crowAura {
+  0% {
+    opacity: 0.55;
+    transform: scale(0.94);
+  }
+  32% {
+    opacity: 1;
+    transform: scale(1.07);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.07);
+  }
+  88%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.94);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wrap::before {
+    animation: none;
+    opacity: 0.7;
+  }
+}
+
+.breath {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  /* faint glow so the line-art reads against the dark field */
+  filter: drop-shadow(0 0 24px rgba(155, 139, 184, 0.25));
+}

@@ -1,0 +1,255 @@
+/* COURSES + MEMBERSHIP — lavender section. */
+.sec {
+  background: var(--bg-lav);
+  color: var(--text-on-lav);
+}
+
+.intro {
+  margin-bottom: clamp(var(--s-8), 6vw, var(--s-10));
+}
+.kicker {
+  color: var(--text-on-lav);
+  opacity: 0.7;
+  display: block;
+  margin-bottom: var(--s-5);
+}
+.introRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(var(--s-6), 8vw, var(--s-12));
+  align-items: end;
+}
+.title {
+  font-size: clamp(2.4rem, 4.2vw, 3.4rem);
+  font-weight: var(--w-xlight);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  color: var(--text-on-lav);
+}
+.introBody {
+  font-size: var(--fs-body);
+  font-weight: var(--w-light);
+  line-height: 1.85;
+  color: var(--text-on-lav);
+  max-width: 46ch;
+}
+
+/* ── course cards ──────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(46, 38, 51, 0.1);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.card {
+  background: var(--bg-lav);
+  padding: clamp(var(--s-5), 3vw, var(--s-6)) clamp(var(--s-4), 3vw, var(--s-5));
+  display: flex;
+  flex-direction: column;
+}
+.featured {
+  position: relative;
+  z-index: var(--z-raised);
+  background: var(--c-crow);
+  color: var(--text-on-dark);
+  border-radius: var(--radius);
+}
+
+.tag {
+  font-size: var(--fs-eyebrow);
+  letter-spacing: 0.38em;
+  text-transform: lowercase;
+  color: var(--text-on-lav-muted);
+  margin-bottom: var(--s-3);
+}
+.featured .tag {
+  color: var(--accent);
+}
+
+.cardTitle {
+  font-size: clamp(1.4rem, 2vw, 1.65rem);
+  font-weight: var(--w-xlight);
+  line-height: 1.2;
+  color: var(--text-on-lav);
+  text-transform: lowercase;
+  margin-bottom: var(--s-2);
+}
+.featured .cardTitle {
+  color: var(--c-mist);
+}
+
+.price {
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--w-thin);
+  font-size: clamp(2.25rem, 3.5vw, 2.75rem);
+  line-height: 1;
+  color: var(--text-on-lav);
+  margin: var(--s-3) 0;
+}
+.featured .price {
+  font-variant-numeric: tabular-nums;
+  color: var(--c-mist);
+}
+.price sup {
+  font-size: 0.45em;
+  font-weight: var(--w-light);
+  vertical-align: super;
+}
+.price span {
+  font-size: 0.32em;
+  font-weight: var(--w-light);
+  color: var(--text-on-lav-muted);
+  letter-spacing: 0.04em;
+}
+.featured .price span {
+  color: rgba(244, 242, 246, 0.55);
+}
+
+.features {
+  list-style: none;
+  margin: var(--s-3) 0 var(--s-6);
+  flex: 1;
+}
+.features li {
+  font-size: var(--fs-small);
+  padding: var(--s-2) 0;
+  border-bottom: 1px solid rgba(46, 38, 51, 0.18);
+  line-height: 1.5;
+  color: var(--text-on-lav);
+}
+.features li::before {
+  content: "— ";
+  color: rgba(46, 38, 51, 0.45);
+}
+.featured .features li {
+  color: rgba(244, 242, 246, 0.72);
+  border-bottom-color: rgba(155, 139, 184, 0.14);
+}
+.featured .features li::before {
+  color: rgba(155, 139, 184, 0.5);
+}
+
+/* ── buttons (in-palette, local to this section's surfaces) ────────────── */
+.btnCrow,
+.btnLight,
+.btnHaze {
+  align-self: flex-start;
+  display: inline-block;
+  padding: 13px 30px;
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-small);
+  font-weight: var(--w-reg);
+  letter-spacing: 0.18em;
+  text-transform: lowercase;
+  transition: background var(--dur-slow) var(--ease-breath), opacity var(--dur-slow) var(--ease-breath);
+}
+.btnCrow {
+  background: var(--c-crow);
+  color: var(--c-mist);
+}
+.btnCrow:hover {
+  background: var(--c-charcoal);
+}
+.btnLight {
+  background: var(--c-mist);
+  color: var(--c-crow);
+}
+.btnLight:hover {
+  background: var(--c-warm);
+}
+.btnHaze {
+  background: var(--c-crow);
+  color: var(--c-mist);
+}
+.btnHaze:hover {
+  opacity: 0.85;
+}
+
+/* ── membership band ───────────────────────────────────────────────────── */
+.band {
+  background: var(--c-crow);
+  color: var(--text-on-dark);
+  margin-top: clamp(var(--s-10), 9vw, var(--s-20));
+  padding: clamp(var(--s-6), 5vw, var(--s-10));
+  border-radius: var(--radius);
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: clamp(var(--s-6), 6vw, var(--s-10));
+  align-items: center;
+}
+.bandTitle {
+  font-weight: var(--w-thin);
+  font-size: clamp(1.75rem, 2.8vw, 2.75rem);
+  line-height: 1.15;
+  color: var(--c-mist);
+  text-transform: lowercase;
+  margin-bottom: var(--s-3);
+}
+.bandTitle em {
+  font-style: italic;
+  color: var(--accent);
+}
+.bandBody {
+  font-size: var(--fs-body);
+  font-weight: var(--w-light);
+  line-height: 1.8;
+  color: rgba(244, 242, 246, 0.62);
+  max-width: 42ch;
+}
+.bandPrice {
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--w-thin);
+  font-size: 3.25rem;
+  line-height: 1;
+  color: var(--c-mist);
+  margin: var(--s-4) 0 var(--s-1);
+}
+.bandPrice sup {
+  font-size: 0.42em;
+  font-weight: var(--w-light);
+  vertical-align: super;
+}
+.bandNote {
+  font-size: var(--fs-small);
+  color: rgba(244, 242, 246, 0.45);
+  margin-bottom: var(--s-5);
+}
+
+.perks {
+  list-style: none;
+  border: 1px solid rgba(155, 139, 184, 0.2);
+  padding: clamp(var(--s-4), 3vw, var(--s-6));
+  border-radius: var(--radius-sm);
+}
+.perks li {
+  font-size: var(--fs-small);
+  color: rgba(244, 242, 246, 0.78);
+  padding: var(--s-2) 0;
+  border-bottom: 1px solid rgba(155, 139, 184, 0.12);
+  display: flex;
+  gap: var(--s-2);
+  align-items: baseline;
+}
+.perks li:last-child {
+  border-bottom: none;
+}
+.perks li::before {
+  content: "✦";
+  font-size: 0.6em;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+/* ── responsive ────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .introRow,
+  .band {
+    grid-template-columns: 1fr;
+    gap: var(--s-5);
+  }
+}

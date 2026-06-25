@@ -1,0 +1,40 @@
+/* ============================================================================
+   FONTS — Raleway variable font (standard Google Fonts release).
+
+   Wired to the files in:  public/fonts/Raleway/
+     • Raleway-VariableFont_wght.ttf         (upright, weight axis 100–700)
+     • Raleway-Italic-VariableFont_wght.ttf  (italic,  weight axis 100–700)
+
+   The W: standard Raleway ships several W forms as built-in stylistic
+   alternates. We use the DEFAULT W — no font-feature-settings / no toggle.
+   (If a different W variant is ever wanted, it's an OpenType 'salt'/'cvXX'
+   feature on this same file — no new font needed.)
+
+   PERF: .ttf works fine, but woff2 is ~40% smaller. We can convert later and
+   swap the url()s + format() — no other change needed.
+   ========================================================================== */
+
+@font-face {
+  font-family: "Raleway";
+  src: url("/fonts/Raleway/Raleway-VariableFont_wght.ttf") format("truetype-variations"),
+       url("/fonts/Raleway/Raleway-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 700; /* variable weight axis */
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Raleway";
+  src: url("/fonts/Raleway/Raleway-Italic-VariableFont_wght.ttf") format("truetype-variations"),
+       url("/fonts/Raleway/Raleway-Italic-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  /* One place to control the whole stack. System fallbacks keep layout intact
+     if the font ever fails to load. */
+  --font-sans: "Raleway", system-ui, -apple-system, "Segoe UI", Helvetica, Arial,
+    sans-serif;
+}

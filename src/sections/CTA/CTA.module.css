@@ -1,0 +1,65 @@
+/* CTA — centered on crow, faint crow motif behind. */
+.cta {
+  position: relative;
+  background: var(--bg-dark);
+  color: var(--text-on-dark);
+  padding-block: clamp(5rem, 11vw, 8rem);
+  text-align: center;
+  overflow: hidden;
+}
+
+.motif {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.05;
+  pointer-events: none;
+  max-width: 90%;
+  height: auto;
+}
+
+.inner {
+  position: relative;
+  z-index: var(--z-raised);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-size: clamp(2.6rem, 4.4vw, 4rem);
+  font-weight: var(--w-thin);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--c-mist);
+  text-transform: lowercase;
+  margin-bottom: var(--s-3);
+}
+.title em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.sub {
+  font-size: var(--fs-body);
+  font-weight: var(--w-light);
+  color: rgba(244, 242, 246, 0.5);
+  margin-bottom: var(--s-8);
+}
+
+.btn {
+  display: inline-block;
+  font-size: var(--fs-small);
+  font-weight: var(--w-reg);
+  letter-spacing: 0.22em;
+  text-transform: lowercase;
+  color: var(--c-crow);
+  background: var(--accent);
+  padding: 16px 40px;
+  border-radius: var(--radius-sm);
+  transition: background var(--dur-slow) var(--ease-breath);
+}
+.btn:hover {
+  background: var(--c-mist);
+}

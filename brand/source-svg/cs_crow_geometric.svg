@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 138.51 138.51">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8, .cls-9, .cls-10, .cls-11, .cls-12, .cls-13, .cls-14, .cls-15, .cls-16, .cls-17, .cls-18, .cls-19, .cls-20 {
+        fill: none;
+        isolation: isolate;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8, .cls-18, .cls-19, .cls-20 {
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-18, .cls-20 {
+        stroke: #ebe0ff;
+      }
+
+      .cls-1, .cls-2, .cls-5, .cls-7 {
+        stroke-width: .24px;
+      }
+
+      .cls-1, .cls-10 {
+        opacity: .5;
+      }
+
+      .cls-2 {
+        opacity: .45;
+      }
+
+      .cls-3, .cls-4, .cls-6, .cls-8, .cls-19 {
+        stroke-width: .16px;
+      }
+
+      .cls-3, .cls-8, .cls-11 {
+        opacity: .2;
+      }
+
+      .cls-4, .cls-6, .cls-9 {
+        opacity: .3;
+      }
+
+      .cls-5, .cls-13 {
+        opacity: .4;
+      }
+
+      .cls-6, .cls-7, .cls-8, .cls-19 {
+        stroke: #c4b8d6;
+      }
+
+      .cls-7 {
+        opacity: .6;
+      }
+
+      .cls-12 {
+        opacity: .35;
+      }
+
+      .cls-14 {
+        opacity: .06;
+      }
+
+      .cls-15 {
+        opacity: .07;
+      }
+
+      .cls-16 {
+        opacity: .05;
+      }
+
+      .cls-17, .cls-20 {
+        opacity: .15;
+      }
+
+      .cls-18 {
+        opacity: .12;
+      }
+
+      .cls-18, .cls-20 {
+        stroke-width: .13px;
+      }
+
+      .cls-19 {
+        opacity: .25;
+      }
+    </style>
+  </defs>
+  <circle class="cls-4" cx="69.26" cy="69.26" r="69.18"/>
+  <circle class="cls-3" cx="69.26" cy="69.26" r="56.6"/>
+  <polygon class="cls-14" points="47.25 56.68 12.66 37.81 25.23 69.26 47.25 69.26 47.25 56.68"/>
+  <line class="cls-19" x1="47.25" y1="56.68" x2="12.66" y2="37.81"/>
+  <g id="Wing_left_" data-name="Wing (left)">
+    <polygon class="cls-5" points="47.25 56.68 12.66 37.81 25.23 69.26 47.25 69.26 47.25 56.68"/>
+    <line class="cls-8" x1="47.25" y1="56.68" x2="18.95" y2="50.39"/>
+  </g>
+  <g id="Wing_right_" data-name="Wing (right)">
+    <polygon class="cls-14" points="91.27 56.68 125.86 37.81 113.28 69.26 91.27 69.26 91.27 56.68"/>
+    <polygon class="cls-5" points="91.27 56.68 125.86 37.81 113.28 69.26 91.27 69.26 91.27 56.68"/>
+    <line class="cls-19" x1="91.27" y1="56.68" x2="125.86" y2="37.81"/>
+    <line class="cls-8" x1="91.27" y1="56.68" x2="119.57" y2="50.39"/>
+  </g>
+  <g id="Head">
+    <polygon class="cls-17" points="69.26 18.95 75.55 31.52 62.97 31.52 69.26 18.95"/>
+    <polygon class="cls-7" points="69.26 18.95 75.55 31.52 62.97 31.52 69.26 18.95"/>
+    <polygon class="cls-11" points="69.26 18.95 79.32 16.43 75.55 25.23 69.26 18.95"/>
+    <polygon class="cls-1" points="69.26 18.95 79.32 16.43 75.55 25.23 69.26 18.95"/>
+    <circle class="cls-10" cx="72.4" cy="25.23" r="1.26"/>
+    <circle class="cls-4" cx="72.4" cy="25.23" r="2.52"/>
+  </g>
+  <circle class="cls-13" cx="12.66" cy="37.81" r=".63"/>
+  <circle class="cls-13" cx="125.86" cy="37.81" r=".63"/>
+  <circle class="cls-12" cx="47.25" cy="125.86" r=".63"/>
+  <circle class="cls-12" cx="91.27" cy="125.86" r=".63"/>
+  <circle class="cls-9" cx="69.26" cy="125.23" r=".63"/>
+  <line class="cls-20" x1="69.26" y1="56.68" x2="6.37" y2="25.23"/>
+  <line class="cls-20" x1="69.26" y1="56.68" x2="132.15" y2="25.23"/>
+  <g id="Body">
+    <polygon class="cls-15" points="69.26 31.52 91.27 56.68 69.26 94.41 47.25 56.68 69.26 31.52"/>
+    <polygon class="cls-5" points="69.26 31.52 91.27 56.68 69.26 94.41 47.25 56.68 69.26 31.52"/>
+    <line class="cls-6" x1="69.26" y1="31.52" x2="69.26" y2="94.41"/>
+    <line class="cls-18" x1="69.26" y1="56.68" x2="69.26" y2="138.43"/>
+  </g>
+  <g id="Tail">
+    <polygon class="cls-16" points="69.26 94.41 47.25 125.86 58.18 103.22 69.26 94.41"/>
+    <polygon class="cls-5" points="69.26 94.41 47.25 125.86 58.18 103.22 69.26 94.41"/>
+    <polygon class="cls-14" points="69.26 94.41 71.14 103.22 69.26 125.23 67.37 103.22 69.26 94.41"/>
+    <polygon class="cls-2" points="69.26 94.41 71.14 103.22 69.26 125.23 67.37 103.22 69.26 94.41"/>
+    <polygon class="cls-16" points="80.33 103.22 91.27 125.86 69.26 94.41 80.33 103.22"/>
+    <polygon class="cls-5" points="80.33 103.22 91.27 125.86 69.26 94.41 80.33 103.22"/>
+  </g>
+</svg>

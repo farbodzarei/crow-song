@@ -1,0 +1,16 @@
+/* The short lavender rule — a single, intentional accent moment. */
+.rule {
+  display: block;
+  width: var(--rule-w);
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+.start {
+  margin-inline: 0;
+}
+
+.center {
+  margin-inline: auto;
+}

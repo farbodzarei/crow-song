@@ -1,0 +1,53 @@
+/* ============================================================================
+   MobileBar — persistent thumb-reachable action bar (mobile only), the way a
+   native iOS app keeps its primary action docked at the bottom. Blurred crow
+   panel, safe-area aware, slides up once you're past the hero and tucks away
+   when the closing CTA is in view.
+   ========================================================================== */
+.bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: calc(var(--z-nav) - 10); /* above content, below nav + menu */
+  display: none; /* mobile only — enabled below */
+  gap: var(--s-2);
+  padding: 12px max(var(--container-pad), env(safe-area-inset-right))
+    calc(12px + env(safe-area-inset-bottom))
+    max(var(--container-pad), env(safe-area-inset-left));
+  background: rgba(46, 38, 51, 0.82); /* Crow #2E2633 */
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid rgba(155, 139, 184, 0.14);
+}
+
+@media (max-width: 960px) {
+  .bar {
+    display: flex;
+  }
+}
+
+.action {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 52px; /* comfortable thumb target (> 44px) */
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-small);
+  font-weight: var(--w-med);
+  letter-spacing: 0.14em;
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+
+.primary {
+  flex: 1.6; /* give the main action more width */
+  background: var(--accent);
+  color: var(--c-crow);
+}
+
+.ghost {
+  border: 1px solid rgba(155, 139, 184, 0.4);
+  color: var(--c-mist);
+}

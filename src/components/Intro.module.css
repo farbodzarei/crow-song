@@ -1,0 +1,67 @@
+/* First-load curtain — a Crow field that lifts to reveal the page. */
+.curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 8000; /* above all page chrome, below the custom cursor (9000) */
+  background: var(--bg-dark);
+  display: grid;
+  place-items: center;
+  will-change: transform;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-4);
+  text-align: center;
+  padding: var(--s-6);
+}
+
+.rule {
+  display: block;
+  width: 48px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+  transform-origin: center;
+}
+
+.logoMask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.logoInner {
+  display: block;
+}
+.logo {
+  height: clamp(44px, 7vw, 82px);
+  width: auto;
+  display: block;
+}
+
+.sub {
+  font-size: var(--fs-small);
+  font-weight: var(--w-light);
+  letter-spacing: 0.42em;
+  text-transform: lowercase;
+  color: var(--text-on-dark-muted);
+}
+
+.skip {
+  position: absolute;
+  bottom: clamp(1.25rem, 4vw, 2.5rem);
+  right: clamp(1.25rem, 4vw, 2.5rem);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--w-light);
+  letter-spacing: 0.24em;
+  text-transform: lowercase;
+  color: var(--text-on-dark-muted);
+  transition: color var(--dur-fast) var(--ease-breath);
+}
+.skip:hover,
+.skip:focus-visible {
+  color: var(--accent);
+}

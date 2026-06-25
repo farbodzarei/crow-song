@@ -1,0 +1,87 @@
+/* PRACTICE — lavender-tinted light. Dark cards that lift on hover. */
+.practice {
+  background: var(--bg-light-lav);
+  color: var(--text-on-light);
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--s-5);
+  margin-bottom: clamp(var(--s-8), 8vw, var(--s-12));
+}
+
+.heading {
+  font-size: clamp(2.5rem, 5vw, 3.85rem);
+  font-weight: var(--w-xlight);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: var(--text-on-light);
+  max-width: 14ch;
+}
+
+.lead {
+  max-width: 30ch;
+  font-size: var(--fs-small);
+  font-weight: var(--w-light);
+  line-height: 1.7;
+  color: var(--text-on-light-muted);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2px; /* hairline seams between dark cards on the light field */
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  padding: clamp(var(--s-5), 4vw, var(--s-6));
+  background: var(--c-crow);
+  color: var(--text-on-dark);
+  transition: background var(--dur-slow) var(--ease-breath);
+}
+.card:hover {
+  background: #3a3042;
+}
+
+.tag {
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--w-reg);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.cardTitle {
+  font-size: var(--fs-h3);
+  font-weight: var(--w-light);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--c-white);
+}
+
+.cardDesc {
+  font-size: var(--fs-small);
+  font-weight: var(--w-light);
+  line-height: 1.7;
+  color: rgba(244, 242, 246, 0.66);
+}
+
+.arrow {
+  margin-top: var(--s-4);
+  font-size: 1.25rem;
+  color: rgba(155, 139, 184, 0.45);
+  transition: color var(--dur-slow) var(--ease-breath),
+    transform var(--dur-slow) var(--ease-breath);
+}
+.card:hover .arrow {
+  color: var(--accent);
+  transform: translateX(5px);
+}

@@ -1,0 +1,28 @@
+/* Custom cursor — lavender dot + trailing ring. Visible on dark AND light
+   sections (no screen-blend that would vanish on light surfaces).
+   Sizing/hover-grow is done via transform:scale in the rAF loop (Cursor.jsx),
+   so the only CSS transitions here are paint-only (color/opacity). */
+.dot,
+.ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: var(--z-cursor);
+  will-change: transform;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.ring {
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(155, 139, 184, 0.5);
+  border-radius: 50%;
+  transition: border-color 0.4s var(--ease-breath), opacity 0.4s var(--ease-breath);
+}

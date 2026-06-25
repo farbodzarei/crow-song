@@ -1,0 +1,40 @@
+/* INTRO BAND — saturated lavender, big light-weight pull quote. */
+.band {
+  padding-block: clamp(5rem, 11vw, 8rem);
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: 1fr 2.2fr;
+  gap: clamp(var(--s-5), 6vw, var(--s-12));
+  align-items: center;
+}
+
+.label {
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--w-reg);
+  letter-spacing: 0.4em;
+  text-transform: lowercase;
+  color: var(--text-on-lav);
+  opacity: 0.7;
+}
+
+.quote {
+  font-weight: var(--w-xlight);
+  font-size: clamp(1.95rem, 3.4vw, 2.7rem);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  color: var(--text-on-lav);
+}
+.quote em {
+  font-style: italic;
+  color: var(--c-crow);
+  opacity: 0.6;
+}
+
+@media (max-width: 860px) {
+  .inner {
+    grid-template-columns: 1fr;
+    gap: var(--s-4);
+  }
+}

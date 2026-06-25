@@ -1,0 +1,54 @@
+/* INSIGHT — dark, with a gradient floor that melts into the light below. */
+.insight {
+  position: relative;
+  background: var(--bg-dark);
+  color: var(--text-on-dark);
+  padding-block: clamp(6rem, 14vw, 11rem);
+  /* extra bottom room for the gradient transition */
+  padding-bottom: clamp(9rem, 18vw, 15rem);
+}
+
+/* the exhale: crow → mist, bleeding into the next (light) section */
+.insight::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 180px;
+  background: linear-gradient(to bottom, transparent, var(--c-haze));
+  pointer-events: none;
+}
+
+.inner {
+  position: relative;
+  z-index: var(--z-raised);
+  max-width: 820px;
+}
+
+.kicker {
+  display: block;
+  color: var(--accent);
+  margin-bottom: var(--s-6);
+}
+
+.text {
+  font-size: clamp(2.15rem, 3.8vw, 2.85rem);
+  font-weight: var(--w-xlight);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+.line {
+  display: block;
+  color: rgba(244, 242, 246, 0.92);
+}
+.line strong {
+  font-weight: var(--w-semi);
+  color: var(--c-white);
+}
+.lineMuted {
+  display: block;
+  margin-top: 0.4em;
+  color: var(--text-on-dark-muted);
+}

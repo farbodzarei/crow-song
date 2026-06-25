@@ -1,0 +1,121 @@
+/* ABOUT — dark, portrait + text, soft glow lower-left. */
+.about {
+  position: relative;
+  background: var(--bg-dark);
+  color: var(--text-on-dark);
+  overflow: hidden;
+}
+
+.glow {
+  position: absolute;
+  bottom: 8%; /* contained — fades within the section, no hard cut at the edge */
+  left: -200px;
+  width: 600px;
+  height: 600px;
+  max-width: 80vw;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(155, 139, 184, 0.1) 0%, transparent 62%);
+}
+
+.grid {
+  position: relative;
+  z-index: var(--z-raised);
+  display: grid;
+  grid-template-columns: minmax(320px, 0.8fr) minmax(0, 1fr);
+  gap: clamp(var(--s-6), 5vw, var(--s-10));
+  align-items: center;
+  max-width: 1180px; /* keep the bio comfortable on the fully-wide canvas */
+}
+
+.media {
+  width: 100%;
+  max-width: 460px;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+}
+
+.kicker {
+  color: var(--accent);
+  margin-bottom: var(--s-5);
+}
+
+.name {
+  font-size: clamp(3rem, 4.8vw, 4.2rem);
+  font-weight: var(--w-thin);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--c-white);
+  margin-bottom: var(--s-2);
+}
+
+.title {
+  font-size: var(--fs-small);
+  font-weight: var(--w-light);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--s-5);
+}
+
+.body {
+  font-size: var(--fs-body);
+  font-weight: var(--w-light);
+  line-height: 1.85;
+  color: rgba(244, 242, 246, 0.55);
+  max-width: 46ch;
+}
+
+/* "on the name" — the brand's reason for being, given real presence.
+   Statement → gloss → attribution. Top rule instead of a side-stripe. */
+.quoteWrap {
+  margin-top: var(--s-10);
+}
+.quoteRule {
+  margin-bottom: var(--s-5);
+}
+.quote {
+  font-size: clamp(2.1rem, 3.3vw, 2.85rem); /* up into h2 territory, below the name */
+  font-weight: var(--w-xlight);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--c-mist);
+  max-width: 18ch; /* tighter wrap → a stacked, poster-like statement */
+  text-wrap: balance;
+}
+.quote em {
+  font-style: italic; /* the site's recurring italic-lavender emphasis motif */
+  color: var(--accent);
+}
+.gloss {
+  margin-top: var(--s-4);
+  font-size: var(--fs-lead);
+  font-weight: var(--w-xlight);
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  color: var(--c-soft); /* soft lavender — evocative, a quiet gloss on the line */
+  max-width: 24ch;
+}
+.quoteCite {
+  display: block;
+  margin-top: var(--s-5);
+  font-style: normal;
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--w-med);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0.7;
+}
+
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: var(--s-8);
+  }
+  .media {
+    max-width: 320px;
+  }
+}

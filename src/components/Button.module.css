@@ -1,0 +1,74 @@
+/* Primary CTA — calm, deliberate, in-palette only (crow + lavender). */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 34px;
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-small);
+  font-weight: var(--w-med);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: border-color var(--dur-slow) var(--ease-breath),
+    color var(--dur-slow) var(--ease-breath),
+    opacity var(--dur-slow) var(--ease-breath);
+}
+
+.label {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── wipe: transparent, lavender hairline, lavender fill wipes in on hover ── */
+.wipe {
+  color: var(--c-white);
+  background: transparent;
+  border: 1px solid rgba(155, 139, 184, 0.5);
+}
+.wipe::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: translateX(-101%);
+  transition: transform var(--dur-slow) var(--ease-breath);
+}
+.wipe:hover,
+.wipe:focus-visible {
+  color: var(--c-crow);
+  border-color: var(--accent);
+}
+.wipe:hover::before,
+.wipe:focus-visible::before {
+  transform: translateX(0);
+}
+
+/* ── solid: crow fill, white text, soft fade on hover ── */
+.solid {
+  color: var(--c-white);
+  background: var(--c-crow);
+  border: 1px solid var(--c-crow);
+  padding: 18px 44px;
+}
+.solid:hover,
+.solid:focus-visible {
+  opacity: 0.82;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+/* Reduced motion: no wipe, just a calm fill swap. */
+@media (prefers-reduced-motion: reduce) {
+  .wipe::before {
+    display: none;
+  }
+  .wipe:hover,
+  .wipe:focus-visible {
+    color: var(--c-crow);
+    background: var(--accent);
+  }
+}

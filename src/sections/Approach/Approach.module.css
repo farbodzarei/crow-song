@@ -1,0 +1,79 @@
+/* APPROACH — light, two-column. Calm list with full divider lines. */
+.approach {
+  background: var(--bg-light);
+  color: var(--text-on-light);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(var(--s-6), 8vw, var(--s-16));
+  align-items: start;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+}
+
+.kicker {
+  color: var(--accent-deep);
+  margin-bottom: var(--s-5);
+}
+
+.heading {
+  font-size: clamp(2.6rem, 4.4vw, 3.6rem);
+  font-weight: var(--w-xlight);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--text-on-light);
+  margin-bottom: var(--s-5);
+}
+
+.body {
+  font-size: var(--fs-body);
+  font-weight: var(--w-light);
+  line-height: var(--lh-body);
+  color: var(--text-on-light-muted);
+  max-width: 46ch;
+}
+
+.pillars {
+  list-style: none;
+  padding-top: var(--s-1);
+}
+
+.pillar {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-4);
+  padding-block: var(--s-4);
+  border-bottom: 1px solid rgba(46, 38, 51, 0.1);
+}
+.pillar:first-child {
+  border-top: 1px solid rgba(46, 38, 51, 0.1);
+}
+
+.num {
+  flex: none;
+  min-width: 2ch;
+  font-size: var(--fs-small);
+  font-weight: var(--w-reg);
+  color: var(--accent-deep);
+  letter-spacing: 0.06em;
+}
+
+.pillarText {
+  font-size: var(--fs-lead);
+  font-weight: var(--w-reg);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--text-on-light);
+}
+
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: var(--s-8);
+  }
+}
