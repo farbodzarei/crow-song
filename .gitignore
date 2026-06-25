@@ -29,3 +29,4 @@ dist-ssr
 
 # local-only npm cache redirect (machine-specific; breaks CI/Vercel)
 .npmrc
+.vercel
