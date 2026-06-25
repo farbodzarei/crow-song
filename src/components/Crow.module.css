@@ -1,6 +1,7 @@
 /* Crow mark — sits in negative space with a soft lavender aura behind it. */
 .wrap {
   position: relative;
+  isolation: isolate; /* contain the aura (z-index:-1) above the bg, below the crow */
   width: 100%;
   height: 100%;
   display: grid;
@@ -8,21 +9,27 @@
   pointer-events: none;
 }
 
-/* soft breathing aura behind the crow — a quiet glow that pulses with it */
-.wrap::before {
-  content: "";
+/* soft aura behind the crow — its opacity is driven by the same controls as the
+   crow's draw/reverse (Crow.jsx), so the glow forms and vanishes WITH the crow.
+   The inner .glowPulse keeps breathing while it's present. */
+.glowWrap {
   position: absolute;
   inset: -8%;
+  z-index: -1;
+  pointer-events: none;
+}
+.glowPulse {
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(155, 139, 184, 0.14) 0%,
-    rgba(155, 139, 184, 0.05) 38%,
+    rgba(155, 139, 184, 0.18) 0%,
+    rgba(155, 139, 184, 0.06) 38%,
     transparent 66%
   );
   /* 7.4s ≈ the breath's 7s cycle + its 0.5s rest, so the glow breathes with it */
   animation: crowAura 7.4s ease-in-out infinite;
-  pointer-events: none;
 }
 
 /* matches the crow's inhale → hold → exhale → rest cadence */
@@ -47,7 +54,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .wrap::before {
+  .glowPulse {
     animation: none;
     opacity: 0.7;
   }

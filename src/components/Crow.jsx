@@ -98,6 +98,11 @@ const group = {
   hidden: { transition: { staggerChildren: 0.04, staggerDirection: -1 } },
   visible: { transition: { staggerChildren: 0.05 } },
 };
+// the aura tracks the crow: fades in as it forms, out as it reverses
+const glow = {
+  hidden: { opacity: 0, transition: { duration: 1.1, ease } },
+  visible: { opacity: 1, transition: { duration: 1.3, ease } },
+};
 
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 // resolves once the loading curtain is gone (flag covers the mount race)
@@ -170,6 +175,9 @@ export default function Crow({ className = "" }) {
   if (reduce) {
     return (
       <div ref={ref} className={`${styles.wrap} ${className}`} aria-hidden="true">
+        <div className={styles.glowWrap}>
+          <div className={styles.glowPulse} />
+        </div>
         <StaticArt />
       </div>
     );
@@ -177,6 +185,10 @@ export default function Crow({ className = "" }) {
 
   return (
     <motion.div ref={ref} className={`${styles.wrap} ${className}`} aria-hidden="true" style={{ y, rotate, scale, opacity }}>
+      {/* aura — fades in/out with the crow's form/reverse (same controls) */}
+      <motion.div className={styles.glowWrap} variants={glow} initial="hidden" animate={drawControls}>
+        <div className={styles.glowPulse} />
+      </motion.div>
       {/* load draw-in scale */}
       <motion.div className={styles.breath} initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.6, ease, delay: 0.3 }}>
         {/* perpetual breath — a slow human/ujjayi cycle: a fuller, quicker
