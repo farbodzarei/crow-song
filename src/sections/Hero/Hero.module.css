@@ -200,12 +200,14 @@
   .crow {
     /* middle-right, fully on screen, sized to fill the free zone above the
        headline so it never sits under the text (readability first) */
-    width: min(62vw, 300px);
+    /* middle-right: vertically centred, sat in the clear strip to the right of
+       the left-aligned headline (text ends ~x231; crow left stays right of it) */
+    width: min(40vw, 200px);
     left: auto;
-    right: 1%;
+    right: 0;
     margin-left: 0;
-    top: 12%;
-    margin-top: 0;
+    top: 50%;
+    margin-top: calc(min(40vw, 200px) / -2);
     opacity: 0.65;
   }
   .headline {
