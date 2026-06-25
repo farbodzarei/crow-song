@@ -76,28 +76,27 @@ function StaticArt() {
   );
 }
 
+// back-and-forth: "visible" draws each stroke on (pathLength 0→1); "hidden"
+// reverses it (1→0). The loop yoyos between them with a pause in between.
 const draw = {
-  hidden: { pathLength: 0, opacity: 0 },
+  hidden: { pathLength: 0, opacity: 0, transition: { pathLength: { duration: 1.15, ease }, opacity: { duration: 0.9, ease } } },
   visible: { pathLength: 1, opacity: 1, transition: { pathLength: { duration: 1.3, ease }, opacity: { duration: 0.7, ease } } },
-  out: { opacity: 0, transition: { duration: 0.7, ease } }, // fade away (keep pathLength) before the loop redraws
 };
 const pop = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 0, transition: { duration: 0.6, ease } },
   visible: { opacity: 1, transition: { duration: 0.6, ease } },
-  out: { opacity: 0, transition: { duration: 0.6, ease } },
 };
 const container = {
-  hidden: {},
+  // un-draw in reverse order (last stroke retracts first) for a clean rewind
+  hidden: { transition: { staggerChildren: 0.05, staggerDirection: -1 } },
   visible: { transition: { staggerChildren: 0.06, delayChildren: 0.4 } },
-  out: { transition: { staggerChildren: 0.02 } },
 };
 // a wing/flight group: transparent orchestrator so its strokes still draw in
 // sequence within the parent's stagger (the group itself carries the scroll
 // transform that makes the crow take flight).
 const group = {
-  hidden: {},
+  hidden: { transition: { staggerChildren: 0.04, staggerDirection: -1 } },
   visible: { transition: { staggerChildren: 0.05 } },
-  out: { transition: { staggerChildren: 0.02 } },
 };
 
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -124,19 +123,20 @@ export default function Crow({ className = "" }) {
   const drawControls = useAnimationControls();
 
   // draw-in starts only once the loading curtain is gone (so it's seen), then
-  // loops: draw → hold 3s → fade out → redraw.
+  // yoyos back and forth: form → 5s → reverse (un-draw) → 5s → form …
   useEffect(() => {
     if (reduce) return;
     let alive = true;
     (async () => {
       await whenIntroDone();
       while (alive) {
-        await drawControls.start("visible"); // staggered draw-in
+        await drawControls.start("visible"); // form
         if (!alive) break;
-        await wait(3000); // the 3s delay
+        await wait(5000); // hold formed
         if (!alive) break;
-        await drawControls.start("out"); // fade away
-        drawControls.set("hidden"); // reset undrawn (already invisible)
+        await drawControls.start("hidden"); // reverse (un-draw)
+        if (!alive) break;
+        await wait(5000); // hold un-formed
       }
     })();
     return () => {
