@@ -1,7 +1,15 @@
 /* APPROACH — light, two-column. Calm list with full divider lines. */
 .approach {
+  position: relative;
+  isolation: isolate; /* contain the corner mandala (z-index:-1) above the bg */
+  overflow: hidden; /* clip the corner mandala bleed */
   background: var(--bg-light);
   color: var(--text-on-light);
+}
+/* keep the column content above the corner mandala */
+.grid {
+  position: relative;
+  z-index: 1;
 }
 
 .grid {

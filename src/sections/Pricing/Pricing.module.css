@@ -1,5 +1,8 @@
 /* PRICING — crow, 3-up with hairline seams; featured tier is lavender. */
 .sec {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden; /* host the corner mandala (z-index:-1), clip its bleed */
   background: var(--bg-dark);
   color: var(--text-on-dark);
 }

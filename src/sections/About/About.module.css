@@ -1,6 +1,7 @@
 /* ABOUT — dark, portrait + text, soft glow lower-left. */
 .about {
   position: relative;
+  isolation: isolate; /* contain the corner mandala (z-index:-1) above the bg */
   background: var(--bg-dark);
   color: var(--text-on-dark);
   overflow: hidden;

@@ -1,5 +1,8 @@
 /* COURSES + MEMBERSHIP — lavender section. */
 .sec {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden; /* host the corner mandala (z-index:-1), clip its bleed */
   background: var(--bg-lav);
   color: var(--text-on-lav);
 }

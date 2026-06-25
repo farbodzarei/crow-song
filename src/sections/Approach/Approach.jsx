@@ -5,6 +5,7 @@
    ========================================================================== */
 
 import Reveal from "../../components/Reveal.jsx";
+import Mandala from "../../components/Mandala.jsx";
 import styles from "./Approach.module.css";
 
 const PILLARS = [
@@ -17,6 +18,7 @@ const PILLARS = [
 export default function Approach() {
   return (
     <section id="about" className={`section section--light ${styles.approach}`}>
+      <Mandala side="right" tone="onLight" />
       <div className={`container ${styles.grid}`}>
         <Reveal stagger className={styles.left}>
           <Reveal item variant="riseSmall" as="span" className={`eyebrow ${styles.kicker}`}>

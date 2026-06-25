@@ -7,6 +7,7 @@
    ========================================================================== */
 
 import Reveal from "../../components/Reveal.jsx";
+import Mandala from "../../components/Mandala.jsx";
 import styles from "./Courses.module.css";
 
 const COURSES = [
@@ -49,6 +50,7 @@ const PERKS = [
 export default function Courses() {
   return (
     <section id="courses" className={`section section--lav ${styles.sec}`}>
+      <Mandala side="left" tone="onLight" />
       <div className="container">
         <Reveal stagger className={styles.intro}>
           <Reveal item variant="riseSmall" as="span" className={`eyebrow ${styles.kicker}`}>
