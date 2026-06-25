@@ -6,7 +6,7 @@ Premium, awards-level marketing site for **Crow Song Yoga Therapy** (christine w
 - **Vite + React + Motion** (`motion/react`), CSS Modules. Single source of truth: `src/styles/tokens.css`.
 - Dev: `npm run dev -- --port 5180` · Build: `npm run build`.
 - ⚠️ npm cache is redirected via project `.npmrc` to `~/.npm-crowsong` (global `~/.npm` has root-owned files). Installs work via the project dir automatically.
-- Deploy target: Vercel.
+- **Deployed on Vercel** (scope `kodax-studio`, project `crow-song-yoga`). Live: **https://crow-song-yoga.vercel.app**. Redeploy with `npx vercel --prod` (CLI-linked via `.vercel/`, gitignored). Real domain crowsongyogatherapy.com not yet wired. `.npmrc` is gitignored (local cache path breaks CI).
 - Screenshots: `puppeteer-core` is installed; system Chrome at `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`. Headless `fullPage` shows a *false* "duplicate page" artifact — ignore it (DOM is fine). Capture ≤2000px images or the reader rejects them.
 
 ## Brand rules (FIXED — brand deck in `brand/` is source of truth)
