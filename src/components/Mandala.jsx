@@ -1,50 +1,44 @@
 /* ============================================================================
-   Mandala — the client's ornate mandala (public/mandala.svg) used as a CSS
-   mask so we can recolour it to lavender and run a rotating shimmer *through*
-   the geometry. It FORMS on scroll (a radial clip-path bloom) and SHIMMERS
-   (a slow rotating conic-gradient sweeping light around the figure).
-   Sits fully visible at a section corner (never cut off). Reduced motion →
-   static + fully formed.
+   Mandala — the client's mandala (public/mandala.svg, extracted to mandalaPath)
+   rendered as a STROKED path so it can draw its own exact lines. Its CENTRE is
+   pinned to a section corner (so ~3/4 bleeds off — a rotating quadrant shows).
+   - Draw:    pathLength is scroll-linked → the lines draw on as you scroll in.
+   - Rotate:  the figure spins slowly (around its centre = the corner).
+   Reduced motion → fully drawn + still.
 
-   Props: side "left"|"right" · tone "onDark"|"onLight" · className (offset)
+   Props: side "left"|"right" · tone "onDark"|"onLight" · className
    ========================================================================== */
 
 import { useRef } from "react";
-import { motion, useReducedMotion, useInView } from "motion/react";
-import { ease } from "../tokens/motion.js";
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { MANDALA_VIEWBOX, MANDALA_TRANSFORM, MANDALA_D } from "./mandalaPath.js";
 import styles from "./Mandala.module.css";
 
-const form = {
-  hidden: { opacity: 0, clipPath: "circle(0% at 50% 50%)" },
-  show: {
-    opacity: 1,
-    clipPath: "circle(78% at 50% 50%)",
-    transition: { opacity: { duration: 1.1, ease }, clipPath: { duration: 1.6, ease } },
-  },
-};
-
-export default function Mandala({ side = "right", tone = "onDark", className = "" }) {
+export default function Mandala({ side = "right", tone = "onLight", className = "" }) {
   const reduce = useReducedMotion();
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-12% 0px" });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  // draw the lines on across the first ~half of the section's pass through view
+  const pathLength = useTransform(scrollYProgress, [0.04, 0.58], [0, 1]);
+  const stroke = tone === "onLight" ? "#6E5E90" : "#C9BEDD";
 
-  const cls = `${styles.mandala} ${styles[side]} ${styles[tone]} ${className}`;
-
-  if (reduce) {
-    return (
-      <div ref={ref} className={cls} aria-hidden="true">
-        <div className={styles.art}>
-          <div className={styles.shimmer} />
-        </div>
-      </div>
-    );
-  }
+  const pathProps = {
+    d: MANDALA_D,
+    fill: "none",
+    stroke,
+    strokeWidth: 1.4,
+    vectorEffect: "non-scaling-stroke",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+  };
 
   return (
-    <div ref={ref} className={cls} aria-hidden="true">
-      <motion.div className={styles.art} variants={form} initial="hidden" animate={inView ? "show" : "hidden"}>
-        <div className={styles.shimmer} />
-      </motion.div>
+    <div ref={ref} className={`${styles.mandala} ${styles[side]} ${styles[tone]} ${className}`} aria-hidden="true">
+      <svg className={styles.svg} viewBox={MANDALA_VIEWBOX} preserveAspectRatio="xMidYMid meet">
+        <g transform={MANDALA_TRANSFORM}>
+          {reduce ? <path {...pathProps} /> : <motion.path {...pathProps} style={{ pathLength }} />}
+        </g>
+      </svg>
     </div>
   );
 }
