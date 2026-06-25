@@ -134,9 +134,7 @@ export default function Crow({ className = "" }) {
         if (!alive) break;
         await wait(5000); // hold formed
         if (!alive) break;
-        await drawControls.start("hidden"); // reverse (un-draw)
-        if (!alive) break;
-        await wait(5000); // hold un-formed
+        await drawControls.start("hidden"); // reverse (un-draw) — then re-form immediately
       }
     })();
     return () => {
