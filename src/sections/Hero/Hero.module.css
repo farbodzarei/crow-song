@@ -198,11 +198,13 @@
     text-align: left;
   }
   .crow {
-    width: clamp(180px, 52vw, 320px);
-    margin-top: calc(clamp(180px, 52vw, 320px) / -2);
-    margin-left: calc(clamp(180px, 52vw, 320px) / -2);
-    top: 38%; /* keep it in the upper negative space, clear of the headline */
-    opacity: 0.7; /* keep the headline dominant on small screens */
+    /* bigger + bleeds past the screen edges (wings crop off the sides),
+       held high so the head still reads above the headline */
+    width: min(118vw, 480px);
+    margin-top: calc(min(118vw, 480px) / -2);
+    margin-left: calc(min(118vw, 480px) / -2);
+    top: 32%;
+    opacity: 0.55; /* keep the headline dominant at this larger size */
   }
   .headline {
     max-width: 18ch;
