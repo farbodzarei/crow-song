@@ -42,7 +42,11 @@
 .featured {
   position: relative;
   z-index: var(--z-raised);
-  background: var(--bg-lav);
+  /* vibrant on-brand lavender wash (haze → soft) + a glow corner.
+     Biased light so the dark text stays readable. */
+  background:
+    radial-gradient(130% 95% at 82% 8%, rgba(155, 139, 184, 0.42), transparent 54%),
+    linear-gradient(158deg, #efe9f4 0%, #d8cce6 56%, #c6bad9 100%);
   color: var(--text-on-lav);
   border-radius: var(--radius);
 }

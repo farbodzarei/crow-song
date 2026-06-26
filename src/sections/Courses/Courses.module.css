@@ -55,7 +55,11 @@
 .featured {
   position: relative;
   z-index: var(--z-raised);
-  background: var(--c-crow);
+  /* vibrant on-brand lavender gradient (deep → accent) + a glow corner.
+     Biased dark so the light text stays readable. */
+  background:
+    radial-gradient(130% 95% at 86% 6%, rgba(196, 184, 214, 0.5), transparent 56%),
+    linear-gradient(158deg, #2e2633 0%, #463a60 50%, #6e5e90 100%);
   color: var(--text-on-dark);
   border-radius: var(--radius);
 }
