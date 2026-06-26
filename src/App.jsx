@@ -14,6 +14,7 @@ import Cursor from "./components/Cursor.jsx";
 import Nav from "./components/Nav.jsx";
 import Particles from "./components/Particles.jsx";
 import Hero from "./sections/Hero/Hero.jsx";
+import Lotus from "./sections/Lotus/Lotus.jsx";
 import Insight from "./sections/Insight/Insight.jsx";
 import IntroBand from "./sections/IntroBand/IntroBand.jsx";
 import Approach from "./sections/Approach/Approach.jsx";
@@ -43,6 +44,7 @@ export default function App() {
 
       <main id="main">
         <Hero />
+        <Lotus />
         <Insight />
         <IntroBand />
         <Approach />

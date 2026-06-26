@@ -1,34 +1,40 @@
 /* ============================================================================
-   LOTUS — tall scroll span with a sticky stage. The dark Crow surface lets the
-   lavender motes glow; a soft radial aura sits behind the bloom.
+   LOTUS — fixed overlay. The particle lotus blooms over whatever content is on
+   screen once the Hero scrolls away. Adds no layout, blocks nothing. The
+   wrapper's opacity is driven from JS across the scroll window.
    ========================================================================== */
 
-.lotus {
-  position: relative;
-  /* the scroll runway that drives the bloom — taller = slower, more deliberate */
-  height: 250vh;
-  background: var(--bg-dark);
+/* zero-height trigger that lives in normal flow right after the Hero */
+.anchor {
+  height: 0;
+  pointer-events: none;
 }
 
-.stage {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow: hidden;
+.overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(82vmin, 760px);
+  aspect-ratio: 1;
   display: grid;
   place-items: center;
+  z-index: 40; /* above sections, below nav (--z-nav: 100) and cursor */
+  opacity: 0; /* JS ramps this in/out across the window */
+  pointer-events: none;
+  will-change: opacity;
 }
 
 /* aura behind the flower — a held breath of light at the heart */
 .glow {
   position: absolute;
-  width: min(80vmin, 760px);
+  width: 100%;
   aspect-ratio: 1;
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(155, 139, 184, 0.22) 0%,
-    rgba(155, 139, 184, 0.08) 38%,
+    rgba(155, 139, 184, 0.2) 0%,
+    rgba(155, 139, 184, 0.07) 38%,
     transparent 70%
   );
   filter: blur(8px);
@@ -37,7 +43,7 @@
 
 .canvas {
   position: relative;
-  width: min(92vmin, 900px);
+  width: 100%;
   aspect-ratio: 1;
   pointer-events: none;
 }
