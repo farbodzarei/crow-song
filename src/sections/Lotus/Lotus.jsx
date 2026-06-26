@@ -137,7 +137,7 @@ export default function Lotus({ className = "" }) {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       cx = w / 2;
       cy = h / 2;
-      scale = Math.min(w, h) * 0.42;
+      scale = Math.max(w, h) * 0.5; // large enough to fill the screen
     };
 
     const draw = (ts) => {
@@ -148,14 +148,14 @@ export default function Lotus({ className = "" }) {
       // through ~2.2 viewports of scroll. anchorTop is the anchor's viewport Y.
       const vh = window.innerHeight || 1;
       const anchorTop = anchor.getBoundingClientRect().top;
-      const begin = vh * 0.55; // bloom begins as the Hero is finishing
-      const end = -vh * 1.8; // forms across the next ~2+ screens
+      const begin = vh * 1.2; // bloom begins right at the top of the Hero
+      const end = -vh * 2.4; // completes around the Approach/Practice section, then holds/fades
       const p = reduce ? 1 : clamp01((begin - anchorTop) / (begin - end));
 
       // fade overlay in at the start, hold, fade out before it lingers too long
       const visible = reduce
         ? smooth(0, 0.08, p) * smooth(0, 0.16, 1 - p)
-        : Math.min(smooth(0, 0.06, p), smooth(0, 0.14, 1 - p));
+        : Math.min(smooth(0, 0.05, p), smooth(0, 0.08, 1 - p)); // hold full bloom longer, fade late
       canvas.parentElement.style.opacity = (reduce ? 0.5 : 1) * visible;
 
       ctx.clearRect(0, 0, w, h);
