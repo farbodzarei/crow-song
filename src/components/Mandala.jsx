@@ -37,12 +37,14 @@ export default function Mandala({ side = "right", tone = "onLight", className = 
   const reduce = useReducedMotion();
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  // each layer draws across its own slice of scroll → builds centre → out
-  const l1 = useTransform(scrollYProgress, [0.06, 0.2], [0, 1], { clamp: true });
-  const l2 = useTransform(scrollYProgress, [0.16, 0.34], [0, 1], { clamp: true });
-  const l3 = useTransform(scrollYProgress, [0.3, 0.4], [0, 1], { clamp: true });
-  const l4 = useTransform(scrollYProgress, [0.36, 0.58], [0, 1], { clamp: true });
-  const l5 = useTransform(scrollYProgress, [0.52, 0.7], [0, 1], { clamp: true });
+  // every line draws on together early in the figure's pass, so it's fully
+  // formed while it's prominently in view (completes in time).
+  const draw = useTransform(scrollYProgress, [0.08, 0.4], [0, 1], { clamp: true });
+  const l1 = draw;
+  const l2 = draw;
+  const l3 = draw;
+  const l4 = draw;
+  const l5 = draw;
   // rotation is scroll-driven only (no auto-spin)
   const rotate = useTransform(scrollYProgress, [0, 1], [-30, 120]);
 

@@ -2,19 +2,19 @@
    visible in a section corner (inset, not cut off). Rotation is scroll-driven.
    Host needs position:relative + isolation:isolate + overflow:hidden. */
 .mandala {
-  --w: clamp(220px, 26vw, 360px);
+  --w: clamp(340px, 48vw, 640px);
   position: absolute;
   width: var(--w);
   height: var(--w);
-  bottom: clamp(24px, 3.5vw, 64px);
+  bottom: calc(var(--w) / -2); /* centre pinned to the corner → ~3/4 bleeds off */
   z-index: -1; /* behind content, above the section bg (host is isolate) */
   pointer-events: none;
 }
 .right {
-  right: clamp(20px, 3vw, 64px);
+  right: calc(var(--w) / -2);
 }
 .left {
-  left: clamp(20px, 3vw, 64px);
+  left: calc(var(--w) / -2);
 }
 
 .svg {
@@ -32,6 +32,6 @@
 
 @media (max-width: 760px) {
   .mandala {
-    --w: clamp(170px, 38vw, 240px);
+    --w: clamp(260px, 66vw, 380px);
   }
 }
