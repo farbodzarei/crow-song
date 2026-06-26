@@ -3,12 +3,11 @@
    (set in Mandala.jsx) and rotates slowly. Host needs position:relative +
    isolation:isolate + overflow:hidden. */
 .mandala {
-  --w: clamp(360px, 52vw, 720px);
-  --h: calc(var(--w) * 0.5125); /* figure aspect 656/1280 */
+  --w: clamp(300px, 44vw, 560px);
   position: absolute;
   width: var(--w);
-  height: var(--h);
-  bottom: calc(var(--h) / -2); /* centre on the corner → ~3/4 bleeds off */
+  height: var(--w);
+  bottom: calc(var(--w) / -2); /* centre on the corner → ~3/4 bleeds off */
   z-index: -1; /* behind content, above the section bg (host is isolate) */
   pointer-events: none;
 }
@@ -19,13 +18,13 @@
   left: calc(var(--w) / -2);
 }
 
-/* the figure: masked by the SVG, painted in the tone colour. Rotation is
-   scroll-driven (Mandala.jsx), so it only turns as you scroll. */
+/* the figure: masked by the mandala (alpha), painted in the tone colour.
+   Rotation is scroll-driven (Mandala.jsx), so it only turns as you scroll. */
 .art {
   width: 100%;
   height: 100%;
-  -webkit-mask: url(/mandala3.svg) center / contain no-repeat;
-  mask: url(/mandala3.svg) center / contain no-repeat;
+  -webkit-mask: url(/mandala4.png) center / contain no-repeat;
+  mask: url(/mandala4.png) center / contain no-repeat;
   background: var(--m-color);
   transform-origin: center; /* = the corner */
   will-change: transform;
