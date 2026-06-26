@@ -38,12 +38,24 @@ export default function Particles({ count = 34 }) {
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
-      w = rect.width;
-      h = rect.height;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
+      const nw = rect.width;
+      const nh = rect.height;
+      if (nw === 0 || nh === 0) return; // not laid out yet — don't seed into nothing
+      canvas.width = nw * dpr;
+      canvas.height = nh * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      seed();
+      // seed once; on later resizes (scrollbar toggle, mobile URL bar, intro
+      // lock) just rescale x so motes glide — never re-randomise / teleport.
+      if (!motes.length) {
+        w = nw;
+        h = nh;
+        seed();
+        return;
+      }
+      const sx = w > 0 ? nw / w : 1;
+      for (const m of motes) m.x *= sx;
+      w = nw;
+      h = nh;
     };
 
     const draw = () => {
