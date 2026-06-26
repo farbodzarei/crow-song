@@ -30,11 +30,13 @@ export default function Particles({ count = 120 }) {
       motes = Array.from({ length: count }, () => ({
         x: rand(0, w),
         y: rand(0, h),
-        r: rand(0.5, 2.4),
-        vy: rand(0.05, 0.26), // slow rise
+        z: rand(0, 1), // depth → parallax speed, size, opacity (you scroll THROUGH them)
+        r: rand(0.6, 2.4),
+        vy: rand(0.04, 0.16), // a faint ambient rise on top of the scroll
+        driftY: 0,
         sway: rand(0.2, 0.9),
         phase: rand(0, Math.PI * 2),
-        a: rand(0.04, 0.24),
+        a: rand(0.05, 0.26),
       }));
     };
 
@@ -74,34 +76,40 @@ export default function Particles({ count = 120 }) {
     };
 
     const R = 130; // cursor influence radius
+    const span = () => h + 120; // wrap field a bit taller than the viewport
     const draw = () => {
       ctx.clearRect(0, 0, w, h);
       if (frame++ % 16 === 0) sampleDensity();
       density += (targetDensity - density) * 0.06; // ease toward target
+      const sc = window.scrollY || window.pageYOffset || 0;
+      const S = span();
       for (const m of motes) {
-        m.y -= m.vy;
+        m.driftY += m.vy;
         m.phase += 0.005;
+        // depth → how fast this mote moves with scroll (near = faster = parallax),
+        // so the field has real depth and you travel THROUGH it as you scroll.
+        const speed = 0.4 + m.z * 1.15;
+        let y = (m.y - sc * speed - m.driftY) % S;
+        if (y < 0) y += S;
+        y -= 60; // recentre the wrap buffer
         let x = m.x + Math.sin(m.phase) * m.sway * 6;
-        // cursor parts the motes — a gentle push away within R
+        // cursor parts the motes — a gentle push away within R (visual, springs back)
         if (mouse.on) {
           const dx = x - mouse.x;
-          const dy = m.y - mouse.y;
+          const dy = y - mouse.y;
           const d2 = dx * dx + dy * dy;
           if (d2 < R * R) {
             const d = Math.sqrt(d2) || 1;
             const f = (1 - d / R) * (1 - d / R);
-            x += (dx / d) * f * 22;
-            m.x += (dx / d) * f * 0.9;
-            m.y += (dy / d) * f * 0.9;
+            x += (dx / d) * f * 26;
+            y += (dy / d) * f * 26;
           }
         }
-        if (m.y < -6) {
-          m.y = h + 6;
-          m.x = rand(0, w);
-        }
+        const size = m.r * (0.45 + m.z * 1.05); // near motes larger
+        const alpha = m.a * (0.4 + m.z * 0.6) * density; // near motes brighter
         ctx.beginPath();
-        ctx.arc(x, m.y, m.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(155, 139, 184, ${m.a * density})`;
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(155, 139, 184, ${alpha})`;
         ctx.fill();
       }
       if (running) raf = requestAnimationFrame(draw);
