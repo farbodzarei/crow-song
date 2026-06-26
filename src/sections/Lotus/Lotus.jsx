@@ -105,27 +105,26 @@ export default function Lotus({ className = "" }) {
     let running = true;
     let t0 = 0;
 
-    // per-particle traits: home (geometry), scatter origin, build window, look
+    // per-particle traits: home (geometry), staggered bloom window, look.
+    // The flower scales from a tight seed (ball) out to full — petals bloom
+    // centre-first, rim-last, so it opens like a real lotus.
     const parts = points.map((pt) => {
       const homeR = Math.hypot(pt.x, pt.y);
       const order = Math.min(1, homeR / 1.15); // centre forms first, rim last
-      const start = order * 0.62; // build window staggered by radius
-      const sa = Math.random() * Math.PI * 2;
-      const sr = 0.95 + Math.random() * 1.25; // scatter out in the dark
+      const start = order * 0.6; // bloom window staggered by radius
       return {
         hx: pt.x,
         hy: pt.y,
-        sx: Math.cos(sa) * sr,
-        sy: Math.sin(sa) * sr,
         t0: start,
-        t1: Math.min(1, start + 0.4),
+        t1: Math.min(1, start + 0.42),
         r: 0.5 + pt.w * 1.7,
-        a: 0.22 + pt.w * 0.6,
+        a: 0.18 + pt.w * 0.48, // a touch softer so content reads through
         bright: pt.w > 0.85,
         phase: Math.random() * Math.PI * 2,
         tw: 0.6 + Math.random() * 1.6,
       };
     });
+    let aboutEl = null; // christine's section — where the flower blooms again
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
@@ -137,26 +136,31 @@ export default function Lotus({ className = "" }) {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       cx = w / 2;
       cy = h / 2;
-      scale = Math.max(w, h) * 0.5; // large enough to fill the screen
+      scale = Math.hypot(w, h) * 0.46; // reach into the corners — fills the screen
     };
 
     const draw = (ts) => {
       if (!t0) t0 = ts;
       const time = (ts - t0) / 1000;
-
-      // window progress: from the anchor (Hero-end) sitting 55% down the screen,
-      // through ~2.2 viewports of scroll. anchorTop is the anchor's viewport Y.
       const vh = window.innerHeight || 1;
-      const anchorTop = anchor.getBoundingClientRect().top;
-      const begin = vh * 1.2; // bloom begins right at the top of the Hero
-      const end = -vh * 2.4; // completes around the Approach/Practice section, then holds/fades
-      const p = reduce ? 1 : clamp01((begin - anchorTop) / (begin - end));
 
-      // fade overlay in at the start, hold, fade out before it lingers too long
-      const visible = reduce
-        ? smooth(0, 0.08, p) * smooth(0, 0.16, 1 - p)
-        : Math.min(smooth(0, 0.05, p), smooth(0, 0.08, 1 - p)); // hold full bloom longer, fade late
-      canvas.parentElement.style.opacity = (reduce ? 0.5 : 1) * visible;
+      // Choreography (reversed): the flower starts FULL in the Hero, contracts to
+      // a tight seed/ball as the Hero scrolls away, then blooms all out again as
+      // christine's (About) section arrives.
+      const anchorTop = anchor.getBoundingClientRect().top; // Hero-end marker
+      if (!aboutEl) aboutEl = document.getElementById("lotus-bloom");
+      const aboutTop = aboutEl ? aboutEl.getBoundingClientRect().top : vh * 5;
+
+      const contractP = clamp01((vh - anchorTop) / (vh * 0.9)); // 0 at Hero → 1 = ball
+      const bloomP = clamp01((vh * 0.95 - aboutTop) / (vh * 0.8)); // 0 → 1 at About
+      const formF = reduce ? 1 : Math.max(1 - contractP, bloomP); // 1·ball·1
+
+      // opacity: present from the Hero through christine's, then fade as it leaves.
+      // Softened over the Hero so the locked headline stays readable.
+      const heroFull = (1 - contractP) * (1 - bloomP);
+      const fadeOut = clamp01((-aboutTop - vh * 0.55) / (vh * 0.7));
+      const visible = reduce ? 0.45 : (1 - fadeOut) * (1 - 0.45 * heroFull);
+      canvas.parentElement.style.opacity = visible;
 
       ctx.clearRect(0, 0, w, h);
       if (visible <= 0.001) {
@@ -164,28 +168,28 @@ export default function Lotus({ className = "" }) {
         return;
       }
 
-      // bloom completes a touch before the window ends, then just holds/fades
-      const bloomP = clamp01(p / 0.82);
-      const rot = bloomP * 0.42 + time * 0.015; // slow quarter-turn as it forms
+      const rot = reduce ? 0 : time * 0.02 + (window.scrollY || 0) * 0.00016;
       const cosR = Math.cos(rot);
       const sinR = Math.sin(rot);
+      const breath = reduce ? 0 : Math.sin(time * 0.8) * 0.01; // seed breathes
 
       for (const m of parts) {
-        const local = smooth(m.t0, m.t1, bloomP);
+        const local = smooth(m.t0, m.t1, formF);
         const e = easeOutCubic(local);
+        // particle scale: a dense breathing seed/ball → 100% (full flower)
+        const ps = 0.085 + breath * (1 - e) + 0.915 * e;
 
         const hx = m.hx * cosR - m.hy * sinR;
         const hy = m.hx * sinR + m.hy * cosR;
+        let x = hx * ps;
+        let y = hy * ps;
 
-        let x = m.sx + (hx - m.sx) * e;
-        let y = m.sy + (hy - m.sy) * e;
-
-        const shimmer = reduce ? 0 : 0.006 * local;
+        const shimmer = reduce ? 0 : 0.005 * local;
         x += Math.sin(time * m.tw + m.phase) * shimmer;
         y += Math.cos(time * m.tw * 0.9 + m.phase) * shimmer;
 
-        const twinkle = reduce ? 1 : 0.78 + 0.22 * Math.sin(time * m.tw + m.phase);
-        const alpha = m.a * (0.1 + 0.9 * local) * twinkle;
+        const twinkle = reduce ? 1 : 0.8 + 0.2 * Math.sin(time * m.tw + m.phase);
+        const alpha = m.a * (0.4 + 0.6 * local) * twinkle;
 
         ctx.beginPath();
         ctx.arc(cx + x * scale, cy + y * scale, m.r, 0, Math.PI * 2);

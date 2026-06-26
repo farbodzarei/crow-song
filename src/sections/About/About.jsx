@@ -16,7 +16,7 @@ import styles from "./About.module.css";
 
 export default function About() {
   return (
-    <section className={`section ${styles.about}`}>
+    <section id="lotus-bloom" className={`section ${styles.about}`}>
       <div className={styles.glow} aria-hidden="true" />
       <div className={`container ${styles.grid}`}>
         {/* PLACEHOLDER: christine portrait — swap for a real photo */}

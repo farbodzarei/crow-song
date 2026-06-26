@@ -12,11 +12,7 @@
 
 .overlay {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(82vmin, 760px);
-  aspect-ratio: 1;
+  inset: 0; /* full viewport — the lotus fills the whole screen */
   display: grid;
   place-items: center;
   z-index: 40; /* above sections, below nav (--z-nav: 100) and cursor */
@@ -28,7 +24,7 @@
 /* aura behind the flower — a held breath of light at the heart */
 .glow {
   position: absolute;
-  width: 100%;
+  width: min(78vmin, 880px);
   aspect-ratio: 1;
   border-radius: 50%;
   background: radial-gradient(
@@ -42,8 +38,9 @@
 }
 
 .canvas {
-  position: relative;
+  position: absolute;
+  inset: 0;
   width: 100%;
-  aspect-ratio: 1;
+  height: 100%;
   pointer-events: none;
 }
