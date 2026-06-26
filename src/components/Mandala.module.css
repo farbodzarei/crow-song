@@ -1,52 +1,37 @@
-/* Mandala — Metatron's-Cube line geometry, masked + recoloured. Centre pinned
-   to a section corner (≈3/4 bleeds off). Forms via a scroll-linked clip reveal
-   (set in Mandala.jsx) and rotates slowly. Host needs position:relative +
-   isolation:isolate + overflow:hidden. */
+/* Mandala — thin-line geometry that draws its own lines on scroll. Fully
+   visible in a section corner (inset, not cut off). Rotation is scroll-driven.
+   Host needs position:relative + isolation:isolate + overflow:hidden. */
 .mandala {
-  --w: clamp(300px, 44vw, 560px);
+  --w: clamp(220px, 26vw, 360px);
   position: absolute;
   width: var(--w);
   height: var(--w);
-  bottom: calc(var(--w) / -2); /* centre on the corner → ~3/4 bleeds off */
+  bottom: clamp(24px, 3.5vw, 64px);
   z-index: -1; /* behind content, above the section bg (host is isolate) */
   pointer-events: none;
 }
 .right {
-  right: calc(var(--w) / -2);
+  right: clamp(20px, 3vw, 64px);
 }
 .left {
-  left: calc(var(--w) / -2);
+  left: clamp(20px, 3vw, 64px);
 }
 
-/* the figure: masked by the mandala (alpha), painted in the tone colour.
-   Rotation is scroll-driven (Mandala.jsx), so it only turns as you scroll. */
-.art {
+.svg {
   width: 100%;
   height: 100%;
-  -webkit-mask: url(/mandala4.png) center / contain no-repeat;
-  mask: url(/mandala4.png) center / contain no-repeat;
-  background: var(--m-color);
-  transform-origin: center; /* = the corner */
-  will-change: transform;
+  overflow: visible;
 }
 
 .onDark {
-  --m-color: #c9bedd;
-  opacity: 0.72;
+  opacity: 0.78;
 }
 .onLight {
-  --m-color: #6e5e90;
-  opacity: 0.8;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .art {
-    animation: none;
-  }
+  opacity: 0.85;
 }
 
 @media (max-width: 760px) {
   .mandala {
-    --w: clamp(240px, 70vw, 380px);
+    --w: clamp(170px, 38vw, 240px);
   }
 }

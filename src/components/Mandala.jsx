@@ -1,34 +1,102 @@
 /* ============================================================================
-   Mandala — the client's Metatron's-Cube sacred geometry (public/mandala2.svg).
-   Its fill IS thin lines, so we mask it (recolour to lavender) for clean line-
-   art. It FORMS on scroll — a centre-out circular reveal grows from nothing to
-   the full figure — its centre is pinned to a section corner, and it rotates.
-   Reduced motion → fully revealed + still.
+   Mandala — thin-line 8-fold sacred geometry (Ashtanga = "eight limbs").
+   It COMPLETES ITS OWN LINES on scroll: every stroke draws itself on
+   (pathLength 0→1) from the centre outward — bindu → inner ring → inner lotus
+   → mid ring → outer lotus → outer ring/ticks — going from nothing to the full
+   figure. Fully visible at a section corner. Rotates on scroll only.
+   Reduced motion → fully drawn + still.
 
    Props: side "left"|"right" · tone "onDark"|"onLight" · className
    ========================================================================== */
 
 import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useTransform, useMotionTemplate } from "motion/react";
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import styles from "./Mandala.module.css";
+
+const P = (a) => (a * Math.PI) / 180;
+const pt = (r, a) => [+(r * Math.cos(P(a))).toFixed(2), +(r * Math.sin(P(a))).toFixed(2)];
+function petal(ri, ro, a, half) {
+  const [bx, by] = pt(ri, a);
+  const [tx, ty] = pt(ro, a);
+  const rm = ri + (ro - ri) * 0.55;
+  const [l1x, l1y] = pt(rm, a - half);
+  const [r1x, r1y] = pt(rm, a + half);
+  return `M ${bx} ${by} Q ${l1x} ${l1y} ${tx} ${ty} Q ${r1x} ${r1y} ${bx} ${by} Z`;
+}
+
+const innerPetals = Array.from({ length: 8 }, (_, i) => petal(34, 68, i * 45 + 22.5, 15));
+const outerPetals = Array.from({ length: 16 }, (_, i) => petal(70, 102, i * 22.5, 7.5));
+const ticks = Array.from({ length: 24 }, (_, i) => {
+  const [x1, y1] = pt(102, i * 15);
+  const [x2, y2] = pt(110, i * 15);
+  return { x1, y1, x2, y2 };
+});
+const tipDots = Array.from({ length: 8 }, (_, i) => pt(68, i * 45 + 22.5));
 
 export default function Mandala({ side = "right", tone = "onLight", className = "" }) {
   const reduce = useReducedMotion();
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  // forms from the centre outward across the section's pass through view
-  const radius = useTransform(scrollYProgress, [0.05, 0.55], [0, 150], { clamp: true });
-  const clipPath = useMotionTemplate`circle(${radius}% at 50% 50%)`;
-  // rotation is driven by scroll only (no auto-spin)
-  const rotate = useTransform(scrollYProgress, [0, 1], [-40, 140]);
+  // each layer draws across its own slice of scroll → builds centre → out
+  const l1 = useTransform(scrollYProgress, [0.06, 0.2], [0, 1], { clamp: true });
+  const l2 = useTransform(scrollYProgress, [0.16, 0.34], [0, 1], { clamp: true });
+  const l3 = useTransform(scrollYProgress, [0.3, 0.4], [0, 1], { clamp: true });
+  const l4 = useTransform(scrollYProgress, [0.36, 0.58], [0, 1], { clamp: true });
+  const l5 = useTransform(scrollYProgress, [0.52, 0.7], [0, 1], { clamp: true });
+  // rotation is scroll-driven only (no auto-spin)
+  const rotate = useTransform(scrollYProgress, [0, 1], [-30, 120]);
+
+  const stroke = tone === "onLight" ? "#6E5E90" : "#C9BEDD";
+  const common = {
+    fill: "none",
+    stroke,
+    strokeWidth: 1,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    vectorEffect: "non-scaling-stroke",
+  };
+
+  const S = (key, Tag, attrs, pl) => {
+    if (reduce) return <Tag key={key} {...attrs} {...common} />;
+    const M = Tag === "path" ? motion.path : Tag === "circle" ? motion.circle : motion.line;
+    return <M key={key} {...attrs} {...common} style={{ pathLength: pl }} />;
+  };
+  const D = (key, attrs, pl) =>
+    reduce ? (
+      <circle key={key} {...attrs} fill={stroke} fillOpacity="0.6" />
+    ) : (
+      <motion.circle key={key} {...attrs} fill={stroke} fillOpacity="0.6" style={{ opacity: pl }} />
+    );
+
+  const Geometry = (
+    <>
+      {/* L1 — centre */}
+      {S("r34", "circle", { cx: 0, cy: 0, r: 34 }, l1)}
+      {S("r7", "circle", { cx: 0, cy: 0, r: 7 }, l1)}
+      {D("bindu", { cx: 0, cy: 0, r: 2.4 }, l1)}
+      {/* L2 — inner 8-petal lotus */}
+      {innerPetals.map((d, i) => S(`ip${i}`, "path", { d }, l2))}
+      {tipDots.map(([x, y], i) => D(`td${i}`, { cx: x, cy: y, r: 1.1 }, l2))}
+      {/* L3 — mid ring */}
+      {S("r70", "circle", { cx: 0, cy: 0, r: 70 }, l3)}
+      {/* L4 — outer 16-petal lotus */}
+      {outerPetals.map((d, i) => S(`op${i}`, "path", { d }, l4))}
+      {/* L5 — outer rings + tick dial */}
+      {S("r102", "circle", { cx: 0, cy: 0, r: 102 }, l5)}
+      {S("r110", "circle", { cx: 0, cy: 0, r: 110 }, l5)}
+      {ticks.map((t, i) => S(`tk${i}`, "line", t, l5))}
+    </>
+  );
 
   return (
     <div ref={ref} className={`${styles.mandala} ${styles[side]} ${styles[tone]} ${className}`} aria-hidden="true">
-      {reduce ? (
-        <div className={styles.art} />
-      ) : (
-        <motion.div className={styles.art} style={{ clipPath, rotate }} />
-      )}
+      <svg className={styles.svg} viewBox="-120 -120 240 240">
+        {reduce ? (
+          <g>{Geometry}</g>
+        ) : (
+          <motion.g style={{ rotate, transformBox: "fill-box", transformOrigin: "center" }}>{Geometry}</motion.g>
+        )}
+      </svg>
     </div>
   );
 }
