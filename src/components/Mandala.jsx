@@ -19,13 +19,15 @@ export default function Mandala({ side = "right", tone = "onLight", className = 
   // forms from the centre outward across the section's pass through view
   const radius = useTransform(scrollYProgress, [0.05, 0.55], [0, 150], { clamp: true });
   const clipPath = useMotionTemplate`circle(${radius}% at 50% 50%)`;
+  // rotation is driven by scroll only (no auto-spin)
+  const rotate = useTransform(scrollYProgress, [0, 1], [-40, 140]);
 
   return (
     <div ref={ref} className={`${styles.mandala} ${styles[side]} ${styles[tone]} ${className}`} aria-hidden="true">
       {reduce ? (
         <div className={styles.art} />
       ) : (
-        <motion.div className={styles.art} style={{ clipPath }} />
+        <motion.div className={styles.art} style={{ clipPath, rotate }} />
       )}
     </div>
   );

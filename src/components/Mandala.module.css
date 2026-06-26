@@ -3,37 +3,32 @@
    (set in Mandala.jsx) and rotates slowly. Host needs position:relative +
    isolation:isolate + overflow:hidden. */
 .mandala {
-  --w: clamp(300px, 44vw, 580px);
+  --w: clamp(220px, 26vw, 360px);
   position: absolute;
   width: var(--w);
   height: var(--w);
+  bottom: clamp(24px, 3.5vw, 64px);
   z-index: -1; /* behind content, above the section bg (host is isolate) */
   pointer-events: none;
 }
+/* fully visible in the corner — inset from the edges (not cut off) */
 .right {
-  right: calc(var(--w) / -2);
-  bottom: calc(var(--w) / -2);
+  right: clamp(20px, 3vw, 64px);
 }
 .left {
-  left: calc(var(--w) / -2);
-  bottom: calc(var(--w) / -2);
+  left: clamp(20px, 3vw, 64px);
 }
 
-/* the figure: masked by the SVG, painted in the tone colour, spinning slowly */
+/* the figure: masked by the SVG, painted in the tone colour. Rotation is
+   scroll-driven (Mandala.jsx), so it only turns as you scroll. */
 .art {
   width: 100%;
   height: 100%;
   -webkit-mask: url(/mandala2.svg) center / contain no-repeat;
   mask: url(/mandala2.svg) center / contain no-repeat;
   background: var(--m-color);
-  transform-origin: center; /* = the corner → spins around the corner */
-  animation: mandalaSpin 34s linear infinite;
+  transform-origin: center;
   will-change: transform;
-}
-@keyframes mandalaSpin {
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 .onDark {
