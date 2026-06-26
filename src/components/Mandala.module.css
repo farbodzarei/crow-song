@@ -1,6 +1,7 @@
-/* Mandala — centre pinned to a section corner (≈3/4 bleeds off). The figure is
-   a stroked path that draws on scroll; the svg spins slowly around its centre
-   (= the corner). Host needs position:relative + isolation:isolate + overflow:hidden. */
+/* Mandala — Metatron's-Cube line geometry, masked + recoloured. Centre pinned
+   to a section corner (≈3/4 bleeds off). Forms via a scroll-linked clip reveal
+   (set in Mandala.jsx) and rotates slowly. Host needs position:relative +
+   isolation:isolate + overflow:hidden. */
 .mandala {
   --w: clamp(300px, 44vw, 580px);
   position: absolute;
@@ -8,9 +9,7 @@
   height: var(--w);
   z-index: -1; /* behind content, above the section bg (host is isolate) */
   pointer-events: none;
-  opacity: 0.7;
 }
-/* centre on the corner → only a quadrant shows */
 .right {
   right: calc(var(--w) / -2);
   bottom: calc(var(--w) / -2);
@@ -20,13 +19,16 @@
   bottom: calc(var(--w) / -2);
 }
 
-.svg {
+/* the figure: masked by the SVG, painted in the tone colour, spinning slowly */
+.art {
   width: 100%;
   height: 100%;
-  overflow: visible;
-  transform-origin: center; /* = the corner, so it spins around the corner */
-  animation: mandalaSpin 30s linear infinite;
-  will-change: transform; /* composite the rotation (path only changes on scroll) */
+  -webkit-mask: url(/mandala2.svg) center / contain no-repeat;
+  mask: url(/mandala2.svg) center / contain no-repeat;
+  background: var(--m-color);
+  transform-origin: center; /* = the corner → spins around the corner */
+  animation: mandalaSpin 34s linear infinite;
+  will-change: transform;
 }
 @keyframes mandalaSpin {
   to {
@@ -35,14 +37,16 @@
 }
 
 .onDark {
-  opacity: 0.78;
+  --m-color: #c9bedd;
+  opacity: 0.72;
 }
 .onLight {
-  opacity: 0.85;
+  --m-color: #6e5e90;
+  opacity: 0.8;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .svg {
+  .art {
     animation: none;
   }
 }
