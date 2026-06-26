@@ -1,8 +1,10 @@
-/* Breath motes — full-bleed within the positioned parent, behind content. */
+/* Breath motes — one fixed canvas over the whole page, above the section
+   backgrounds, below the nav + cursor. Never interactive (visual only). */
 .canvas {
-  position: absolute;
+  position: fixed;
   inset: 0;
   width: 100%;
   height: 100%;
+  z-index: 91;
   pointer-events: none;
 }

@@ -1,0 +1,43 @@
+/* ============================================================================
+   LOTUS — tall scroll span with a sticky stage. The dark Crow surface lets the
+   lavender motes glow; a soft radial aura sits behind the bloom.
+   ========================================================================== */
+
+.lotus {
+  position: relative;
+  /* the scroll runway that drives the bloom — taller = slower, more deliberate */
+  height: 250vh;
+  background: var(--bg-dark);
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+/* aura behind the flower — a held breath of light at the heart */
+.glow {
+  position: absolute;
+  width: min(80vmin, 760px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(155, 139, 184, 0.22) 0%,
+    rgba(155, 139, 184, 0.08) 38%,
+    transparent 70%
+  );
+  filter: blur(8px);
+  pointer-events: none;
+}
+
+.canvas {
+  position: relative;
+  width: min(92vmin, 900px);
+  aspect-ratio: 1;
+  pointer-events: none;
+}

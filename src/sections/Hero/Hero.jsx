@@ -14,7 +14,6 @@
 import { motion, useReducedMotion } from "motion/react";
 import { ease } from "../../tokens/motion.js";
 import Crow from "../../components/Crow.jsx";
-import Particles from "../../components/Particles.jsx";
 import Button from "../../components/Button.jsx";
 import Magnetic from "../../components/Magnetic.jsx";
 import styles from "./Hero.module.css";
@@ -41,7 +40,6 @@ export default function Hero() {
 
   return (
     <section id="top" className={`section--dark ${styles.hero}`}>
-      <Particles />
       <div className={styles.glow} aria-hidden="true" />
       <Crow className={styles.crow} />
 

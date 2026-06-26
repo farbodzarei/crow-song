@@ -12,6 +12,7 @@ import Intro from "./components/Intro.jsx";
 import SmoothScroll from "./components/SmoothScroll.jsx";
 import Cursor from "./components/Cursor.jsx";
 import Nav from "./components/Nav.jsx";
+import Particles from "./components/Particles.jsx";
 import Hero from "./sections/Hero/Hero.jsx";
 import Insight from "./sections/Insight/Insight.jsx";
 import IntroBand from "./sections/IntroBand/IntroBand.jsx";
@@ -37,6 +38,7 @@ export default function App() {
       <Intro />
       <SmoothScroll />
       <Cursor />
+      <Particles />
       <Nav />
 
       <main id="main">
