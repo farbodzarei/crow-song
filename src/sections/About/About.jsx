@@ -12,14 +12,12 @@
 import Reveal from "../../components/Reveal.jsx";
 import Divider from "../../components/Divider.jsx";
 import ImagePlaceholder from "../../components/ImagePlaceholder.jsx";
-import Mandala from "../../components/Mandala.jsx";
 import styles from "./About.module.css";
 
 export default function About() {
   return (
     <section className={`section ${styles.about}`}>
       <div className={styles.glow} aria-hidden="true" />
-      <Mandala side="left" tone="onDark" />
       <div className={`container ${styles.grid}`}>
         {/* PLACEHOLDER: christine portrait — swap for a real photo */}
         <Reveal className={styles.media}>

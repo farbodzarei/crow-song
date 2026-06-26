@@ -8,7 +8,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import Reveal from "../../components/Reveal.jsx";
-import Mandala from "../../components/Mandala.jsx";
 import styles from "./VideoTestimonials.module.css";
 
 /* PLACEHOLDER: replace with real video embeds + consented client quotes */
@@ -63,7 +62,6 @@ export default function VideoTestimonials() {
 
   return (
     <section className={`section section--lav ${styles.sec}`}>
-      <Mandala side="right" tone="onLight" />
       <div className="container">
         <Reveal stagger className={styles.head}>
           <Reveal item variant="riseSmall" as="span" className={`eyebrow ${styles.kicker}`}>

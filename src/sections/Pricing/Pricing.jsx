@@ -5,7 +5,6 @@
    ========================================================================== */
 
 import Reveal from "../../components/Reveal.jsx";
-import Mandala from "../../components/Mandala.jsx";
 import styles from "./Pricing.module.css";
 
 const TIERS = [
@@ -41,7 +40,6 @@ const TIERS = [
 export default function Pricing() {
   return (
     <section id="pricing" className={`section section--dark ${styles.sec}`}>
-      <Mandala side="right" tone="onDark" />
       <div className="container">
         <Reveal stagger className={styles.head}>
           <Reveal item variant="riseSmall" as="span" className={`eyebrow ${styles.kicker}`}>
