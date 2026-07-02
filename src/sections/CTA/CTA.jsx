@@ -6,6 +6,7 @@
 
 import Reveal from "../../components/Reveal.jsx";
 import Magnetic from "../../components/Magnetic.jsx";
+import { CONSULT_HREF } from "../../content/links.js";
 import styles from "./CTA.module.css";
 
 export default function CTA() {
@@ -31,9 +32,9 @@ export default function CTA() {
           a free 20-minute call. no commitment. just a beginning.
         </Reveal>
         <Reveal item className={styles.actions}>
-          {/* PLACEHOLDER: booking method (#book) */}
+          {/* consultation = mailto until a real scheduler exists (see content/links.js) */}
           <Magnetic>
-            <a href="#book" className={`${styles.btn} cursor-target`}>
+            <a href={CONSULT_HREF} className={`${styles.btn} cursor-target`}>
               book a free consultation
             </a>
           </Magnetic>

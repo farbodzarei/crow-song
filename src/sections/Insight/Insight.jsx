@@ -18,10 +18,10 @@ import styles from "./Insight.module.css";
 // The statement, in styled segments. Split to characters below, preserving the
 // emphasised word and the quieter closing line.
 const SEGMENTS = [
-  { text: "Ashtanga’s Primary Series is literally called " },
-  { text: "Yoga Chikitsa.", strong: true },
-  { text: " Yoga therapy. " },
-  { text: "The tradition was always about healing first.", muted: true },
+  { text: "ashtanga’s primary series is literally called " },
+  { text: "yoga chikitsa.", strong: true },
+  { text: " yoga therapy. " },
+  { text: "the tradition was always about healing first.", muted: true },
 ];
 
 const REVEAL_END = 0.58; // letters finish revealing by 58% of the pinned scroll
@@ -50,7 +50,10 @@ function Char({ data, progress, strongCol }) {
   const start = data.k < 0 ? 0 : data.k * span;
   const end = Math.min(REVEAL_END, start + span * 6); // ~6 letters dissolve in at once
   const peak = data.muted ? 0.78 : 1; // the closing line stays a touch quieter
-  const opacity = useTransform(progress, [start, end], [0, peak]);
+  // Explicit terminal keyframe (…, 1 → peak): without it the letters decay back
+  // to 0 through the dark→haze morph and the pin ends on an empty stage
+  // (observed live — Motion extrapolates a phantom fade past the last keyframe).
+  const opacity = useTransform(progress, [start, end, 1], [0, peak, peak]);
 
   if (data.isSpace) return " ";
   return (
@@ -76,7 +79,8 @@ export default function Insight() {
   const baseCol = useTransform(scrollYProgress, [MORPH, 0.87], ["#F4F2F6", "#2E2633"]);
   const strongCol = useTransform(scrollYProgress, [MORPH, 0.87], ["#FFFFFF", "#2E2633"]);
   const kickerCol = useTransform(scrollYProgress, [MORPH, 0.9], ["#9B8BB8", "#7A6A9A"]);
-  const kickerOp = useTransform(scrollYProgress, [0, 0.05, 0.88, 0.97], [0, 1, 1, 0]);
+  // kicker is present from the first pinned frame (the stage is never empty)
+  const kickerOp = useTransform(scrollYProgress, [0, 0.015, 0.88, 0.97, 1], [0.9, 1, 1, 0, 0]);
   // a lavender dawn that blooms as the colour turns, then eases off
   const bloomOp = useTransform(scrollYProgress, [MORPH - 0.04, 0.84, 1], [0, 0.85, 0.45]);
   const hintOp = useTransform(scrollYProgress, [0, 0.07], [1, 0]); // "scroll" cue fades on first move
@@ -87,10 +91,10 @@ export default function Insight() {
         <div className={`container ${styles.inner}`}>
           <span className={`${styles.kicker} ${styles.kickerStatic}`}>The practice</span>
           <p className={`${styles.text} ${styles.textStatic}`}>
-            Ashtanga’s Primary Series is literally called{" "}
-            <strong className={styles.strong}>Yoga Chikitsa.</strong> Yoga therapy.{" "}
+            ashtanga’s primary series is literally called{" "}
+            <strong className={styles.strong}>yoga chikitsa.</strong> yoga therapy.{" "}
             <span className={styles.mutedStatic}>
-              The tradition was always about healing first.
+              the tradition was always about healing first.
             </span>
           </p>
         </div>

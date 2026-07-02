@@ -13,6 +13,7 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import { ease } from "../../tokens/motion.js";
+import { BOOK_HREF } from "../../content/links.js";
 import Crow from "../../components/Crow.jsx";
 import Button from "../../components/Button.jsx";
 import Magnetic from "../../components/Magnetic.jsx";
@@ -73,9 +74,9 @@ export default function Hero() {
             Therapeutic Ashtanga for bodies in transition. One-on-one. Adapted to
             you.
           </p>
-          {/* PLACEHOLDER: booking method (mailto / Calendly / form) — wired to #book */}
+          {/* booking = mailto until a real scheduler exists (see content/links.js) */}
           <Magnetic>
-            <Button href="#book" variant="wipe">
+            <Button href={BOOK_HREF} variant="wipe">
               Book a session
             </Button>
           </Magnetic>

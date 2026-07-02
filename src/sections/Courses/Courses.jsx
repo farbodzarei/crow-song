@@ -9,6 +9,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import Reveal from "../../components/Reveal.jsx";
 import { cardShell, cardChild } from "../../tokens/motion.js";
+import { EMAIL } from "../../content/links.js";
 import styles from "./Courses.module.css";
 
 const COURSES = [
@@ -33,7 +34,7 @@ const COURSES = [
     title: "ashtanga fundamentals",
     price: "240",
     note: "one-time",
-    features: ["breath, bandha, drishti", "8 module video series", "practice sequences PDF", "community forum access"],
+    features: ["tristhana — breath, bandha, drishti", "8 module video series", "practice sequences PDF", "community forum access"],
     featured: false,
   },
 ];
@@ -89,10 +90,10 @@ export default function Courses() {
                   <li key={f}>{f}</li>
                 ))}
               </motion.ul>
-              {/* PLACEHOLDER: enrolment link */}
+              {/* enrolment = mailto until the course platform exists */}
               <motion.a
                 {...child}
-                href="#enrol"
+                href={`mailto:${EMAIL}?subject=${encodeURIComponent(`enrolment — ${c.title}`)}`}
                 className={`${c.featured ? styles.btnLight : styles.btnCrow} cursor-target`}
               >
                 enrol now
@@ -101,8 +102,15 @@ export default function Courses() {
           ))}
         </Reveal>
 
-        {/* membership band */}
-        <Reveal variant="card" id="membership" className={`cols ${styles.band}`}>
+        {/* membership band.
+            The wipe reveal must live on a CHILD of the observed element: an
+            element hidden by its own clip-path:inset(100%) never intersects
+            (Chrome computes an empty intersection rect for a fully self-clipped
+            target), so a standalone whileInView on the band itself NEVER fires
+            — observed live as the band scrolling past still invisible. The
+            plain stagger parent is what the IntersectionObserver watches. */}
+        <Reveal stagger>
+          <Reveal item variant="card" id="membership" className={`cols ${styles.band}`}>
           <div className="col-7">
             <h3 className={styles.bandTitle}>
               the crow song<br /><em>collective</em>
@@ -116,8 +124,11 @@ export default function Courses() {
               <sup>$</sup>88
             </p>
             <p className={styles.bandNote}>per month · cancel any time</p>
-            {/* PLACEHOLDER: membership join link */}
-            <a href="#membership" className={`${styles.btnHaze} cursor-target`}>
+            {/* joining = mailto until the membership platform exists */}
+            <a
+              href={`mailto:${EMAIL}?subject=${encodeURIComponent("joining the crow song collective")}`}
+              className={`${styles.btnHaze} cursor-target`}
+            >
               join the collective
             </a>
           </div>
@@ -126,6 +137,7 @@ export default function Courses() {
               <li key={p}>{p}</li>
             ))}
           </ul>
+          </Reveal>
         </Reveal>
       </div>
     </section>

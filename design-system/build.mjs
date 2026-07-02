@@ -49,12 +49,12 @@ const TOKENS = `:root{
 
 const FONTS = `
 @font-face{font-family:"Raleway";
-  src:url("${CDN}/fonts/Raleway/Raleway-VariableFont_wght.ttf") format("truetype-variations"),
-      url("${CDN}/fonts/Raleway/Raleway-VariableFont_wght.ttf") format("truetype");
+  src:url("${CDN}/fonts/Raleway/Raleway-VariableFont_wght.woff2") format("woff2-variations"),
+      url("${CDN}/fonts/Raleway/Raleway-VariableFont_wght.woff2") format("woff2");
   font-weight:100 700; font-style:normal; font-display:swap;}
 @font-face{font-family:"Raleway";
-  src:url("${CDN}/fonts/Raleway/Raleway-Italic-VariableFont_wght.ttf") format("truetype-variations"),
-      url("${CDN}/fonts/Raleway/Raleway-Italic-VariableFont_wght.ttf") format("truetype");
+  src:url("${CDN}/fonts/Raleway/Raleway-Italic-VariableFont_wght.woff2") format("woff2-variations"),
+      url("${CDN}/fonts/Raleway/Raleway-Italic-VariableFont_wght.woff2") format("woff2");
   font-weight:100 700; font-style:italic; font-display:swap;}
 @font-feature-values "Raleway"{@styleset{custom-w:9;}}`;
 

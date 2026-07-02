@@ -146,11 +146,13 @@ export const stagger = (staggerChildren = 0.14, delayChildren = 0.05) => ({
   },
 });
 
-// Default viewport for scroll reveals — fire once, on the slightest entry.
-// A low amount + no negative bottom margin means even a fast fling can’t skip a
-// section and leave it stuck hidden (content is never gated behind a missed
-// trigger).
-export const viewportOnce = { once: true, amount: 0.08, margin: "0px 0px -4% 0px" };
+// Default viewport for scroll reveals — fire once, as soon as any sliver is
+// near the viewport. amount 0.01 (not 0.08: an IntersectionObserver threshold
+// can be skipped entirely during a fast Lenis fling — observed live with the
+// membership band scrolling past still clip-hidden) + a positive bottom margin
+// that pre-triggers ~12% below the fold, so content is never gated behind a
+// missed trigger.
+export const viewportOnce = { once: true, amount: 0.01, margin: "0px 0px 12% 0px" };
 
 // Breathe viewport — re-fires both ways so the element flows out as it leaves
 // and re-forms as it returns. Generous symmetric margins keep the transition

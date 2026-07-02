@@ -9,6 +9,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { ease, duration } from "../tokens/motion.js";
+import { BOOK_HREF, CONSULT_HREF } from "../content/links.js";
 import Logo from "./Logo.jsx";
 import styles from "./Nav.module.css";
 
@@ -22,7 +23,8 @@ const MENUS = [
         links: [
           { t: "meet christine", s: "her story and approach", href: "#about" },
           { t: "values & philosophy", s: "what guides the work", href: "#about" },
-          { t: "training & credentials", s: "C-IAYT certified", href: "#about" },
+          // keep credentials factual — no certification claims until confirmed
+          { t: "training & background", s: "lineage, study, experience", href: "#about" },
         ],
       },
       {
@@ -50,8 +52,8 @@ const MENUS = [
       {
         label: "book",
         links: [
-          { t: "free consultation", s: "20 min · no commitment", href: "#book" },
-          { t: "book a session", s: "single or package", href: "#book" },
+          { t: "free consultation", s: "20 min · no commitment", href: CONSULT_HREF },
+          { t: "book a session", s: "single or package", href: BOOK_HREF },
           { t: "ask a question", s: "reach out directly", href: "#contact" },
         ],
       },
@@ -65,7 +67,7 @@ const MENUS = [
         label: "online",
         links: [
           { t: "intro to yoga therapy", s: "self-paced · 6 modules", href: "#courses" },
-          { t: "ashtanga foundations", s: "breath, bandha, drishti", href: "#courses" },
+          { t: "ashtanga fundamentals", s: "tristhana — breath, bandha, drishti", href: "#courses" },
           { t: "nervous system reset", s: "4-week guided journey", href: "#courses" },
         ],
       },
@@ -192,8 +194,8 @@ export default function Nav() {
           </ul>
         </nav>
 
-        {/* PLACEHOLDER: booking method (#book) */}
-        <a href="#book" className={`${styles.book} cursor-target`}>
+        {/* booking = mailto until a real scheduler exists (see content/links.js) */}
+        <a href={BOOK_HREF} className={`${styles.book} cursor-target`}>
           book now
         </a>
 
@@ -238,7 +240,7 @@ export default function Nav() {
                 </li>
               ))}
             </ul>
-            <a href="#book" className={`${styles.mobileBook} cursor-target`} onClick={() => setOpen(false)}>
+            <a href={BOOK_HREF} className={`${styles.mobileBook} cursor-target`} onClick={() => setOpen(false)}>
               book now
             </a>
           </motion.div>

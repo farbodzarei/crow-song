@@ -4,6 +4,7 @@
    ========================================================================== */
 
 import Logo from "../../components/Logo.jsx";
+import { BOOK_HREF, CONSULT_HREF, EMAIL } from "../../content/links.js";
 import styles from "./Footer.module.css";
 
 const COLS = [
@@ -20,20 +21,19 @@ const COLS = [
   {
     title: "sessions",
     links: [
-      { t: "book now", href: "#book" },
+      { t: "book now", href: BOOK_HREF },
       { t: "pricing", href: "#pricing" },
       { t: "what to expect", href: "#practice" },
-      { t: "free consultation", href: "#contact" },
+      { t: "free consultation", href: CONSULT_HREF },
     ],
   },
   {
     title: "contact",
     links: [
-      { t: "hello@crowsongyogatherapy.com", href: "mailto:hello@crowsongyogatherapy.com" },
-      // PLACEHOLDER: phone — sample number, replace with real
-      { t: "+1 604 555 0123", href: "tel:+16045550123" },
-      // PLACEHOLDER: instagram — sample handle, replace with real (avoid href="#")
-      { t: "instagram", href: "https://instagram.com/crowsongyoga" },
+      { t: EMAIL, href: `mailto:${EMAIL}` },
+      // phone + instagram intentionally absent until christine provides real
+      // ones — a 555 number or an unowned handle costs more trust than a
+      // shorter column. Add back here when confirmed.
     ],
   },
 ];

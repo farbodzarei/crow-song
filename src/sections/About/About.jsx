@@ -93,16 +93,23 @@ export default function About() {
 
           <Reveal stagger staggerGap={0.12} className={styles.leadCopy}>
             <Reveal item variant="riseSmall" as="p" className={styles.role}>
-              Ashtanga Yoga Therapist&nbsp;·&nbsp;Vancouver
+              ashtanga yoga therapist&nbsp;·&nbsp;vancouver
             </Reveal>
             <Reveal item variant="riseSmall">
               <Divider className={styles.rule} />
             </Reveal>
             <Reveal item as="p" className={styles.bio}>
-              christine’s practice lives in the gap between what Ashtanga is
+              christine’s practice lives in the gap between what ashtanga is
               perceived to be and what it was designed to do — working with people
               who’ve been told yoga isn’t for them, whose bodies are in transition,
               who need something more than a class.
+            </Reveal>
+            {/* on the name — the studio's namesake pose, told correctly:
+                kakasana (kaka = crow) is the bent-armed balance; the straight-arm
+                shape most classes call "crow" is properly bakasana, the crane. */}
+            <Reveal item variant="riseSmall" as="p" className={styles.nameNote}>
+              the name comes from kakasana — crow pose. low, grounded, watchful.
+              the arm balance where flight begins.
             </Reveal>
           </Reveal>
         </div>

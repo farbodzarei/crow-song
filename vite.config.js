@@ -2,6 +2,9 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { resolve } from 'node:path'
 
+// ESM-correct __dirname (Node 20.11+); the config is "type":"module"
+const __dirname = import.meta.dirname
+
 // https://vite.dev/config/
 // The standalone previews (Lotus, Crow Head experiments) are DEV-ONLY pages:
 // they stay reachable via `npm run dev` (/lotus.html, /crowhead*.html) but are

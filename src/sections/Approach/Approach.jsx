@@ -8,10 +8,10 @@ import Reveal from "../../components/Reveal.jsx";
 import styles from "./Approach.module.css";
 
 const PILLARS = [
-  "Private sessions tailored to your body",
-  "Grounded in traditional Ashtanga lineage",
-  "Adapted for injury, recovery and transition",
-  "Breath-centred and deeply therapeutic",
+  "private sessions tailored to your body",
+  "grounded in the traditional ashtanga method",
+  "adapted for injury, recovery and transition",
+  "breath-centred and deeply therapeutic",
 ];
 
 export default function Approach() {
@@ -20,16 +20,16 @@ export default function Approach() {
       <div className={`container cols ${styles.grid}`}>
         <Reveal stagger className={`col-6 ${styles.left}`}>
           <Reveal item as="h2" className={styles.heading}>
-            One-on-one.
+            one-on-one.
             <br />
-            Adapted.
+            adapted.
             <br />
-            For you.
+            for you.
           </Reveal>
           <Reveal item as="p" className={styles.body}>
-            Guided by christine white, an experienced Ashtanga yoga therapist who
+            guided by christine white, an experienced ashtanga yoga therapist who
             works with the actual conditions of your body, not an idealised
-            version of it. Recovery, awareness, transition.
+            version of it. recovery, awareness, transition.
           </Reveal>
         </Reveal>
 

@@ -9,6 +9,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import Reveal from "../../components/Reveal.jsx";
 import { cardShell, cardChild } from "../../tokens/motion.js";
+import { BOOK_HREF } from "../../content/links.js";
 import styles from "./Pricing.module.css";
 
 const TIERS = [
@@ -77,10 +78,10 @@ export default function Pricing() {
                   <li key={li}>{li}</li>
                 ))}
               </motion.ul>
-              {/* PLACEHOLDER: booking method (#book) */}
+              {/* booking = mailto until a real scheduler exists (see content/links.js) */}
               <motion.a
                 {...child}
-                href="#book"
+                href={BOOK_HREF}
                 className={`${t.featured ? styles.btnCrow : styles.btnGhost} cursor-target`}
               >
                 {t.cta}

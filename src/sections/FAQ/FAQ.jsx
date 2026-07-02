@@ -29,6 +29,14 @@ const ITEMS = [
     a: "courses are structured, self-paced learning experiences, great for deepening your understanding of yoga therapy concepts, building a home practice, and exploring the tradition. one-on-one sessions are deeply personal and therapeutic. many people do both.",
   },
   {
+    q: "isn’t ashtanga too demanding for injuries?",
+    a: "that reputation comes from group classes moving at the room’s pace. one-on-one, the sequence is a starting point, not a test — postures are adapted, shortened, or set aside entirely. flexibility and strength are results of practice, not requirements for it. the primary series was named yoga chikitsa — yoga therapy — for a reason.",
+  },
+  {
+    q: "do i have to practice every day?",
+    a: "no. the traditional rhythm is six mornings a week with rest on moon days — but that’s a destination, not an entry requirement. we build a practice your actual life can hold, and grow it from there.",
+  },
+  {
     q: "is there a sliding scale?",
     a: "yes. if pricing is a barrier, please reach out directly. access matters, and we’ll find something that works.",
   },

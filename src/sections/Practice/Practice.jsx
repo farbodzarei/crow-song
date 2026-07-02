@@ -12,19 +12,19 @@ import styles from "./Practice.module.css";
 
 const CARDS = [
   {
-    tag: "One-on-one",
-    title: "Private yoga therapy",
-    desc: "One-on-one Ashtanga sessions adapted to your body’s current needs and capacity.",
+    tag: "one-on-one",
+    title: "private yoga therapy",
+    desc: "sessions built from the primary series — yoga chikitsa — and adapted to your body’s current needs and capacity.",
   },
   {
-    tag: "Recovery",
-    title: "Injury and recovery",
-    desc: "Therapeutic movement for those navigating chronic pain, post-surgery recovery, or long-term injury.",
+    tag: "recovery",
+    title: "injury and recovery",
+    desc: "therapeutic movement for those navigating chronic pain, post-surgery recovery, or long-term injury.",
   },
   {
-    tag: "Awareness",
-    title: "Awareness practice",
-    desc: "For those seeking to deepen their relationship with their body through breath and mindful movement.",
+    tag: "awareness",
+    title: "awareness practice",
+    desc: "for those seeking a deeper relationship with their body — breath with sound, a steady gaze, unhurried movement.",
   },
 ];
 
@@ -34,10 +34,10 @@ export default function Practice() {
       <div className="container">
         <Reveal stagger className="section-head">
           <Reveal item as="h2" className={`section-head__title ${styles.heading}`}>
-            Therapeutic Ashtanga for bodies in transition.
+            three ways in.
           </Reveal>
           <Reveal item variant="riseSmall" as="p" className={`section-head__lead ${styles.lead}`}>
-            Every session is built around where you are, not where the practice
+            every session is built around where you are, not where the practice
             says you should be.
           </Reveal>
         </Reveal>

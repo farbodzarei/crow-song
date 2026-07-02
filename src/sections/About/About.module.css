@@ -93,6 +93,19 @@
   text-wrap: pretty;
 }
 
+/* on the name — the quiet kakasana aside under the bio. Same AA-safe tone as
+   .bio (it is body text, not decoration), set apart by size + italic + air. */
+.nameNote {
+  margin-top: var(--s-4);
+  font-size: var(--fs-small);
+  font-weight: var(--w-light);
+  font-style: italic;
+  line-height: 1.8;
+  color: rgba(244, 242, 246, 0.74);
+  max-width: 38ch;
+  text-wrap: pretty;
+}
+
 /* ── portrait — the tall lit anchor (turns with the cursor via Tilt) ──────── */
 .media {
   grid-area: media;
