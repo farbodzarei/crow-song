@@ -1,14 +1,14 @@
 /* ============================================================================
-   CROW HEAD — standalone preview page (/crowhead.html).
-   A single, centred faceted crow head that watches the cursor: it banks in 3D
-   toward the pointer and follows it with its eyes. Move the mouse anywhere on
-   screen. Same global styles + brand backdrop as the site.
+   CROW HEAD II — standalone preview page (/crowhead3d.html).
+   The realistic low-poly crow head: a true 3D mesh that turns toward the
+   cursor and follows it with its eyes. Move the mouse anywhere on screen.
+   Companion to /crowhead.html (the stylized geometric head).
    ========================================================================== */
 
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./styles/global.css";
-import CrowHead from "./components/CrowHead.jsx";
+import CrowHead3D from "./components/CrowHead3D.jsx";
 
 const page = {
   minHeight: "100svh",
@@ -32,40 +32,38 @@ const label = {
   textTransform: "uppercase",
 };
 
-function CrowHeadPage() {
+const cross = {
+  position: "fixed",
+  bottom: "max(2rem, env(safe-area-inset-bottom))",
+  right: "max(2rem, env(safe-area-inset-right))",
+  display: "flex",
+  gap: "1.4rem",
+};
+
+const cross2 = {
+  color: "rgba(232,225,238,0.55)",
+  fontSize: "0.72rem",
+  letterSpacing: "0.26em",
+  textTransform: "uppercase",
+  textDecoration: "none",
+};
+
+function CrowHead3DPage() {
   return (
     <main style={page}>
-      <p style={label}>Crow Song · the crow watches</p>
-      <nav
-        style={{
-          position: "fixed",
-          bottom: "max(2rem, env(safe-area-inset-bottom))",
-          right: "max(2rem, env(safe-area-inset-right))",
-          display: "flex",
-          gap: "1.4rem",
-        }}
-      >
+      <p style={label}>Crow Song · the crow watches · II</p>
+      <nav style={cross}>
         {[
-          ["/crowhead3d.html", "II · low-poly"],
+          ["/crowhead.html", "I · geometric"],
           ["/crowheadgl.html", "III · 3D model"],
         ].map(([href, text]) => (
-          <a
-            key={href}
-            style={{
-              color: "rgba(232,225,238,0.55)",
-              fontSize: "0.72rem",
-              letterSpacing: "0.26em",
-              textTransform: "uppercase",
-              textDecoration: "none",
-            }}
-            href={href}
-          >
+          <a key={href} style={cross2} href={href}>
             {text}
           </a>
         ))}
       </nav>
       <div style={{ position: "relative" }}>
-        <CrowHead />
+        <CrowHead3D />
         <p
           style={{
             position: "absolute",
@@ -89,6 +87,6 @@ function CrowHeadPage() {
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <CrowHeadPage />
+    <CrowHead3DPage />
   </StrictMode>
 );

@@ -1,0 +1,39 @@
+/* ============================================================================
+   CrowHead3D — realistic low-poly crow head (canvas). The mesh is rotated and
+   projected in JS, so no CSS perspective here — just the stage, the aura glow
+   behind the head, and the canvas that the facets are drawn onto.
+   ========================================================================== */
+
+.stage {
+  position: relative;
+  width: min(70vmin, 560px);
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* soft lavender aura behind the head */
+.aura {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 72%;
+  height: 72%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 45%,
+    rgba(155, 139, 184, 0.4),
+    rgba(155, 139, 184, 0.12) 42%,
+    transparent 70%
+  );
+  filter: blur(16px);
+  will-change: opacity, transform;
+}
