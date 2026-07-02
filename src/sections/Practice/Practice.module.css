@@ -4,20 +4,9 @@
   color: var(--text-on-light);
 }
 
-.header {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: var(--s-5);
-  margin-bottom: clamp(var(--s-8), 8vw, var(--s-12));
-}
-
+/* Header uses the shared .section-head pattern (heading cols 1–7, lead cols
+   8–12, --head-gap below). Only the editorial measures stay local. */
 .heading {
-  font-size: clamp(2.5rem, 5vw, 3.85rem);
-  font-weight: var(--w-xlight);
-  line-height: 1.08;
-  letter-spacing: -0.025em;
   color: var(--text-on-light);
   max-width: 14ch;
 }
@@ -33,9 +22,7 @@
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 2px; /* hairline seams between dark cards on the light field */
-  border-radius: var(--radius);
-  overflow: hidden;
+  gap: var(--grid-gap); /* shared column gutter, consistent with the grid */
 }
 
 .card {
@@ -45,10 +32,15 @@
   padding: clamp(var(--s-5), 4vw, var(--s-6));
   background: var(--c-crow);
   color: var(--text-on-dark);
+  border-radius: var(--radius); /* rounded corners per brand (cards now sit apart) */
+  overflow: hidden;
   transition: background var(--dur-slow) var(--ease-breath);
 }
-.card:hover {
-  background: #3a3042;
+@media (hover: hover) {
+  .card:hover {
+    /* brand-only lift: crow nudged toward lavender (no invented hex) */
+    background: color-mix(in srgb, var(--c-crow), var(--c-lavender) 12%);
+  }
 }
 
 .tag {
@@ -81,7 +73,9 @@
   transition: color var(--dur-slow) var(--ease-breath),
     transform var(--dur-slow) var(--ease-breath);
 }
-.card:hover .arrow {
-  color: var(--accent);
-  transform: translateX(5px);
+@media (hover: hover) {
+  .card:hover .arrow {
+    color: var(--accent);
+    transform: translateX(5px);
+  }
 }

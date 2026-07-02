@@ -1,0 +1,99 @@
+/* ============================================================================
+   CrowHead — a faceted, geometric crow head that watches the cursor.
+   Faux-3D: a perspective stage holds a preserve-3d tilt layer; the head's
+   parts sit at different translateZ depths so tilting toward the pointer
+   produces real parallax. The eyes' pupils track the cursor independently.
+   ========================================================================== */
+
+.stage {
+  position: relative;
+  width: min(62vmin, 520px);
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  /* perspective lives on the stage so the child rotations gain depth */
+  perspective: 1100px;
+  perspective-origin: 50% 45%;
+}
+
+/* the layer that banks toward the pointer; everything 3D lives inside */
+.tilt {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* each depth plane stacks over the same box; translateZ set inline per layer */
+.layer {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* soft lavender aura behind the head — sits deepest, faces the viewer flat */
+.aura {
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  width: 78%;
+  height: 78%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 45%,
+    rgba(155, 139, 184, 0.42),
+    rgba(155, 139, 184, 0.12) 42%,
+    transparent 70%
+  );
+  filter: blur(14px);
+  will-change: opacity, transform;
+}
+
+/* the whole piece breathes very slightly, like the site's crow */
+.breath {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  animation: breathe 7s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: translateZ(0) scale(1);
+  }
+  45% {
+    transform: translateZ(6px) scale(1.012);
+  }
+}
+
+/* caption under the head on the standalone page */
+.hint {
+  position: absolute;
+  left: 50%;
+  bottom: -3.4rem;
+  transform: translateX(-50%);
+  margin: 0;
+  white-space: nowrap;
+  color: rgba(232, 225, 238, 0.55);
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .breath {
+    animation: none;
+  }
+}

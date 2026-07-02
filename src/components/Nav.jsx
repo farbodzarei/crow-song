@@ -6,7 +6,7 @@
    anchors (single-page site).
    ========================================================================== */
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { ease, duration } from "../tokens/motion.js";
 import Logo from "./Logo.jsx";
@@ -94,6 +94,8 @@ export default function Nav() {
   const reduce = useReducedMotion();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const menuRef = useRef(null);
+  const burgerRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -102,16 +104,41 @@ export default function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // lock scroll + Esc while the mobile menu is open
+  // while the mobile menu is open: lock scroll, Esc to close, move focus into
+  // the overlay and trap Tab within it, then restore focus to the burger.
   useEffect(() => {
     if (!open) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const onKey = (e) => e.key === "Escape" && setOpen(false);
+    const items = () =>
+      menuRef.current
+        ? menuRef.current.querySelectorAll("a[href], button:not([disabled])")
+        : [];
+    items()[0]?.focus();
+    const onKey = (e) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        return;
+      }
+      if (e.key === "Tab") {
+        const list = items();
+        if (!list.length) return;
+        const first = list[0];
+        const last = list[list.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
     document.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = prev;
       document.removeEventListener("keydown", onKey);
+      burgerRef.current?.focus();
     };
   }, [open]);
 
@@ -172,6 +199,7 @@ export default function Nav() {
 
         {/* mobile hamburger */}
         <button
+          ref={burgerRef}
           className={`${styles.burger} cursor-target ${open ? styles.burgerOpen : ""}`}
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
@@ -190,7 +218,11 @@ export default function Nav() {
       <AnimatePresence>
         {open && (
           <motion.div
+            ref={menuRef}
             id="mobile-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menu"
             className={styles.mobileMenu}
             initial={reduce ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}

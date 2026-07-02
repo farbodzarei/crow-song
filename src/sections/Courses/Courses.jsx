@@ -6,7 +6,9 @@
    Enrol / join links are PLACEHOLDERS (#enrol / #membership).
    ========================================================================== */
 
+import { motion, useReducedMotion } from "motion/react";
 import Reveal from "../../components/Reveal.jsx";
+import { cardShell, cardChild } from "../../tokens/motion.js";
 import styles from "./Courses.module.css";
 
 const COURSES = [
@@ -39,58 +41,69 @@ const COURSES = [
 const PERKS = [
   "2 live group sessions per month with christine",
   "full access to the practice library (60+ recordings)",
-  "monthly q&a call — ask anything",
+  "monthly q&a call (ask anything)",
   "private community space",
   "early access to new courses",
   "10% off one-on-one sessions",
-  "monthly moon practice — new & full",
+  "monthly moon practice (new & full)",
 ];
 
 export default function Courses() {
+  const reduce = useReducedMotion();
+  const shell = reduce ? {} : { variants: cardShell };
+  const child = reduce ? {} : { variants: cardChild };
+
   return (
     <section id="courses" className={`section section--lav ${styles.sec}`}>
       <div className="container">
-        <Reveal stagger className={styles.intro}>
+        <Reveal stagger className="section-head">
           <Reveal item variant="riseSmall" as="span" className={`eyebrow ${styles.kicker}`}>
             learn online
           </Reveal>
-          <div className={styles.introRow}>
-            <Reveal item as="h2" className={styles.title}>
-              courses &<br />membership
-            </Reveal>
-            <Reveal item as="p" className={styles.introBody}>
-              beyond the one-on-one. deepen your understanding of ashtanga, yoga
-              therapy, and the body through structured online courses — or join
-              the crow song collective for ongoing support, community, and a
-              growing library of practices.
-            </Reveal>
-          </div>
+          <Reveal item as="h2" className={`section-head__title ${styles.title}`}>
+            courses &<br />membership
+          </Reveal>
+          <Reveal item as="p" className={`section-head__lead ${styles.introBody}`}>
+            beyond the one-on-one. deepen your understanding of ashtanga, yoga
+            therapy, and the body through structured online courses, or join
+            the crow song collective for ongoing support, community, and a
+            growing library of practices.
+          </Reveal>
         </Reveal>
 
-        <Reveal stagger staggerGap={0.12} className={styles.grid}>
+        <Reveal stagger staggerGap={0.16} className={styles.grid}>
           {COURSES.map((c) => (
-            <Reveal item key={c.title} as="article" className={`${styles.card} ${c.featured ? styles.featured : ""}`}>
-              <span className={styles.tag}>{c.tag}</span>
-              <h3 className={styles.cardTitle}>{c.title}</h3>
-              <p className={styles.price}>
+            <motion.article
+              key={c.title}
+              {...shell}
+              className={`${styles.card} ${c.featured ? styles.featured : ""}`}
+            >
+              <span className={styles.sheen} aria-hidden="true" />
+              <motion.span {...child} className={styles.tag}>{c.tag}</motion.span>
+              <motion.h3 {...child} className={styles.cardTitle}>{c.title}</motion.h3>
+              <motion.p {...child} className={styles.price}>
                 <sup>$</sup>{c.price} <span>{c.note}</span>
-              </p>
-              <ul className={styles.features}>
+              </motion.p>
+              <motion.ul {...child} className={styles.features}>
                 {c.features.map((f) => (
                   <li key={f}>{f}</li>
                 ))}
-              </ul>
+              </motion.ul>
               {/* PLACEHOLDER: enrolment link */}
-              <a href="#enrol" className={`${c.featured ? styles.btnLight : styles.btnCrow} cursor-target`}>
+              <motion.a
+                {...child}
+                href="#enrol"
+                className={`${c.featured ? styles.btnLight : styles.btnCrow} cursor-target`}
+              >
                 enrol now
-              </a>
-            </Reveal>
+              </motion.a>
+            </motion.article>
           ))}
         </Reveal>
 
         {/* membership band */}
-        <Reveal id="membership" className={styles.band}>
-          <div>
+        <Reveal variant="card" id="membership" className={`cols ${styles.band}`}>
+          <div className="col-7">
             <h3 className={styles.bandTitle}>
               the crow song<br /><em>collective</em>
             </h3>
@@ -108,7 +121,7 @@ export default function Courses() {
               join the collective
             </a>
           </div>
-          <ul className={styles.perks}>
+          <ul className={`col-5 ${styles.perks}`}>
             {PERKS.map((p) => (
               <li key={p}>{p}</li>
             ))}

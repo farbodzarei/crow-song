@@ -7,48 +7,76 @@
   color: var(--text-on-dark);
 }
 
-.head {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-4);
-  margin-bottom: clamp(var(--s-8), 7vw, var(--s-10));
-}
 .kicker {
   color: var(--accent);
 }
 .title {
-  font-size: clamp(2.4rem, 4.2vw, 3.4rem);
-  font-weight: var(--w-thin);
-  letter-spacing: -0.015em;
   color: var(--text-on-dark);
   text-transform: lowercase;
 }
 
+/* Each tier is its OWN rounded, elevated panel separated by a real gap (no
+   hairline-seam grid, no shared overflow clip) — so the raised featured tile
+   can't expose the square corner of a neighbour behind its rounded one. */
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: rgba(155, 139, 184, 0.08);
-  border-radius: var(--radius);
-  overflow: hidden;
+  gap: clamp(14px, 1.6vw, 22px);
+  align-items: stretch;
 }
 
 .card {
-  background: var(--c-crow);
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  /* lifted off the crow field so the panel reads as a distinct surface */
+  background: linear-gradient(180deg, #352d3c 0%, #2a232f 100%);
+  border: 1px solid rgba(155, 139, 184, 0.12);
+  box-shadow: 0 28px 64px -46px rgba(0, 0, 0, 0.8);
   padding: clamp(var(--s-5), 3vw, var(--s-6)) clamp(var(--s-4), 3vw, var(--s-5));
   display: flex;
   flex-direction: column;
+  transition: background-color var(--dur-slow) var(--ease-breath),
+    box-shadow var(--dur-slow) var(--ease-breath);
+}
+/* hover sheen — a band of light that sweeps across the tile */
+.sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(105deg, transparent 40%, rgba(244, 242, 246, 0.1) 50%, transparent 60%);
+  transform: translateX(-130%);
+  transition: transform 1s var(--ease-breath);
+}
+.featured .sheen {
+  background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.22) 50%, transparent 60%);
+}
+@media (hover: hover) {
+  .card:not(.featured):hover {
+    /* crow lifted toward lavender — keep the elevation, add an inner glow */
+    background: linear-gradient(180deg, #3e3548 0%, #2f2734 100%);
+    box-shadow: 0 28px 64px -46px rgba(0, 0, 0, 0.8),
+      inset 0 0 70px -34px rgba(155, 139, 184, 0.55);
+  }
+  .card:hover .sheen {
+    transform: translateX(130%);
+  }
 }
 .featured {
   position: relative;
-  z-index: var(--z-raised);
-  /* vibrant on-brand lavender wash (haze → soft) + a glow corner.
-     Biased light so the dark text stays readable. */
+  /* brand-only: haze → lavender wash + a glow corner. Soft mid-lavenders are
+     the natural interpolation between the two brand hexes (no invented stops);
+     biased light so the dark text stays readable. Lifted with a light rim +
+     deep shadow so it reads as the elevated tier among the crow panels. */
   background:
     radial-gradient(130% 95% at 82% 8%, rgba(155, 139, 184, 0.42), transparent 54%),
-    linear-gradient(158deg, #efe9f4 0%, #d8cce6 56%, #c6bad9 100%);
+    linear-gradient(158deg, var(--c-haze) 0%, var(--c-lavender) 150%);
   color: var(--text-on-lav);
-  border-radius: var(--radius);
+  border-color: rgba(244, 242, 246, 0.5);
+  box-shadow:
+    0 0 0 1px rgba(244, 242, 246, 0.22),
+    0 40px 90px -44px rgba(0, 0, 0, 0.8);
 }
 
 .label {
@@ -59,7 +87,8 @@
   margin-bottom: var(--s-3);
 }
 .featured .label {
-  color: var(--text-on-lav-muted);
+  color: var(--c-crow);
+  opacity: 0.82;
 }
 
 .cardTitle {
@@ -93,10 +122,10 @@
 .price span {
   font-size: 0.32em;
   font-weight: var(--w-light);
-  color: rgba(244, 242, 246, 0.45);
+  color: rgba(244, 242, 246, 0.6);
 }
 .featured .price span {
-  color: rgba(46, 38, 51, 0.5);
+  color: rgba(46, 38, 51, 0.72);
 }
 
 .list {
@@ -157,17 +186,36 @@
   margin-top: var(--s-5);
   font-size: var(--fs-small);
   font-weight: var(--w-light);
-  color: rgba(244, 242, 246, 0.45);
+  color: rgba(244, 242, 246, 0.6);
 }
+/* two-tone underline: a faint resting rule with a brighter one that draws over
+   it from the left on hover — a small, deliberate reading cue */
 .noteLink {
   color: var(--accent);
-  border-bottom: 1px solid rgba(155, 139, 184, 0.3);
+  padding-bottom: 2px;
+  background-image:
+    linear-gradient(var(--c-mist), var(--c-mist)),
+    linear-gradient(rgba(155, 139, 184, 0.3), rgba(155, 139, 184, 0.3));
+  background-repeat: no-repeat, no-repeat;
+  background-position: 0 100%, 0 100%;
+  background-size: 0% 1px, 100% 1px;
+  transition: background-size var(--dur-slow) var(--ease-breath),
+    color var(--dur-fast) var(--ease-breath);
 }
 .noteLink:hover {
   color: var(--c-mist);
+  background-size: 100% 1px, 100% 1px;
 }
 
-@media (max-width: 900px) {
+/* touch: enlarge the ghost "book →" link to a ≥44px target */
+@media (hover: none) and (pointer: coarse) {
+  .btnGhost {
+    padding: 11px 0;
+  }
+}
+
+/* stack the tiles in line with the global grid (.cols stacks at 860) */
+@media (max-width: 860px) {
   .grid {
     grid-template-columns: 1fr;
   }

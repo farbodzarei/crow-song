@@ -21,7 +21,8 @@ export default function CTA() {
         <line x1="180" y1="230" x2="420" y2="230" stroke="#9B8BB8" strokeWidth="1.5" />
       </svg>
 
-      <Reveal stagger className={`container ${styles.inner}`}>
+      <div className={`container cols ${styles.grid}`}>
+        <Reveal stagger className={styles.inner}>
         <Reveal item as="h2" className={styles.title}>
           ready to begin?<br />
           <em>from here.</em>
@@ -37,7 +38,8 @@ export default function CTA() {
             </a>
           </Magnetic>
         </Reveal>
-      </Reveal>
+        </Reveal>
+      </div>
     </section>
   );
 }

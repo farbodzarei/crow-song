@@ -5,7 +5,7 @@
    ========================================================================== */
 
 import { useRef } from "react";
-import { motion, useMotionValue, useSpring, useReducedMotion } from "motion/react";
+import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from "motion/react";
 
 export default function Magnetic({ children, strength = 0.28, className = "" }) {
   const reduce = useReducedMotion();
@@ -14,6 +14,12 @@ export default function Magnetic({ children, strength = 0.28, className = "" }) 
   const y = useMotionValue(0);
   const sx = useSpring(x, { stiffness: 160, damping: 15, mass: 0.3 });
   const sy = useSpring(y, { stiffness: 160, damping: 15, mass: 0.3 });
+  // Snap the offset to whole pixels. A magnetic pull moves tens of px, so 1px
+  // rounding is invisible — but it keeps the letter-spaced text on an integer
+  // compositing boundary, killing the faint vertical GPU seams that appeared
+  // between glyphs when the layer sat at a fractional offset.
+  const rx = useTransform(sx, (v) => Math.round(v));
+  const ry = useTransform(sy, (v) => Math.round(v));
 
   if (reduce) {
     return <span className={className} style={{ display: "inline-block" }}>{children}</span>;
@@ -35,7 +41,7 @@ export default function Magnetic({ children, strength = 0.28, className = "" }) 
       ref={ref}
       onMouseMove={onMove}
       onMouseLeave={reset}
-      style={{ x: sx, y: sy, display: "inline-block" }}
+      style={{ x: rx, y: ry, display: "inline-block", backfaceVisibility: "hidden" }}
       className={className}
     >
       {children}

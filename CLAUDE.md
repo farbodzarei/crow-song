@@ -8,7 +8,12 @@ Premium, awards-level marketing site for **Crow Song Yoga Therapy** (christine w
 - ⚠️ npm cache is redirected via project `.npmrc` to `~/.npm-crowsong` (global `~/.npm` has root-owned files). Installs work via the project dir automatically.
 - **GitHub:** `git@github.com:farbodzarei/crow-song.git` (private, branch `main`, SSH). Commit + `git push` as work progresses.
 - **Deployed on Vercel** (scope `kodax-studio`, project `crow-song-yoga`). Live: **https://crow-song-yoga.vercel.app**. Redeploy with `npx vercel --prod` (CLI-linked via `.vercel/`, gitignored). Real domain crowsongyogatherapy.com not yet wired. `.npmrc` is gitignored (local cache path breaks CI). GitHub→Vercel auto-deploy not yet connected.
-- Screenshots: `puppeteer-core` is installed; system Chrome at `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`. Headless `fullPage` shows a *false* "duplicate page" artifact — ignore it (DOM is fine). Capture ≤2000px images or the reader rejects them.
+- Screenshots: `puppeteer-core` is installed; system Chrome at `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`. Headless `fullPage` shows a *false* "duplicate page" artifact — ignore it (DOM is fine). Capture ≤2000px images or the reader rejects them. (Lenis smooth-scroll eats `window.scrollTo`; drive `page.mouse.wheel` after `mouse.move` into the viewport to scroll. Stale Chrome profile locks can hang `puppeteer.launch` — use a fresh `userDataDir` + a hard-timeout guard.)
+
+## Design System ↔ Claude Design sync
+- This repo's UI is mirrored to a **Claude Design** design-system project (claude.ai/design) so it can be worked on in either tool. Mapping lives in `design-system/.designsync.json` (project **"Crow Song Design System"**, id `875e41c2-221d-4682-87dd-052d770d5fff`).
+- Source: **`design-system/build.mjs`** generates 16 self-contained HTML cards (Foundations / Components / Patterns) into `design-system/cards/`, each with a first-line `<!-- @dsCard … -->` marker. Tokens are inlined verbatim from `tokens.css`; Raleway (+ss09) and the logo load from the deployed Vercel URLs — so **prod must be redeployed for the DS cards to reflect logo/CSS changes**.
+- Re-sync after edits: `node design-system/build.mjs` → `DesignSync finalize_plan({projectId, localDir:'…/design-system', writes:['cards/**'], deletes:[]})` → `write_files` (localPath per card). The `@dsCard` markers auto-build the pane index. Keep cards in sync **one component at a time**, never a wholesale replace.
 
 ## Brand rules (FIXED — brand deck in `brand/` is source of truth)
 - **Backgrounds: ONLY Crow `#2E2633` (dark) + Haze `#E8E1EE` (light).** Nothing else. (Haze reads near-white but is `#E8E1EE`.)
@@ -16,7 +21,7 @@ Premium, awards-level marketing site for **Crow Song Yoga Therapy** (christine w
 - **Raleway only**, with custom **ss09** stylistic set (alternate W) enabled globally in `global.css`.
 - **christine** always lowercase. **Crow Song** two caps. Ashtanga-specific (Yoga Chikitsa, Mysore, ujjayi), not generic yoga.
 - Slightly rounded corners everywhere (`--radius` 14 / `--radius-sm` 8).
-- **One shared full-width layout container** — everything aligns to the same ~60px gutters (`--container` 2240, `--container-pad`).
+- **Editorial grid system (ENFORCED — `src/styles/global.css` + `tokens.css`).** One content measure: `.container` caps at `--measure` (1480px) so content never sprawls; `.container--bleed` (`--container` 2240) only for full-width backgrounds/galleries; `.container--prose` (`--measure-prose` 68ch) for long-form. One 12-column grid `.cols` + span utilities `.col-3….col-12` (auto-stack <860px) with one gutter `--grid-gap`. One section-header pattern `.section-head` (eyebrow full-width → heading cols 1–7 / lead cols 8–12, `--head-gap` below). Rhythm tokens: `--head-gap`, `--block-gap`, `--grid-gap`. Every section aligns to this — same width, same column lines, same header. Hero + pinned Insight are intentionally custom (still on the measure).
 
 ## What's built
 14 sections (Hero, Insight, IntroBand, Approach, Practice, About, Process, Video + Written testimonials, Courses+Membership, Pricing, FAQ, CTA, Footer) + Nav (mega-menu + mobile overlay) + Footer.

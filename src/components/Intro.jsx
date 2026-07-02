@@ -11,7 +11,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { ease } from "../tokens/motion.js";
-import Logo from "./Logo.jsx";
 import styles from "./Intro.module.css";
 
 const SEEN_KEY = "cs-intro-seen";
@@ -88,7 +87,16 @@ export default function Intro({ onDone }) {
             animate={{ y: 0 }}
             transition={{ duration: 1.1, ease, delay: 0.5 }}
           >
-            <Logo variant="light" className={styles.logo} />
+            {/* first-version mark (crow + "crow song", no baked-in tagline)
+                — the curtain reveals "yoga therapy" as its own line below */}
+            <img
+              src="/logo/crow-song-intro.svg"
+              alt="Crow Song Yoga Therapy"
+              className={styles.logo}
+              width="234"
+              height="45"
+              decoding="async"
+            />
           </motion.span>
         </span>
         <motion.span

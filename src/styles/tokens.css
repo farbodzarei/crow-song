@@ -57,6 +57,11 @@
   --fs-h1:      clamp(2.5rem,  5.2vw, 4.25rem);
   --fs-h2:      clamp(2rem,    3.8vw, 2.9rem);
   --fs-h3:      clamp(1.35rem, 2vw,   1.7rem);
+  /* ONE section-title scale — every section H2 (section-head + standalone) uses
+     these three so headings read as a single editorial system, not per-section. */
+  --fs-section-title: clamp(2.4rem, 4.2vw, 3.4rem);
+  --ls-section-title: -0.015em;
+  --lh-section-title: 1.08;
   --fs-body:    clamp(1.0625rem, 0.55vw + 0.95rem, 1.2rem); /* 17 → 19.2px */
   --fs-lead:    clamp(1.2rem,  1.6vw, 1.5rem);   /* 19.2 → 24px */
   --fs-small:   clamp(0.9375rem, 0.4vw + 0.85rem, 1.0625rem); /* 15 → 17px */
@@ -90,9 +95,22 @@
      edge with a consistent gutter on all realistic screens (only centers past
      ~2240px). Every section + the nav + the hero use this exact gutter, so all
      left edges and all right edges line up site-wide. */
-  --container:     2240px;
+  --container:     2240px; /* full-bleed canvas — backgrounds, nav, decorative layers */
   --container-pad: clamp(1.5rem, 5vw, 3.75rem); /* the shared gutter (≈24→60px) */
   --section-y:     clamp(3.5rem, 10vw, 11rem); /* tighter on phones, airy on desktop */
+
+  /* ── Editorial grid system — the structure every section aligns to ────────
+     Content lives inside ONE measure (--measure) and snaps to ONE 12-column
+     grid (.cols) with ONE gutter (--grid-gap). Section headers use ONE pattern
+     (.section-head) with consistent header→content rhythm. This is what makes
+     the page read as a single, deliberate layout instead of stacked sections. */
+  --measure:       1480px;     /* standard content width (most sections) */
+  --measure-wide:  1760px;     /* for galleries / wide media bands */
+  --measure-prose: 68ch;       /* readable long-form measure */
+  --grid-cols:     12;
+  --grid-gap:      clamp(1rem, 1.6vw, 2rem); /* column gutter, shared everywhere */
+  --head-gap:      clamp(2.5rem, 5vw, 5rem);  /* section header → content */
+  --block-gap:     clamp(1.25rem, 2.4vw, 2.25rem); /* between stacked blocks */
 
   /* ── Form / shape ──────────────────────────────────────────────────────── */
   --radius:    14px;

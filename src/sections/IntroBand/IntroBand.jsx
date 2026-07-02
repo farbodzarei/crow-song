@@ -9,12 +9,12 @@ import styles from "./IntroBand.module.css";
 export default function IntroBand() {
   return (
     <section className={`section--lav ${styles.band}`}>
-      <div className={`container ${styles.inner}`}>
-        <Reveal variant="riseSmall" as="span" className={styles.label}>
+      <div className={`container cols ${styles.inner}`}>
+        <Reveal variant="riseSmall" as="span" className={`col-4 ${styles.label}`}>
           the practice
         </Reveal>
-        <Reveal as="p" className={styles.quote}>
-          christine’s practice lives in the gap —
+        <Reveal as="p" className={`col-8 ${styles.quote}`}>
+          christine’s practice lives in the gap:
           <br />
           between <em>yoga and therapy</em>,
           <br />

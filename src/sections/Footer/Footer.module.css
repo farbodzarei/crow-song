@@ -6,10 +6,15 @@
   color: rgba(244, 242, 246, 0.4);
 }
 
+/* Aligns to the global 12-col grid (.cols): brand = col-3, then three link
+   columns at span 3 each (3 + 3 + 3 + 3 = 12). Gutter comes from .cols. */
 .grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: clamp(var(--s-5), 5vw, var(--s-8));
+  row-gap: clamp(var(--s-5), 5vw, var(--s-8));
+}
+/* even quarters — brand col-3 + three link columns span-3 (3+3+3+3=12), so the
+   row fills evenly instead of leaving a dead gap with the links hugging right. */
+.col {
+  grid-column: span 3;
 }
 
 .logo {
@@ -22,12 +27,12 @@
   font-size: var(--fs-small);
   font-weight: var(--w-light);
   line-height: 1.75;
-  color: rgba(244, 242, 246, 0.42);
+  color: rgba(244, 242, 246, 0.6);
   max-width: 280px;
 }
 
 .colTitle {
-  font-size: 9px;
+  font-size: 10px;
   letter-spacing: 0.4em;
   text-transform: lowercase;
   color: var(--accent);
@@ -41,17 +46,38 @@
   gap: var(--s-1);
 }
 .link {
+  position: relative;
   display: inline-block;
-  padding-block: 8px; /* roomier tap height on touch */
+  padding-block: 11px; /* ≥44px tap height on touch */
   font-size: var(--fs-small);
   font-weight: var(--w-light);
   text-transform: lowercase;
-  color: rgba(244, 242, 246, 0.5);
-  transition: color var(--dur-fast) var(--ease-breath);
+  color: rgba(244, 242, 246, 0.6);
+  overflow-wrap: anywhere; /* never let a long email force horizontal scroll */
+  transition: color var(--dur-fast) var(--ease-breath),
+    transform var(--dur-fast) var(--ease-breath);
+}
+/* a short lavender lead-in dash that draws toward the label as it nudges right */
+.link::before {
+  content: "";
+  position: absolute;
+  left: -14px;
+  top: 50%;
+  width: 8px;
+  height: 1px;
+  background: var(--accent);
+  transform: translateY(-50%) scaleX(0);
+  transform-origin: right center;
+  transition: transform var(--dur-fast) var(--ease-breath);
 }
 .link:hover,
 .link:focus-visible {
   color: var(--accent);
+  transform: translateX(5px);
+}
+.link:hover::before,
+.link:focus-visible::before {
+  transform: translateY(-50%) scaleX(1);
 }
 
 .bottom {
@@ -70,18 +96,16 @@
   font-weight: var(--w-light);
   letter-spacing: 0.06em;
   text-transform: lowercase;
-  color: rgba(244, 242, 246, 0.22);
+  color: rgba(244, 242, 246, 0.6);
 }
 
-@media (max-width: 760px) {
-  .grid {
-    grid-template-columns: 1fr 1fr;
+@media (max-width: 860px) {
+  /* brand (col-3) auto-stacks via .cols; stack the span-3 link columns too */
+  .col {
+    grid-column: 1 / -1;
   }
 }
 @media (max-width: 460px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
   .bottom {
     flex-direction: column;
     align-items: flex-start;

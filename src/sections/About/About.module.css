@@ -1,108 +1,224 @@
-/* ABOUT — dark, portrait + text, soft glow lower-left. */
+/* ============================================================================
+   ABOUT — the practitioner, as an editorial spread (not a 50/50 two-column):
+   her NAME is the entrance (wiping up like the hero), a TALL lit portrait is the
+   anchor down the right, and living TESTIMONY closes it lower-left. Asymmetric
+   on purpose. Dark Crow field, one lavender accent.
+   ========================================================================== */
 .about {
   position: relative;
-  isolation: isolate; /* contain the corner mandala (z-index:-1) above the bg */
+  isolation: isolate;
   background: var(--bg-dark);
   color: var(--text-on-dark);
   overflow: hidden;
 }
+/* invisible scroll anchor for the "#about" link — offset so the name clears the
+   fixed nav when navigated to. */
+.anchor {
+  position: absolute;
+  top: 0;
+  scroll-margin-top: 100px;
+}
 
 .glow {
   position: absolute;
-  bottom: 8%; /* contained — fades within the section, no hard cut at the edge */
+  bottom: 4%; /* contained — fades within the section, no hard cut at the edge */
   left: -200px;
-  width: 600px;
-  height: 600px;
+  width: 620px;
+  height: 620px;
   max-width: 80vw;
   pointer-events: none;
-  background: radial-gradient(circle, rgba(155, 139, 184, 0.1) 0%, transparent 62%);
+  background: radial-gradient(circle, rgba(155, 139, 184, 0.12) 0%, transparent 62%);
 }
 
-.grid {
+/* ── editorial grid ──────────────────────────────────────────────────────────
+   text column slightly wider than the portrait; the portrait spans BOTH rows so
+   it reads as one tall lit panel, with the name/bio top-left and the testimony
+   bottom-left. */
+.inner {
   position: relative;
   z-index: var(--z-raised);
   display: grid;
-  grid-template-columns: minmax(320px, 0.8fr) minmax(0, 1fr);
-  gap: clamp(var(--s-6), 5vw, var(--s-10));
-  align-items: center;
-  max-width: 1180px; /* keep the bio comfortable on the fully-wide canvas */
+  grid-template-columns: 1.05fr 0.95fr;
+  grid-template-areas:
+    "lede      media"
+    "testimony media";
+  column-gap: clamp(2.5rem, 6vw, 6rem);
+  row-gap: clamp(2.75rem, 5vw, 4.5rem);
+  align-items: start;
 }
 
-.media {
-  width: 100%;
-  max-width: 460px;
+/* ── lede: name + role + rule + bio ──────────────────────────────────────── */
+.lede {
+  grid-area: lede;
 }
-
-.text {
-  display: flex;
-  flex-direction: column;
-}
-
-.kicker {
-  color: var(--accent);
-  margin-bottom: var(--s-5);
-}
-
 .name {
-  font-size: clamp(3rem, 4.8vw, 4.2rem);
+  font-size: clamp(3.25rem, 6.4vw, 5.5rem); /* display, under the 6rem ceiling */
   font-weight: var(--w-thin);
-  line-height: 1;
-  letter-spacing: -0.02em;
+  line-height: 0.98;
+  letter-spacing: -0.03em;
   color: var(--c-white);
-  margin-bottom: var(--s-2);
+  text-transform: lowercase;
+}
+/* line-mask wipe — overflow clips the rising inner; padding gives the descender
+   room without shifting layout (matches the hero headline). */
+.nameLine {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+.nameInner {
+  display: block;
 }
 
-.title {
+.leadCopy {
+  margin-top: clamp(var(--s-5), 3vw, var(--s-6));
+  max-width: 46ch;
+}
+.role {
   font-size: var(--fs-small);
   font-weight: var(--w-light);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0.06em;
   color: var(--accent);
-  margin-bottom: var(--s-5);
 }
-
-.body {
+.rule {
+  margin: var(--s-5) 0;
+}
+.bio {
   font-size: var(--fs-body);
   font-weight: var(--w-light);
   line-height: 1.85;
-  color: rgba(244, 242, 246, 0.55);
-  max-width: 46ch;
+  color: rgba(244, 242, 246, 0.74); /* lifted off the muted default so it clears AA on crow */
+  max-width: 42ch;
+  text-wrap: pretty;
 }
 
-/* "on the name" — the brand's reason for being, given real presence.
-   Statement → gloss → attribution. Top rule instead of a side-stripe. */
-.quoteWrap {
-  margin-top: var(--s-10);
+/* ── portrait — the tall lit anchor (turns with the cursor via Tilt) ──────── */
+.media {
+  grid-area: media;
+  position: relative;
+  align-self: stretch; /* fill the full height of the lede + testimony rows */
+  display: flex;
 }
-.quoteRule {
+.tilt {
+  position: relative;
+  flex: 1;
+  display: flex;
+  border-radius: var(--radius);
+}
+.portrait {
+  position: relative;
+  flex: 1;
+  min-height: clamp(480px, 66vh, 720px);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transform-style: preserve-3d;
+  /* deep crow→violet field, lit lavender top-right, deep-violet pooling low */
+  background:
+    radial-gradient(120% 85% at 72% 14%, rgba(155, 139, 184, 0.34), transparent 58%),
+    radial-gradient(110% 80% at 22% 104%, rgba(122, 106, 154, 0.42), transparent 60%),
+    linear-gradient(155deg, #3b3143 0%, var(--c-crow) 52%, #221b27 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(155, 139, 184, 0.18),
+    inset 0 1px 0 rgba(244, 242, 246, 0.06),
+    0 0 90px -24px rgba(155, 139, 184, 0.4), /* lavender aura — the mystical halo */
+    0 34px 70px -34px rgba(0, 0, 0, 0.66);
+}
+/* a focal glow orb — the light christine emerges from */
+.portrait::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 34%;
+  width: 60%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    rgba(196, 185, 217, 0.3) 0%,
+    rgba(155, 139, 184, 0.12) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+/* vignette — deepen the edges so the light reads as emerging from shadow */
+.portrait::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 100% at 50% 32%, transparent 46%, rgba(18, 14, 22, 0.6) 100%);
+  pointer-events: none;
+}
+.portraitGrain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.14;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.portraitLabel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--s-5);
+  z-index: 1;
+  text-align: center;
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--w-med);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: rgba(244, 242, 246, 0.42);
+}
+/* when christine's real photo lands, drop it in as <img className={photo}> */
+.photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+/* ── testimony — living social proof, the section's closer ───────────────── */
+.testimony {
+  grid-area: testimony;
+  border-top: 1px solid rgba(155, 139, 184, 0.18);
+  padding-top: clamp(var(--s-5), 4vw, var(--s-6));
+}
+.testimonyBadge {
   margin-bottom: var(--s-5);
 }
-.quote {
-  font-size: clamp(2.1rem, 3.3vw, 2.85rem); /* up into h2 territory, below the name */
-  font-weight: var(--w-xlight);
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  color: var(--c-mist);
-  max-width: 18ch; /* tighter wrap → a stacked, poster-like statement */
-  text-wrap: balance;
+/* reserve height so the column doesn't reflow as quotes swap (1–2 line range) */
+.reviewStage {
+  position: relative;
+  min-height: clamp(8.5rem, 14vw, 10.5rem);
 }
-.quote em {
-  font-style: italic; /* the site's recurring italic-lavender emphasis motif */
+.review {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+.stars {
+  font-size: 1.05rem;
+  letter-spacing: 0.32em; /* airy spacing matches the brand's tracked motifs */
   color: var(--accent);
+  line-height: 1;
 }
-.gloss {
-  margin-top: var(--s-4);
-  font-size: var(--fs-lead);
+.reviewQuote {
+  margin: 0;
+  font-size: clamp(1.7rem, 2.8vw, 2.45rem); /* statement scale */
   font-weight: var(--w-xlight);
-  line-height: 1.5;
-  letter-spacing: 0.01em;
-  color: var(--c-soft); /* soft lavender — evocative, a quiet gloss on the line */
-  max-width: 24ch;
+  font-style: italic; /* the site's recurring italic emphasis motif */
+  line-height: 1.22;
+  letter-spacing: -0.015em;
+  color: var(--c-mist);
+  max-width: 26ch;
+  text-wrap: balance;
+  hanging-punctuation: first; /* the opening “ hangs into the margin (Safari) */
 }
-.quoteCite {
-  display: block;
-  margin-top: var(--s-5);
-  font-style: normal;
+.reviewName {
   font-size: var(--fs-eyebrow);
   font-weight: var(--w-med);
   letter-spacing: var(--ls-eyebrow);
@@ -111,12 +227,24 @@
   opacity: 0.7;
 }
 
+/* ── responsive ──────────────────────────────────────────────────────────── */
 @media (max-width: 860px) {
-  .grid {
+  .inner {
     grid-template-columns: 1fr;
-    gap: var(--s-8);
+    grid-template-areas:
+      "lede"
+      "media"
+      "testimony";
+    row-gap: clamp(2.25rem, 8vw, 3.25rem);
   }
   .media {
-    max-width: 320px;
+    align-self: auto;
+  }
+  .portrait {
+    min-height: clamp(420px, 78vw, 540px);
+  }
+  .leadCopy,
+  .bio {
+    max-width: none;
   }
 }

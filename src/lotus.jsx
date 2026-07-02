@@ -38,7 +38,7 @@ function LotusPage() {
       <Lotus />
 
       <section style={band}>
-        <p style={label}>Scroll — the flower draws into its seed</p>
+        <p style={label}>Scroll to draw the flower into its seed</p>
       </section>
 
       {/* the bloom re-trigger the Lotus looks for by id */}

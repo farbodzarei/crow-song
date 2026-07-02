@@ -16,13 +16,13 @@ const VIDEOS = [
     name: "M.L.",
     context: "chronic pain client",
     quote:
-      "working with christine changed how I live in my body — not just how I move, but how I breathe, sleep, respond.",
+      "working with christine changed how I live in my body. not just how I move, but how I breathe, sleep, respond.",
   },
   {
     name: "R.K.",
     context: "stress & anxiety",
     quote:
-      "I came in skeptical. I’d tried yoga before — studios, apps, all of it. this was different. it felt like finally being seen.",
+      "I came in skeptical. I’d tried yoga before: studios, apps, all of it. this was different. it felt like finally being seen.",
   },
   {
     name: "S.A.",
@@ -44,13 +44,36 @@ export default function VideoTestimonials() {
   const reduce = useReducedMotion();
   const [active, setActive] = useState(null); // index or null
   const closeRef = useRef(null);
+  const modalRef = useRef(null);
   const lastFocused = useRef(null);
 
   useEffect(() => {
     if (active === null) return;
     lastFocused.current = document.activeElement;
     closeRef.current?.focus();
-    const onKey = (e) => e.key === "Escape" && setActive(null);
+    const items = () =>
+      modalRef.current
+        ? modalRef.current.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])')
+        : [];
+    const onKey = (e) => {
+      if (e.key === "Escape") {
+        setActive(null);
+        return;
+      }
+      if (e.key === "Tab") {
+        const list = items();
+        if (!list.length) return;
+        const first = list[0];
+        const last = list[list.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
     document.addEventListener("keydown", onKey);
     return () => {
       document.removeEventListener("keydown", onKey);
@@ -63,11 +86,8 @@ export default function VideoTestimonials() {
   return (
     <section className={`section section--lav ${styles.sec}`}>
       <div className="container">
-        <Reveal stagger className={styles.head}>
-          <Reveal item variant="riseSmall" as="span" className={`eyebrow ${styles.kicker}`}>
-            what people say
-          </Reveal>
-          <Reveal item as="h2" className={styles.title}>
+        <Reveal stagger className="section-head">
+          <Reveal item as="h2" className={`section-head__title ${styles.title}`}>
             in their own words
           </Reveal>
         </Reveal>
@@ -109,7 +129,7 @@ export default function VideoTestimonials() {
             aria-modal="true"
             aria-label={`Video testimonial — ${v.name}`}
           >
-            <div className={styles.modalInner}>
+            <div ref={modalRef} className={styles.modalInner}>
               <button
                 ref={closeRef}
                 className={`${styles.modalClose} cursor-target`}

@@ -45,7 +45,7 @@
 /* the brand crow, centred in the hero's negative space (above the headline) */
 .crow {
   position: absolute;
-  top: 48%;
+  top: 42%; /* raised off the headline so it breathes in clear negative space */
   left: 50%;
   /* centre via margins, not transform — Motion owns this element's transform */
   margin-top: calc(clamp(230px, 30vw, 480px) / -2);
@@ -80,13 +80,13 @@
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--accent);
-  opacity: 0.85;
+  opacity: 1;
 }
 .url {
   font-size: 11px;
   font-weight: var(--w-xlight);
   letter-spacing: 0.1em;
-  color: rgba(244, 242, 246, 0.22);
+  color: rgba(244, 242, 246, 0.5);
 }
 
 /* ── content ───────────────────────────────────────────────────────────── */
@@ -141,7 +141,7 @@
   font-weight: var(--w-light);
   line-height: 1.7;
   letter-spacing: 0.02em;
-  color: rgba(244, 242, 246, 0.5);
+  color: rgba(244, 242, 246, 0.62);
 }
 
 /* ── scroll hint ───────────────────────────────────────────────────────── */
@@ -198,17 +198,15 @@
     text-align: left;
   }
   .crow {
-    /* middle-right, fully on screen, sized to fill the free zone above the
-       headline so it never sits under the text (readability first) */
-    /* middle-right: vertically centred, sat in the clear strip to the right of
-       the left-aligned headline (text ends ~x231; crow left stays right of it) */
-    width: min(40vw, 200px);
-    left: auto;
-    right: 0;
-    margin-left: 0;
-    top: 50%;
-    margin-top: calc(min(40vw, 200px) / -2);
-    opacity: 0.65;
+    /* centred in the clear negative space above the (bottom-anchored) headline
+       — horizontally centred and sat high so it never overlaps the text */
+    width: min(54vw, 250px);
+    left: 50%;
+    right: auto;
+    margin-left: calc(min(54vw, 250px) / -2);
+    top: 32%;
+    margin-top: calc(min(54vw, 250px) / -2);
+    opacity: 0.62;
   }
   .headline {
     max-width: 18ch;

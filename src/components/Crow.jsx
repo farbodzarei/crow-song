@@ -13,7 +13,16 @@
    ========================================================================== */
 
 import { useEffect, useRef } from "react";
-import { motion, useReducedMotion, useScroll, useTransform, useAnimationControls } from "motion/react";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+  useAnimationControls,
+  useMotionValue,
+  useSpring,
+  useMotionTemplate,
+} from "motion/react";
 import { ease } from "../tokens/motion.js";
 import styles from "./Crow.module.css";
 
@@ -80,7 +89,7 @@ function StaticArt() {
 // reverses it (1→0). The loop yoyos between them with a pause in between.
 const draw = {
   hidden: { pathLength: 0, opacity: 0, transition: { pathLength: { duration: 1.15, ease }, opacity: { duration: 0.9, ease } } },
-  visible: { pathLength: 1, opacity: 1, transition: { pathLength: { duration: 1.3, ease }, opacity: { duration: 0.7, ease } } },
+  visible: { pathLength: 1, opacity: 1, transition: { pathLength: { duration: 1.0, ease }, opacity: { duration: 0.5, ease } } },
 };
 const pop = {
   hidden: { opacity: 0, transition: { duration: 0.6, ease } },
@@ -88,8 +97,9 @@ const pop = {
 };
 const container = {
   // un-draw in reverse order (last stroke retracts first) for a clean rewind
-  hidden: { transition: { staggerChildren: 0.05, staggerDirection: -1 } },
-  visible: { transition: { staggerChildren: 0.06, delayChildren: 0.4 } },
+  hidden: { transition: { staggerChildren: 0.04, staggerDirection: -1 } },
+  // no delayChildren — the instant the loading curtain lifts, the crow starts drawing
+  visible: { transition: { staggerChildren: 0.04, delayChildren: 0 } },
 };
 // a wing/flight group: transparent orchestrator so its strokes still draw in
 // sequence within the parent's stagger (the group itself carries the scroll
@@ -165,6 +175,95 @@ export default function Crow({ className = "" }) {
   const wingRStyle = { rotate: wingR, transformBox: "view-box", transformOrigin: "91.27px 56.68px" };
   const flightStyle = { y: flightY, opacity: flightO, transformBox: "view-box", transformOrigin: "69.26px 56.68px" };
 
+  // ── cursor interaction ────────────────────────────────────────────────────
+  // The mark behaves like a lit object you can turn: it banks in 3D toward the
+  // pointer (rotateX/rotateY off the crow-relative cursor position), brightens
+  // as the cursor approaches, and sheds tiny luminous motes as the cursor moves
+  // across it. px/py are the pointer offset from the crow centre, −1..1.
+  const px = useMotionValue(0);
+  const py = useMotionValue(0);
+  const spring = { stiffness: 130, damping: 16, mass: 0.6 };
+  const rotateX = useSpring(useTransform(py, [-1, 1], [16, -16]), spring);
+  const rotateY = useSpring(useTransform(px, [-1, 1], [-20, 20]), spring);
+  const boost = useSpring(0, { stiffness: 90, damping: 20 });
+  const brightness = useTransform(boost, [0, 1], [1, 1.55]);
+  const filter = useMotionTemplate`brightness(${brightness})`;
+
+  useEffect(() => {
+    if (reduce) return;
+    const live = new Set();
+    let lsx = 0;
+    let lsy = 0;
+    // one mote: a fixed luminous dot at the pointer that drifts up + fades out
+    const spawn = (x, y) => {
+      const m = document.createElement("span");
+      m.className = styles.mote;
+      const size = 2 + Math.random() * 2.6;
+      m.style.left = `${x + (Math.random() - 0.5) * 16}px`;
+      m.style.top = `${y + (Math.random() - 0.5) * 16}px`;
+      m.style.width = `${size}px`;
+      m.style.height = `${size}px`;
+      document.body.appendChild(m);
+      live.add(m);
+      const dx = (Math.random() - 0.5) * 36;
+      const dy = -(18 + Math.random() * 38);
+      const a = m.animate(
+        [
+          { transform: "translate(-50%, -50%) scale(1)", opacity: 0.7 },
+          { transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(0.15)`, opacity: 0 },
+        ],
+        { duration: 820 + Math.random() * 720, easing: "cubic-bezier(0.22,1,0.36,1)" }
+      );
+      a.onfinish = () => {
+        live.delete(m);
+        m.remove();
+      };
+    };
+    const onMove = (e) => {
+      const el = ref.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      if (!r.width) return;
+      const cx = r.left + r.width / 2;
+      const cy = r.top + r.height / 2;
+      const nx = (e.clientX - cx) / (r.width / 2);
+      const ny = (e.clientY - cy) / (r.height / 2);
+      const dist = Math.hypot(nx, ny);
+      // bank toward the cursor while it's anywhere near; ease flat when far
+      if (dist < 2.2) {
+        px.set(Math.max(-1, Math.min(1, nx)));
+        py.set(Math.max(-1, Math.min(1, ny)));
+      } else {
+        px.set(0);
+        py.set(0);
+      }
+      boost.set(Math.max(0, 1 - dist / 1.25));
+      // shed motes only while the cursor is over the mark, throttled by travel
+      if (dist < 0.92) {
+        const mdx = e.clientX - lsx;
+        const mdy = e.clientY - lsy;
+        if (mdx * mdx + mdy * mdy > 180) {
+          spawn(e.clientX, e.clientY);
+          lsx = e.clientX;
+          lsy = e.clientY;
+        }
+      }
+    };
+    const onLeave = () => {
+      px.set(0);
+      py.set(0);
+      boost.set(0);
+    };
+    window.addEventListener("mousemove", onMove, { passive: true });
+    document.addEventListener("mouseleave", onLeave);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseleave", onLeave);
+      live.forEach((m) => m.remove());
+      live.clear();
+    };
+  }, [reduce, px, py, boost]);
+
   // body-part slices (indices match the STROKES order / draw-in cascade)
   const pre = STROKES.slice(0, 8); // sacred circles + body + head
   const leftWing = STROKES.slice(8, 11);
@@ -185,21 +284,28 @@ export default function Crow({ className = "" }) {
 
   return (
     <motion.div ref={ref} className={`${styles.wrap} ${className}`} aria-hidden="true" style={{ y, rotate, scale, opacity }}>
+      {/* 3D tilt layer — banks toward the cursor and brightens on approach.
+          transformPerspective gives the rotation real depth; the aura + mark
+          both live inside it so they turn together. */}
+      <motion.div className={styles.tilt} style={{ rotateX, rotateY, filter, transformPerspective: 900 }}>
       {/* aura — fades in/out with the crow's form/reverse (same controls) */}
       <motion.div className={styles.glowWrap} variants={glow} initial="hidden" animate={drawControls}>
         <div className={styles.glowPulse} />
       </motion.div>
-      {/* load draw-in scale */}
-      <motion.div className={styles.breath} initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.6, ease, delay: 0.3 }}>
+      {/* load draw-in scale — no delay, so the crow is already arriving the
+          instant the loading curtain lifts */}
+      <motion.div className={styles.breath} initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.0, ease, delay: 0 }}>
         {/* perpetual breath — a slow human/ujjayi cycle: a fuller, quicker
             inhale (rise + expand), a brief hold, a longer easing exhale, then
-            a moment of rest before the next breath. Asymmetric on purpose. */}
+            a moment of rest before the next breath. Asymmetric on purpose.
+            Opacity kept low + swinging so the mark shimmers, fading in and out
+            like breath on glass rather than sitting as a solid graphic. */}
         <motion.div
           className={styles.breath}
           animate={{
             scale: [1, 1.055, 1.055, 1, 1],
             y: [0, -7, -7, 0, 0],
-            opacity: [0.9, 1, 1, 0.9, 0.9],
+            opacity: [0.32, 0.55, 0.5, 0.36, 0.32],
           }}
           transition={{
             duration: 7,
@@ -226,6 +332,7 @@ export default function Crow({ className = "" }) {
             ))}
           </motion.svg>
         </motion.div>
+      </motion.div>
       </motion.div>
     </motion.div>
   );

@@ -1,0 +1,61 @@
+/* RatingBadge — stars + title/subtitle, lavender accent. Tone-aware. */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.stars {
+  display: inline-flex;
+  gap: 3px;
+  font-size: 1rem;
+  line-height: 1;
+  letter-spacing: 0.06em;
+}
+.on {
+  color: var(--accent);
+}
+.off {
+  color: rgba(155, 139, 184, 0.28);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-left: var(--s-3);
+  border-left: 1px solid rgba(155, 139, 184, 0.28); /* 1px separator, not a side-stripe accent */
+}
+.title {
+  font-size: var(--fs-small);
+  font-weight: var(--w-reg);
+  line-height: 1.2;
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+}
+.subtitle {
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--w-light);
+  line-height: 1.2;
+  text-transform: lowercase;
+  letter-spacing: 0.04em;
+}
+
+/* ── tone: on the dark crow field ──────────────────────────────────────── */
+.onDark .title {
+  color: var(--c-mist);
+}
+.onDark .subtitle {
+  color: rgba(244, 242, 246, 0.55);
+}
+
+/* ── tone: on haze / light surfaces ────────────────────────────────────── */
+.onLight .off {
+  color: rgba(155, 139, 184, 0.4);
+}
+.onLight .title {
+  color: var(--text-on-lav);
+}
+.onLight .subtitle {
+  color: var(--text-on-light-muted);
+}

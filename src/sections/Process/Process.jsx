@@ -18,7 +18,7 @@ const STEPS = [
   },
   {
     title: "your practice",
-    body: "sessions evolve as you do. there’s no fixed programme — it adapts to your changing needs, week by week.",
+    body: "sessions evolve as you do. there’s no fixed programme. it adapts to your changing needs, week by week.",
   },
   {
     title: "integration",
@@ -30,18 +30,18 @@ export default function Process() {
   return (
     <section className={`section section--darker ${styles.process}`}>
       <div className="container">
-        <Reveal stagger className={styles.head}>
+        <Reveal stagger className="section-head">
           <Reveal item variant="riseSmall" as="span" className={`eyebrow ${styles.kicker}`}>
             how it works
           </Reveal>
-          <Reveal item as="h2" className={styles.title}>
+          <Reveal item as="h2" className={`section-head__title ${styles.title}`}>
             from here <em>to there</em>
           </Reveal>
         </Reveal>
 
-        <Reveal stagger staggerGap={0.12} className={styles.grid}>
+        <Reveal stagger staggerGap={0.12} className="cols">
           {STEPS.map((s, i) => (
-            <Reveal item key={s.title} className={styles.step}>
+            <Reveal item key={s.title} className={`col-3 ${styles.step}`}>
               <span className={styles.num}>{String(i + 1).padStart(2, "0")}</span>
               <h3 className={styles.stepTitle}>{s.title}</h3>
               <p className={styles.stepBody}>{s.body}</p>

@@ -15,11 +15,14 @@
   border-bottom: 1px solid transparent;
 }
 
+/* Subtle frosted glass — a translucent crow panel with a light backdrop blur
+   once scrolled. No specular edges or refraction; just a quiet pane and a
+   hairline border. */
 .scrolled {
-  background: rgba(46, 38, 51, 0.82); /* Crow #2E2633, not charcoal black */
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(155, 139, 184, 0.1);
+  background: rgba(46, 38, 51, 0.72); /* Crow #2E2633, not charcoal black */
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  border-bottom: 1px solid rgba(155, 139, 184, 0.12);
 }
 
 .inner {
@@ -35,8 +38,9 @@
   display: inline-flex;
   align-items: center;
 }
+/* a touch bigger than the original 32→44px — not a jump */
 .logo {
-  height: clamp(32px, 3.4vw, 44px);
+  height: clamp(38px, 4vw, 54px);
   width: auto;
   display: block;
 }
@@ -59,6 +63,7 @@
 }
 
 .link {
+  position: relative;
   display: block;
   padding: var(--s-2) clamp(var(--s-2), 1.6vw, var(--s-4));
   font-size: var(--fs-eyebrow);
@@ -68,9 +73,26 @@
   color: var(--text-on-dark-muted);
   transition: color var(--dur-fast) var(--ease-breath);
 }
+/* a thin lavender underline that draws in from the left on hover/focus */
+.link::after {
+  content: "";
+  position: absolute;
+  left: clamp(var(--s-2), 1.6vw, var(--s-4));
+  right: clamp(var(--s-2), 1.6vw, var(--s-4));
+  bottom: calc(var(--s-2) - 3px);
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur-slow) var(--ease-breath);
+}
 .item:hover > .link,
 .item:focus-within > .link {
   color: var(--c-mist);
+}
+.item:hover > .link::after,
+.item:focus-within > .link::after {
+  transform: scaleX(1);
 }
 
 /* ── mega menu ─────────────────────────────────────────────────────────── */
@@ -141,7 +163,7 @@
   display: block;
   margin-top: 1px;
   font-size: 11px;
-  color: rgba(155, 139, 184, 0.6);
+  color: rgba(244, 242, 246, 0.55);
 }
 
 /* ── book button ───────────────────────────────────────────────────────── */
@@ -156,10 +178,18 @@
   padding: 11px 24px;
   border-radius: var(--radius-sm);
   white-space: nowrap;
-  transition: background var(--dur-fast) var(--ease-breath);
+  box-shadow: 0 0 0 rgba(155, 139, 184, 0);
+  transition: background var(--dur-fast) var(--ease-breath),
+    transform var(--dur-fast) var(--ease-breath),
+    box-shadow var(--dur-slow) var(--ease-breath);
 }
 .book:hover {
   background: var(--c-mist);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px -16px rgba(155, 139, 184, 0.6);
+}
+.book:active {
+  transform: translateY(0) scale(0.97);
 }
 
 /* ── hamburger (mobile only) ───────────────────────────────────────────── */

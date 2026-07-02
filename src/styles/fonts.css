@@ -6,9 +6,9 @@
      • Raleway-Italic-VariableFont_wght.ttf  (italic,  weight axis 100–700)
 
    The W: standard Raleway ships several W forms as built-in stylistic
-   alternates. We use the DEFAULT W — no font-feature-settings / no toggle.
-   (If a different W variant is ever wanted, it's an OpenType 'salt'/'cvXX'
-   feature on this same file — no new font needed.)
+   alternates. The brand uses the ALTERNATE W via stylistic set 'ss09',
+   enabled globally in global.css (font-feature-settings: "ss09" 1) — the
+   Crow Song wordmark signature.
 
    PERF: .ttf works fine, but woff2 is ~40% smaller. We can convert later and
    swap the url()s + format() — no other change needed.

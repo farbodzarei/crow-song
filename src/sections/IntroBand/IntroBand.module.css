@@ -3,10 +3,9 @@
   padding-block: clamp(5rem, 11vw, 8rem);
 }
 
+/* Layout via the shared 12-col grid (.cols): label col-4, quote col-8,
+   gutter = var(--grid-gap). Only the vertical centering is local. */
 .inner {
-  display: grid;
-  grid-template-columns: 1fr 2.2fr;
-  gap: clamp(var(--s-5), 6vw, var(--s-12));
   align-items: center;
 }
 
@@ -32,9 +31,3 @@
   opacity: 0.6;
 }
 
-@media (max-width: 860px) {
-  .inner {
-    grid-template-columns: 1fr;
-    gap: var(--s-4);
-  }
-}

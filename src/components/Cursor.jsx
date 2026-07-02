@@ -49,19 +49,39 @@ export default function Cursor() {
     let rsT = 1;
     let raf = 0;
 
+    // targets combine hover (over an interactive target) + press (mouse down),
+    // so a click reads as a tactile pinch: ring contracts, dot swells.
+    let hovering = false;
+    let pressing = false;
+    const applyTargets = () => {
+      const ring = hovering ? 1.65 : 1;
+      const dot = hovering ? 0.55 : 1;
+      rsT = pressing ? ring * 0.72 : ring;
+      dsT = pressing ? dot * 1.7 : dot;
+    };
     const onMove = (e) => {
       mx = e.clientX;
       my = e.clientY;
     };
-    const setHover = (on) => {
-      rsT = on ? 1.65 : 1;
-      dsT = on ? 0.55 : 1;
-    };
     const onOver = (e) => {
-      if (e.target.closest?.("a, button, .cursor-target")) setHover(true);
+      if (e.target.closest?.("a, button, .cursor-target")) {
+        hovering = true;
+        applyTargets();
+      }
     };
     const onOut = (e) => {
-      if (e.target.closest?.("a, button, .cursor-target")) setHover(false);
+      if (e.target.closest?.("a, button, .cursor-target")) {
+        hovering = false;
+        applyTargets();
+      }
+    };
+    const onDown = () => {
+      pressing = true;
+      applyTargets();
+    };
+    const onUp = () => {
+      pressing = false;
+      applyTargets();
     };
 
     const tick = () => {
@@ -75,6 +95,8 @@ export default function Cursor() {
     };
 
     window.addEventListener("mousemove", onMove, { passive: true });
+    window.addEventListener("mousedown", onDown, { passive: true });
+    window.addEventListener("mouseup", onUp, { passive: true });
     document.addEventListener("mouseover", onOver, true);
     document.addEventListener("mouseout", onOut, true);
     raf = requestAnimationFrame(tick);
@@ -82,6 +104,8 @@ export default function Cursor() {
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mousedown", onDown);
+      window.removeEventListener("mouseup", onUp);
       document.removeEventListener("mouseover", onOver, true);
       document.removeEventListener("mouseout", onOut, true);
       root.classList.remove("has-custom-cursor");

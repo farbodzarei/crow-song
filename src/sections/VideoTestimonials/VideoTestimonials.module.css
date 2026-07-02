@@ -7,20 +7,11 @@
   color: var(--text-on-lav);
 }
 
-.head {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-4);
-  margin-bottom: clamp(var(--s-8), 7vw, var(--s-10));
-}
 .kicker {
   color: var(--text-on-lav);
   opacity: 0.7;
 }
 .title {
-  font-size: clamp(2.4rem, 4.2vw, 3.4rem);
-  font-weight: var(--w-xlight);
-  letter-spacing: -0.015em;
   color: var(--text-on-lav);
 }
 
@@ -28,7 +19,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 380px));
   justify-content: center;
-  gap: clamp(var(--s-3), 2vw, var(--s-5));
+  column-gap: var(--grid-gap);
+  row-gap: clamp(var(--s-3), 2vw, var(--s-5));
 }
 
 /* the whole card IS the 9:16 video; quote overlays the bottom on a gradient */
@@ -49,7 +41,7 @@
 .media {
   position: absolute;
   inset: 0;
-  background: #241d2b;
+  background: var(--c-crow);
   background-image: repeating-linear-gradient(
     135deg,
     transparent,
@@ -135,8 +127,13 @@
 }
 .modalClose {
   position: absolute;
-  top: -44px;
+  top: -48px;
   right: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
   font-size: 28px;
   font-weight: var(--w-xlight);
   line-height: 1;
@@ -145,7 +142,7 @@
 .player {
   width: 100%;
   aspect-ratio: 16 / 9;
-  background: #241d2b;
+  background: var(--c-crow);
   border-radius: var(--radius-sm);
   display: grid;
   place-items: center;
@@ -178,7 +175,7 @@
   margin-top: var(--s-4);
   font-size: var(--fs-eyebrow);
   letter-spacing: 0.2em;
-  color: rgba(155, 139, 184, 0.5);
+  color: rgba(244, 242, 246, 0.55);
 }
 
 /* ── mobile: vertical reels become a swipeable carousel (one row, not three

@@ -6,16 +6,12 @@
   background: var(--bg-light);
   color: var(--text-on-light);
 }
-/* keep the column content above the corner mandala */
+/* Layout via the shared 12-col grid (.cols): two col-6 blocks, gutter
+   = var(--grid-gap). Local rules only keep the content above the corner
+   mandala and top-align the two columns. */
 .grid {
   position: relative;
   z-index: 1;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(var(--s-6), 8vw, var(--s-16));
   align-items: start;
 }
 
@@ -25,15 +21,15 @@
 }
 
 .kicker {
-  color: var(--accent-deep);
+  color: var(--text-on-light-muted); /* deep-lavender failed AA on haze (3.77:1) */
   margin-bottom: var(--s-5);
 }
 
 .heading {
-  font-size: clamp(2.6rem, 4.4vw, 3.6rem);
+  font-size: var(--fs-section-title);
   font-weight: var(--w-xlight);
-  line-height: 1.12;
-  letter-spacing: -0.02em;
+  line-height: var(--lh-section-title);
+  letter-spacing: var(--ls-section-title);
   color: var(--text-on-light);
   margin-bottom: var(--s-5);
 }
@@ -67,7 +63,7 @@
   min-width: 2ch;
   font-size: var(--fs-small);
   font-weight: var(--w-reg);
-  color: var(--accent-deep);
+  color: var(--text-on-light-muted); /* AA on haze (accent-deep was 3.77:1) */
   letter-spacing: 0.06em;
 }
 
@@ -79,9 +75,3 @@
   color: var(--text-on-light);
 }
 
-@media (max-width: 860px) {
-  .grid {
-    grid-template-columns: 1fr;
-    gap: var(--s-8);
-  }
-}

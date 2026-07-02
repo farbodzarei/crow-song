@@ -11,8 +11,8 @@ export default function Logo({ variant = "light", className = "" }) {
       src={`/logo/crow-song-${variant}.svg`}
       alt="Crow Song Yoga Therapy"
       className={className}
-      width="234"
-      height="45"
+      width="231"
+      height="49"
       decoding="async"
     />
   );

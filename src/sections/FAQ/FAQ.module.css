@@ -1,36 +1,24 @@
-/* FAQ — lavender, ruled accordion. */
+/* FAQ — haze, ruled accordion with a smooth height reveal + rotating chevron. */
 .sec {
   background: var(--bg-lav);
   color: var(--text-on-lav);
 }
 
-.head {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-4);
-  margin-bottom: clamp(var(--s-8), 7vw, var(--s-10));
-}
-.kicker {
-  color: var(--text-on-lav);
-  opacity: 0.7;
-}
 .title {
-  font-size: clamp(2.4rem, 4.2vw, 3.4rem);
-  font-weight: var(--w-xlight);
-  letter-spacing: -0.015em;
   color: var(--text-on-lav);
   text-transform: lowercase;
 }
 
-.list {
-  max-width: 760px;
-}
-
 .item {
-  border-top: 1px solid rgba(46, 38, 51, 0.18);
+  border-top: 1px solid rgba(46, 38, 51, 0.16);
+  transition: background-color 300ms var(--ease-breath);
 }
 .item:last-child {
-  border-bottom: 1px solid rgba(46, 38, 51, 0.18);
+  border-bottom: 1px solid rgba(46, 38, 51, 0.16);
+}
+/* open item is gently lit so the active row is obvious */
+.itemOpen {
+  background-color: rgba(155, 139, 184, 0.07);
 }
 
 .qWrap {
@@ -43,62 +31,63 @@
   justify-content: space-between;
   align-items: center;
   gap: var(--s-4);
-  padding: var(--s-4) 0;
+  padding: clamp(1.35rem, 2vw, 1.75rem) var(--s-3) clamp(1.35rem, 2vw, 1.75rem) var(--s-3);
   text-align: left;
-  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  font-size: clamp(1.05rem, 1.4vw, 1.2rem);
   font-weight: var(--w-light);
   color: var(--text-on-lav);
   text-transform: lowercase;
   cursor: pointer;
-  /* hover feedback only — snappier than the calm open/close morph */
-  transition: background-color 220ms var(--ease-breath);
+  touch-action: manipulation; /* no 300ms tap delay on mobile */
+  -webkit-tap-highlight-color: transparent;
+  transition: color 240ms var(--ease-breath);
 }
-/* faint lavender wash on hover; text colour stays crow for contrast (AA).
-   The decorative sign carries the colour cue. */
-.q:hover {
-  background-color: rgba(155, 139, 184, 0.08);
+.qText {
+  flex: 1;
 }
 
-/* + that becomes × when open */
-.sign {
-  position: relative;
+/* chevron — points down when closed, rotates up when open. Clear, obvious
+   "tap to expand" affordance (replaces the old plus/cross morph). */
+.chev {
   flex: none;
-  width: 16px;
-  height: 16px;
+  display: inline-flex;
+  color: var(--accent-deep);
+  transition: transform 360ms var(--ease-breath), color 240ms var(--ease-breath);
 }
-.sign::before,
-.sign::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 14px;
-  height: 1.5px;
-  background: var(--c-crow);
-  transform: translate(-50%, -50%);
-  transition: transform var(--dur-slow) var(--ease-breath),
-    opacity var(--dur-slow) var(--ease-breath),
-    background-color 220ms var(--ease-breath);
+.q:hover .chev {
+  color: var(--accent);
 }
-.q:hover .sign::before,
-.q:hover .sign::after {
-  background: var(--accent-deep);
-}
-.sign::after {
-  transform: translate(-50%, -50%) rotate(90deg);
-}
-.itemOpen .sign::after {
-  transform: translate(-50%, -50%) rotate(0deg);
-  opacity: 0;
+.itemOpen .chev {
+  transform: rotate(180deg);
+  color: var(--accent);
 }
 
+/* answer — height animates 0 → auto in FAQ.jsx; this clips it while it opens */
 .a {
-  padding-bottom: var(--s-4);
-  max-width: 60ch;
+  overflow: hidden;
 }
-.a p {
+.aBody {
+  padding: 0 var(--s-6) clamp(1.35rem, 2vw, 1.75rem) var(--s-3);
+  max-width: 60ch;
   font-size: var(--fs-small);
   font-weight: var(--w-light);
   line-height: 1.8;
   color: var(--text-on-lav-muted);
+}
+
+/* touch: a clear pressed state so a tap always reads as "it did something" */
+@media (hover: none) and (pointer: coarse) {
+  .q:active {
+    background-color: rgba(155, 139, 184, 0.12);
+  }
+}
+
+@media (max-width: 760px) {
+  .q {
+    font-size: 1.05rem;
+    padding: 1.4rem var(--s-2);
+  }
+  .aBody {
+    padding: 0 var(--s-3) 1.4rem var(--s-2);
+  }
 }

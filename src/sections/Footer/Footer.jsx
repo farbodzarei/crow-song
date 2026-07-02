@@ -32,7 +32,8 @@ const COLS = [
       { t: "hello@crowsongyogatherapy.com", href: "mailto:hello@crowsongyogatherapy.com" },
       // PLACEHOLDER: phone — sample number, replace with real
       { t: "+1 604 555 0123", href: "tel:+16045550123" },
-      { t: "instagram", href: "#" },
+      // PLACEHOLDER: instagram — sample handle, replace with real (avoid href="#")
+      { t: "instagram", href: "https://instagram.com/crowsongyoga" },
     ],
   },
 ];
@@ -40,8 +41,8 @@ const COLS = [
 export default function Footer() {
   return (
     <footer className={styles.footer}>
-      <div className={`container ${styles.grid}`}>
-        <div className={styles.brand}>
+      <div className={`container cols ${styles.grid}`}>
+        <div className={`col-3 ${styles.brand}`}>
           <Logo variant="light" className={styles.logo} />
           <p className={styles.tagline}>
             ashtanga yoga therapy, one-on-one.

@@ -134,14 +134,75 @@ p {
   text-wrap: pretty;
 }
 
-/* ── Layout primitives ─────────────────────────────────────────────────── */
+/* ── Layout primitives ─────────────────────────────────────────────────────
+   ONE content measure for the whole site. Content lives at --measure and
+   centres past it, so nothing sprawls edge-to-edge on large screens. Use
+   .container--bleed only for intentional full-width (backgrounds, galleries).
+   Every container shares the exact same gutter, so all edges line up. */
 .container {
   width: 100%;
-  max-width: var(--container);
+  max-width: var(--measure);
   margin-inline: auto;
   /* normal gutter, but grow it to clear the notch in landscape */
   padding-left: max(var(--container-pad), env(safe-area-inset-left));
   padding-right: max(var(--container-pad), env(safe-area-inset-right));
+}
+.container--bleed { max-width: var(--container); }
+.container--wide { max-width: var(--measure-wide); }
+.container--prose { max-width: var(--measure-prose); }
+
+/* The 12-column grid every aligned block snaps to. Children set their span with
+   .col-N (1–12) so columns line up across every section. */
+.cols {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  column-gap: var(--grid-gap);
+  row-gap: var(--grid-gap);
+}
+.col-2 { grid-column: span 2; }
+.col-3 { grid-column: span 3; }
+.col-4 { grid-column: span 4; }
+.col-5 { grid-column: span 5; }
+.col-6 { grid-column: span 6; }
+.col-7 { grid-column: span 7; }
+.col-8 { grid-column: span 8; }
+.col-9 { grid-column: span 9; }
+.col-12 { grid-column: 1 / -1; }
+@media (max-width: 860px) {
+  .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9 { grid-column: 1 / -1; }
+}
+
+/* ONE section-header pattern: eyebrow → heading (left) + lead (right), aligned
+   to the grid, with a consistent header→content rhythm. Repeats site-wide. */
+.section-head {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  column-gap: var(--grid-gap);
+  row-gap: var(--block-gap);
+  align-items: end;
+  margin-bottom: var(--head-gap);
+}
+.section-head > .eyebrow { grid-column: 1 / -1; color: var(--accent); margin: 0; }
+/* the one section-title type — sections set colour only, never size/weight/tracking */
+.section-head__title {
+  grid-column: 1 / span 7;
+  margin: 0;
+  font-size: var(--fs-section-title);
+  font-weight: var(--w-xlight);
+  line-height: var(--lh-section-title);
+  letter-spacing: var(--ls-section-title);
+  text-wrap: balance;
+}
+.section-head__lead {
+  grid-column: 8 / -1;
+  align-self: end;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  opacity: 0.72;
+  max-width: 44ch;
+}
+@media (max-width: 860px) {
+  .section-head__title, .section-head__lead { grid-column: 1 / -1; }
 }
 
 /* ── Film grain — one fixed, very subtle texture over the whole site so the
@@ -203,6 +264,13 @@ p {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
   border-radius: 2px;
+}
+/* lavender focus ring is sub-3:1 on light/haze/lavender surfaces — switch to a
+   crow ring there so the indicator always clears WCAG 1.4.11 (≥3:1). */
+.section--light :focus-visible,
+.section--light-lav :focus-visible,
+.section--lav :focus-visible {
+  outline-color: var(--c-crow);
 }
 
 .sr-only {

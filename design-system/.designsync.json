@@ -1,0 +1,9 @@
+{
+  "project": "Crow Song Design System",
+  "projectId": "875e41c2-221d-4682-87dd-052d770d5fff",
+  "tool": "claude.ai/design (DesignSync MCP)",
+  "localDir": "design-system",
+  "writes": "cards/**",
+  "build": "node design-system/build.mjs",
+  "note": "This repo's design system is mirrored to the Claude Design project above so it can be edited in either Claude Code or claude.ai/design. To re-sync after editing build.mjs: run the build, then DesignSync finalize_plan({projectId, localDir:'<abs>/design-system', writes:['cards/**'], deletes:[]}) -> write_files(localPath per card). Cards are self-contained HTML with first-line @dsCard markers; Raleway fonts + the logo load from the deployed Vercel URLs (crow-song-yoga.vercel.app)."
+}

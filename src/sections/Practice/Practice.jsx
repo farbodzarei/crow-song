@@ -32,12 +32,12 @@ export default function Practice() {
   return (
     <section id="practice" className={`section section--light-lav ${styles.practice}`}>
       <div className="container">
-        <Reveal stagger className={styles.header}>
-          <Reveal item as="h2" className={styles.heading}>
+        <Reveal stagger className="section-head">
+          <Reveal item as="h2" className={`section-head__title ${styles.heading}`}>
             Therapeutic Ashtanga for bodies in transition.
           </Reveal>
-          <Reveal item variant="riseSmall" as="p" className={styles.lead}>
-            Every session is built around where you are — not where the practice
+          <Reveal item variant="riseSmall" as="p" className={`section-head__lead ${styles.lead}`}>
+            Every session is built around where you are, not where the practice
             says you should be.
           </Reveal>
         </Reveal>
